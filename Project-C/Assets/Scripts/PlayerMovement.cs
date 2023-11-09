@@ -64,63 +64,86 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
 
-        if (Mathf.Abs(_Move.x) > .5f)
+        if (Mathf.Abs(_Move.x) > .55f)
         {
-            _Move.x = 1f * (_Move.x/ Mathf.Abs(_Move.x));
+            _Move.x = 1f * (_Move.x / Mathf.Abs(_Move.x));
         }
-        else if (Mathf.Abs(_Move.x) <= .47f)
+        else if (.20f < Mathf.Abs(_Move.x) && Mathf.Abs(_Move.x) <= .55f)
         {
-            _Move.x = .5f * (_Move.x/ Mathf.Abs(_Move.x));
+            _Move.x = .5f * (_Move.x / Mathf.Abs(_Move.x));
         }
-        else if (Mathf.Abs(_Move.x) <= .20f)
+        else
         {
-            _Move.x = 0;
+            _Move.x = 0f;
         }
-
-        if (Mathf.Abs(_Move.y) > .5f)
+        if (Mathf.Abs(_Move.y) > .55f)
         {
             _Move.y = 1f * (_Move.y / Mathf.Abs(_Move.y));
         }
-        else if (Mathf.Abs(_Move.y) <= .47f)
+        else
         {
-            _Move.y = 0;
+            _Move.y = 0f;
+        };
+
+
+        Vector2 _TempMove = new Vector2(0, 0);
+        if (_Move.x == 0)
+        {
+            if (_Move.y == 0)
+            {
+                _TempMove = new Vector2(0, 0);
+            }
+            else
+            {
+                _TempMove = new Vector2(0, Mathf.Abs(_Move.y) / _Move.y);
+            }
+        }
+        else
+        {
+            if (_Move.y == 0)
+            {
+                _TempMove = new Vector2(Mathf.Abs(_Move.x) / _Move.x, 0);
+            }
+            else
+            {
+
+                _TempMove = new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y);
+            }
         }
 
-
-
-        if (new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y) == new Vector2(0, 0))
+        if (_TempMove == new Vector2(0, 0))
         {
             Direction = "Neutral";
         }
-        else if (new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y) == new Vector2(1, 0))
+        else if (_TempMove == new Vector2(1, 0))
         {
             Direction = "Right";
         }
-        else if (new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y) == new Vector2(1, 1))
+        else if (_TempMove == new Vector2(1, 1))
         {
             Direction = "TopRight";
         }
-        else if (new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y) == new Vector2(0, 1))
+        else if (_TempMove == new Vector2(0, 1))
         {
             Direction = "Top";
         }
-        else if (new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y) == new Vector2(-1, 1))
+        else if (_TempMove == new Vector2(-1, 1))
         {
             Direction = "TopLeft";
         }
-        else if (new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y) == new Vector2(-1, 0))
+        else if (_TempMove == new Vector2(-1, 0))
         {
             Direction = "Left";
         }
-        else if (new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y) == new Vector2(-1, -1))
+        else if (_TempMove == new Vector2(-1, -1))
         {
             Direction = "BotLeft";
         }
-        else if (new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y) == new Vector2(0, -1))
+        else if (_TempMove == new Vector2(0, -1))
         {
             Direction = "Bot";
         }
-        else if (new Vector2(Mathf.Abs(_Move.x) / _Move.x, Mathf.Abs(_Move.y) / _Move.y) == new Vector2(1, -1))
+        else if (_TempMove == new Vector2(1, -1))
         {
             Direction = "BotRight";
         }
@@ -129,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
             Direction = "Neutral";
         }
 
-        //Debug.Log(Direction);
+        Debug.Log(Direction);
 
         if (Physics.Raycast(transform.position, Vector3.down, _Height))
         {
@@ -144,13 +167,11 @@ public class PlayerMovement : MonoBehaviour
         {
             _CurrentDoubleJumps = MaxDoubleJumps;
 
-            // Here is the modified movement code to restrict the character to X and Y axes
             Vector3 newPosition = transform.position + new Vector3(_Move.x * MoveSpeed * Time.deltaTime, 0, _Move.y * MoveSpeed * Time.deltaTime);
             rb.MovePosition(newPosition);
         }
         else
         {
-            // Here is the modified movement code for air movement
             Vector3 newPosition = transform.position + new Vector3(_Move.x * AirSpeed * Time.deltaTime, 0, _Move.y * AirSpeed * Time.deltaTime);
             rb.MovePosition(newPosition);
         }
