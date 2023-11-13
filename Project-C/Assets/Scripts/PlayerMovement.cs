@@ -163,18 +163,27 @@ public class PlayerMovement : MonoBehaviour
             _IsGrounded = false;
         }
 
+        Debug.Log(_Move.x);
+
         if (_IsGrounded)
         {
             _CurrentDoubleJumps = MaxDoubleJumps;
 
-            Vector3 newPosition = transform.position + new Vector3(_Move.x * MoveSpeed * Time.deltaTime, 0, _Move.y * MoveSpeed * Time.deltaTime);
-            rb.MovePosition(newPosition);
+            rb.AddForce(MoveSpeed * _Move.x * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
         }
         else
         {
-            Vector3 newPosition = transform.position + new Vector3(_Move.x * AirSpeed * Time.deltaTime, 0, _Move.y * AirSpeed * Time.deltaTime);
-            rb.MovePosition(newPosition);
+            rb.AddForce(AirSpeed * _Move.x * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
+
         }
+        // Max Speed attempt for both ground and air
+        float maxSpeed = (_IsGrounded ? MoveSpeed : AirSpeed) * Mathf.Sign(_Move.x);
+        if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(maxSpeed))
+        {
+            Vector3 newVelocity = new Vector3(maxSpeed, rb.velocity.y, rb.velocity.z);
+            rb.velocity = newVelocity;
+        }
+
     }
-   
+
 }
