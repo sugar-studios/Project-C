@@ -5,8 +5,9 @@ public class PlayerMovement : MonoBehaviour
 {
     public int JumpHeight;
     public float Gravity;
-    public float MoveSpeed;
+    public float GroundSeed;
     public int MaxDoubleJumps;
+    public float MaxSpeed;
     public int AirSpeed;
     public MeshRenderer Renda;
     public Rigidbody rb;
@@ -64,19 +65,23 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
 
-        if (Mathf.Abs(_Move.x) > .55f)
+        if (Mathf.Abs(_Move.x) > .75f)
         {
             _Move.x = 1f * (_Move.x / Mathf.Abs(_Move.x));
         }
-        else if (.20f < Mathf.Abs(_Move.x) && Mathf.Abs(_Move.x) <= .55f)
+        else if (.20f < Mathf.Abs(_Move.x) && Mathf.Abs(_Move.x) <= .75f)
         {
-            _Move.x = .5f * (_Move.x / Mathf.Abs(_Move.x));
+            _Move.x = .35f * (_Move.x / Mathf.Abs(_Move.x));
+        }
+        else if (Mathf.Abs(_Move.x) < .25f)
+        {
+            _Move.x = 0;
         }
         else
         {
             _Move.x = 0f;
         }
-        if (Mathf.Abs(_Move.y) > .55f)
+        if (Mathf.Abs(_Move.y) > .75f)
         {
             _Move.y = 1f * (_Move.y / Mathf.Abs(_Move.y));
         }
@@ -169,21 +174,22 @@ public class PlayerMovement : MonoBehaviour
         {
             _CurrentDoubleJumps = MaxDoubleJumps;
 
-            rb.AddForce(MoveSpeed * _Move.x * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
+            rb.AddForce(GroundSeed * _Move.x * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
         }
         else
         {
             rb.AddForce(AirSpeed * _Move.x * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
 
         }
-        // Max Speed attempt for both ground and air
-        float maxSpeed = (_IsGrounded ? MoveSpeed : AirSpeed) * Mathf.Sign(_Move.x);
-        if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(maxSpeed))
+
+        Debug.Log("Max: " + MaxSpeed);
+        if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(MaxSpeed * Mathf.Sign(_Move.x)))
         {
-            Vector3 newVelocity = new Vector3(maxSpeed, rb.velocity.y, rb.velocity.z);
+            Vector3 newVelocity = new Vector3(MaxSpeed * Mathf.Sign(_Move.x), rb.velocity.y, rb.velocity.z);
             rb.velocity = newVelocity;
         }
 
+        Debug.Log("Velo: " + rb.velocity.x);
     }
 
 }
