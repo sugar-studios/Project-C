@@ -52,6 +52,16 @@ public class PlayerMovement : MonoBehaviour
         Physics.gravity = Vector3.down * Gravity;
     }
 
+    private void CheckSpeed(float _MaxSpeed)
+    {
+        _MaxSpeed *= (_Move.x / Mathf.Abs(_Move.x));
+        if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(_MaxSpeed))
+        {
+            Vector3 newVelocity = new Vector3(_MaxSpeed, rb.velocity.y, rb.velocity.z);
+            rb.velocity = newVelocity;
+        }
+    }
+
     private void OnEnable()
     {
         _controls.Gameplay.Enable();
@@ -62,9 +72,17 @@ public class PlayerMovement : MonoBehaviour
         _controls.Gameplay.Disable();
     }
 
+    private void NormalizeInput()
+    {
+    }
+
+    private void GetDirecton()
+    { 
+    }
+
     private void Update()
     {
-
+        //Set inputs to either a 1 .5 or 0
         if (Mathf.Abs(_Move.x) > .75f)
         {
             _Move.x = 1f * (_Move.x / Mathf.Abs(_Move.x));
@@ -90,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
             _Move.y = 0f;
         };
 
-
+        //Get Directional input as string
         Vector2 _TempMove = new Vector2(0, 0);
         if (_Move.x == 0)
         {
@@ -157,8 +175,7 @@ public class PlayerMovement : MonoBehaviour
             Direction = "Neutral";
         }
 
-        Debug.Log(Direction);
-
+        //Check if grounded
         if (Physics.Raycast(transform.position, Vector3.down, _Height))
         {
             _IsGrounded = true;
@@ -168,10 +185,11 @@ public class PlayerMovement : MonoBehaviour
             _IsGrounded = false;
         }
 
-        Debug.Log(_Move.x);
 
+        //What to do depending on if the player is grounded or not
         if (_IsGrounded)
         {
+            //Reset Double Jumps
             _CurrentDoubleJumps = MaxDoubleJumps;
 
             rb.AddForce(GroundSeed * _Move.x * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
@@ -179,17 +197,11 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             rb.AddForce(AirSpeed * _Move.x * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
-
         }
 
-        Debug.Log("Max: " + MaxSpeed);
-        if (Mathf.Abs(rb.velocity.x) > Mathf.Abs(MaxSpeed * Mathf.Sign(_Move.x)))
-        {
-            Vector3 newVelocity = new Vector3(MaxSpeed * Mathf.Sign(_Move.x), rb.velocity.y, rb.velocity.z);
-            rb.velocity = newVelocity;
-        }
+        CheckSpeed(MaxSpeed);
 
-        Debug.Log("Velo: " + rb.velocity.x);
+
     }
 
 }
