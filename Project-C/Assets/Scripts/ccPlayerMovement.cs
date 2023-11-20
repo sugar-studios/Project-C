@@ -18,9 +18,14 @@ public class ccPlayerMovement : MonoBehaviour
 {
     public CharacterController Controller;
     public float GroundSpeed;
+    public float Gravity;
+    public float GravityMultiplier;
+
+    [SerializeField] Vector3 _MoveVector;
 
     private PlayerControls _Controls;
     private Vector2 _Move;
+    private float _Velocity;
 
     //Before the first frame the game starts
     private void Awake()
@@ -74,6 +79,26 @@ public class ccPlayerMovement : MonoBehaviour
         };
     }
 
+    public void ApplyGravity()
+    {
+        if (Controller.isGrounded && _Velocity < 0.0f)
+        {
+            _Velocity = -1;
+        }
+
+        _Velocity = Gravity * GravityMultiplier * Time.deltaTime;
+
+        _MoveVector.y -= Gravity;
+    }
+
+    public void ApplyMovement()
+    {
+        if (_MoveVector.magnitude > 0.1f)
+        {
+            _MoveVector.x = _MoveVector.x * GroundSpeed * Time.deltaTime;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -83,15 +108,12 @@ public class ccPlayerMovement : MonoBehaviour
 
         float _vertical = _Move.y;
 
-        Vector3 _moveVector = new Vector3(_horizontal, _vertical, 0f).normalized;
+        _MoveVector = new Vector3(_horizontal, _vertical, 0f).normalized;
 
-        //apply movement
-        if (_moveVector.magnitude > 0.1f)
-        {
-            _moveVector.x = _moveVector.x * GroundSpeed * Time.deltaTime;
-        }
+        ApplyMovement();
+        ApplyGravity();
 
         //apply gravity
-        Controller.Move(_moveVector * GroundSpeed * Time.deltaTime);
+        Controller.Move(_MoveVector * GroundSpeed * Time.deltaTime);
     }
 }
