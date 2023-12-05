@@ -19,9 +19,11 @@ public class ccPlayerMovement : MonoBehaviour
     public CharacterController Controller;
     public float GroundSpeed;
     public float Gravity;
-    public float GravityMultiplier;
+    public GameObject GroundColider;
+    public float JumpHeight;
 
     [SerializeField] Vector3 _MoveVector;
+    [SerializeField] LayerMask _GroundPlayerMask;
 
     private PlayerControls _Controls;
     private Vector2 _Move;
@@ -32,10 +34,11 @@ public class ccPlayerMovement : MonoBehaviour
     {
         _Controls = new PlayerControls();
 
-        //_controls.Gameplay.Jump.performed += ctx => Jump();
+        _Controls.Gameplay.Jump.performed += ctx => Jump();
 
         _Controls.Gameplay.Move.performed += ctx => _Move = ctx.ReadValue<Vector2>();
         _Controls.Gameplay.Move.canceled += ctx => _Move = Vector2.zero;
+
     }
 
     //Enable controls
@@ -53,22 +56,16 @@ public class ccPlayerMovement : MonoBehaviour
     //Set inputs to either a 1 .5 or 0
     private void StandardizeMoveValues()
     {
-        if (Mathf.Abs(_Move.x) > .75f)
+        if (Mathf.Abs(_Move.x) > .2f)
         {
-            _Move.x = 1f * (_Move.x / Mathf.Abs(_Move.x));
-        }
-        else if (.20f < Mathf.Abs(_Move.x) && Mathf.Abs(_Move.x) <= .75f)
-        {
-            _Move.x = .35f * (_Move.x / Mathf.Abs(_Move.x));
-        }
-        else if (Mathf.Abs(_Move.x) < .25f)
-        {
-            _Move.x = 0;
+            _Move.x = 1f * Mathf.Sign(_Move.x);
         }
         else
         {
             _Move.x = 0f;
         }
+
+
         if (Mathf.Abs(_Move.y) > .75f)
         {
             _Move.y = 1f * (_Move.y / Mathf.Abs(_Move.y));
@@ -81,14 +78,19 @@ public class ccPlayerMovement : MonoBehaviour
 
     public void ApplyGravity()
     {
-        if (Controller.isGrounded && _Velocity < 0.0f)
+        if (Physics.CheckSphere(GroundColider.transform.position, 2, _GroundPlayerMask))
         {
-            _Velocity = -1;
+            _MoveVector.y = -1f;
         }
 
-        _Velocity = Gravity * GravityMultiplier * Time.deltaTime;
 
         _MoveVector.y -= Gravity;
+    }
+
+    public void Jump()
+    {
+        Debug.Log("Jump");
+        _MoveVector.y -= JumpHeight;
     }
 
     public void ApplyMovement()
@@ -96,6 +98,10 @@ public class ccPlayerMovement : MonoBehaviour
         if (_MoveVector.magnitude > 0.1f)
         {
             _MoveVector.x = _MoveVector.x * GroundSpeed * Time.deltaTime;
+            _MoveVector.y = _MoveVector.y * GroundSpeed * Time.deltaTime; // Assuming your forward/backward movement is along the z-axis
+
+            // Optionally, you can remove the line above and use the following line for a more unified approach:
+            // _MoveVector = _MoveVector * GroundSpeed * Time.deltaTime;
         }
     }
 
@@ -106,14 +112,14 @@ public class ccPlayerMovement : MonoBehaviour
 
         float _horizontal = _Move.x;
 
-        float _vertical = _Move.y;
+        float _vertical = 0;
 
-        _MoveVector = new Vector3(_horizontal, _vertical, 0f).normalized;
+        _MoveVector = new Vector3(_horizontal, _vertical, 0f);
 
         ApplyMovement();
         ApplyGravity();
 
         //apply gravity
-        Controller.Move(_MoveVector * GroundSpeed * Time.deltaTime);
+        Controller.Move(_MoveVector * GroundSpeed * Time.deltaTime);    
     }
 }

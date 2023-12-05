@@ -1122,7 +1122,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1151388028547126963, guid: c0c810ecc28237c468695b76a9b51936, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1290800876}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: c0c810ecc28237c468695b76a9b51936, type: 3}
       insertIndex: -1
@@ -1180,7 +1183,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 1273855052}
-  GroundSpeed: 10
+  GroundSpeed: 35
+  Gravity: 0.5
+  GroundColider: {fileID: 1290800875}
+  JumpHeight: 10
+  _MoveVector: {x: 0, y: 0, z: 0}
+  _GroundPlayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!4 &1273855057 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1151388028547126963, guid: c0c810ecc28237c468695b76a9b51936, type: 3}
+  m_PrefabInstance: {fileID: 1273855049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1290800875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1290800876}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1290800876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290800875}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.38, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1273855057}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1298759738
 GameObject:
   m_ObjectHideFlags: 0
