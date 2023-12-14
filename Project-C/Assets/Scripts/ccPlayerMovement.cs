@@ -27,7 +27,10 @@ public class ccPlayerMovement : MonoBehaviour
 
     private PlayerControls _Controls;
     private Vector2 _Move;
+    private bool _Jump;
     private float _Velocity;
+    private bool _IsGrounded;
+    private bool _Sprint;
 
     //Before the first frame the game starts
     private void Awake()
@@ -35,6 +38,9 @@ public class ccPlayerMovement : MonoBehaviour
         _Controls = new PlayerControls();
 
         _Controls.Gameplay.Jump.performed += ctx => Jump();
+
+        _Controls.Gameplay.Sprint.started += ctx => StartSprint();
+        _Controls.Gameplay.Sprint.canceled += ctx => StopSprint();
 
         _Controls.Gameplay.Move.performed += ctx => _Move = ctx.ReadValue<Vector2>();
         _Controls.Gameplay.Move.canceled += ctx => _Move = Vector2.zero;
@@ -78,32 +84,71 @@ public class ccPlayerMovement : MonoBehaviour
 
     public void ApplyGravity()
     {
-        if (Physics.CheckSphere(GroundColider.transform.position, 2, _GroundPlayerMask))
+        if (_IsGrounded)
         {
             _MoveVector.y = -1f;
         }
-
-
-        _MoveVector.y -= Gravity;
+        else
+        {
+            _MoveVector.y -= Gravity;
+        }
     }
 
     public void Jump()
     {
-        Debug.Log("Jump");
-        _MoveVector.y -= JumpHeight;
+        if (_IsGrounded)
+        {
+            _Jump = true;
+        }
     }
 
     public void ApplyMovement()
     {
         if (_MoveVector.magnitude > 0.1f)
         {
-            _MoveVector.x = _MoveVector.x * GroundSpeed * Time.deltaTime;
-            _MoveVector.y = _MoveVector.y * GroundSpeed * Time.deltaTime; // Assuming your forward/backward movement is along the z-axis
+            float GroundMoveSpeed = GroundSpeed;
+            if (_Sprint)
+            {
+                GroundMoveSpeed *= 2;
+            }
+            _MoveVector.x = _MoveVector.x * GroundMoveSpeed;
+            //_MoveVector.y = _MoveVector.y * GroundSpeed; // Assuming your forward/backward movement is along the z-axis
 
             // Optionally, you can remove the line above and use the following line for a more unified approach:
             // _MoveVector = _MoveVector * GroundSpeed * Time.deltaTime;
         }
     }
+
+    public void StartSprint()
+    {
+        _Sprint = true;
+    }
+
+    public void StopSprint()
+    {
+        _Sprint = false;
+    }
+
+    public void CheckForJump()
+    {
+        if (_Jump)
+        {
+            _Jump = false;
+            _MoveVector.y = Mathf.Sqrt(JumpHeight * 2f); // Calculate the initial jump velocity
+        }
+    }
+    public void CheckGrounded()
+    {
+        if (Physics.CheckSphere(GroundColider.transform.position, 0.1f, _GroundPlayerMask))
+        {
+            _IsGrounded = true;
+        }
+        else
+        {
+            _IsGrounded = false;
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -112,14 +157,15 @@ public class ccPlayerMovement : MonoBehaviour
 
         float _horizontal = _Move.x;
 
-        float _vertical = 0;
+        _MoveVector = new Vector3(_horizontal, 0, 0f);
 
-        _MoveVector = new Vector3(_horizontal, _vertical, 0f);
-
+        CheckGrounded();
         ApplyMovement();
         ApplyGravity();
+        CheckForJump();
+        //Debug.Log(_MoveVector);
 
-        //apply gravity
-        Controller.Move(_MoveVector * GroundSpeed * Time.deltaTime);    
+
+        Controller.Move(_MoveVector * Time.deltaTime);    
     }
 }
