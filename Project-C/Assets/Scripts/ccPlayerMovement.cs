@@ -1,6 +1,3 @@
-using UnityEngine;
-
-
 /*
 For the purpose of perserving readability.
 
@@ -13,85 +10,116 @@ _thisIsALocalOrInstanceVarriable
 IthisIsAnInterface
 */
 
+using UnityEngine;
 
 public class ccPlayerMovement : MonoBehaviour
 {
+    // Constants
+    private const float _HighThreshold = 0.75f;
+    private const float _MediumThreshold = 0.20f;
+    private const float _LowThreshold = 0.25f;
+    private const float _MoveMagnitudeThreshold = 0.1f;
+    private const float Gravity = 9.8f; // Adjust as needed
+
+    // Public Variables
     public CharacterController Controller;
     public float GroundSpeed;
+    public float JumpHeight; // Adjust as needed
 
+    // Private Variables
     private PlayerControls _Controls;
     private Vector2 _Move;
+    private Vector3 _NVelocity;
+    private Vector3 _OVelocity;
+    private float _YVelocity; // Vertical velocity for jumping and gravity
+    private bool _IsGrounded; // Add a grounded check
 
-    //Before the first frame the game starts
+    // Before the first frame the game starts
     private void Awake()
     {
         _Controls = new PlayerControls();
 
-        //_controls.Gameplay.Jump.performed += ctx => Jump();
+        // Jump function
+        _Controls.Gameplay.Jump.performed += ctx => Jump();
 
+        // Get move value
         _Controls.Gameplay.Move.performed += ctx => _Move = ctx.ReadValue<Vector2>();
         _Controls.Gameplay.Move.canceled += ctx => _Move = Vector2.zero;
     }
 
-    //Enable controls
+    // Enable controls
     private void OnEnable()
     {
         _Controls.Gameplay.Enable();
     }
 
-    //Disable Controls
+    // Disable Controls
     private void OnDisable()
     {
         _Controls.Gameplay.Disable();
     }
 
-    //Set inputs to either a 1 .5 or 0
+    // Jump
+    // Jump
+    private void Jump()
+    {
+        if (_IsGrounded)
+        {
+            _YVelocity = Mathf.Sqrt(-1 * JumpHeight * Gravity);
+        }
+    }
+
+
+    // Set inputs to either 1, 0.35, or 0
     private void StandardizeMoveValues()
     {
-        if (Mathf.Abs(_Move.x) > .75f)
-        {
-            _Move.x = 1f * (_Move.x / Mathf.Abs(_Move.x));
-        }
-        else if (.20f < Mathf.Abs(_Move.x) && Mathf.Abs(_Move.x) <= .75f)
-        {
-            _Move.x = .35f * (_Move.x / Mathf.Abs(_Move.x));
-        }
-        else if (Mathf.Abs(_Move.x) < .25f)
-        {
-            _Move.x = 0;
-        }
-        else
-        {
-            _Move.x = 0f;
-        }
-        if (Mathf.Abs(_Move.y) > .75f)
-        {
-            _Move.y = 1f * (_Move.y / Mathf.Abs(_Move.y));
-        }
-        else
-        {
-            _Move.y = 0f;
-        };
+        _Move.x = Mathf.Abs(_Move.x) > _HighThreshold ? 1f * Mathf.Sign(_Move.x) :
+                   _MediumThreshold < Mathf.Abs(_Move.x) && Mathf.Abs(_Move.x) <= _HighThreshold ? 0.35f * Mathf.Sign(_Move.x) :
+                   Mathf.Abs(_Move.x) < _LowThreshold ? 0 : 0f;
+
+        _Move.y = Mathf.Abs(_Move.y) > _HighThreshold ? 1f * Mathf.Sign(_Move.y) : 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Create moveVector
         StandardizeMoveValues();
 
-        float _horizontal = _Move.x;
+        float horizontal = _Move.x;
+        float vertical = _Move.y;
 
-        float _vertical = _Move.y;
+        Vector3 moveVector = new Vector3(horizontal, 0f, 0f);
 
-        Vector3 _moveVector = new Vector3(_horizontal, _vertical, 0f).normalized;
-
-        //apply movement
-        if (_moveVector.magnitude > 0.1f)
+        if (moveVector.magnitude > _MoveMagnitudeThreshold)
         {
-            _moveVector.x = _moveVector.x * GroundSpeed * Time.deltaTime;
+            moveVector *= GroundSpeed * Time.deltaTime;
         }
 
-        //apply gravity
-        Controller.Move(_moveVector * GroundSpeed * Time.deltaTime);
+        // Apply gravity
+        if (!_IsGrounded)
+        {
+            _YVelocity -= Gravity * Time.deltaTime;
+        }
+        else
+        {
+            _YVelocity = -Gravity * Time.deltaTime;
+        }
+
+        // Lerp between old and new velocity
+        Vector3 lerpedVelocity = Vector3.Lerp(_OVelocity, _NVelocity, 0.5f); // Adjust the lerp factor as needed
+
+        // Move character
+        Controller.Move((lerpedVelocity + new Vector3(0f, _YVelocity, 0f)) * GroundSpeed * Time.deltaTime);
+
+        // Get old velocity
+        _OVelocity = moveVector;
+
+        // Grounded check
+        _IsGrounded = Controller.isGrounded;
+        if (_IsGrounded)
+        {
+            _YVelocity = -Gravity * Time.deltaTime; // Reset vertical velocity when grounded
+        }
     }
 }
