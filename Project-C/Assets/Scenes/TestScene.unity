@@ -1181,7 +1181,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Controller: {fileID: 1273855052}
   GroundSpeed: 10
-  Gravity: 10
 --- !u!1 &1298759738
 GameObject:
   m_ObjectHideFlags: 0

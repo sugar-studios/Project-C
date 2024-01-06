@@ -16,19 +16,11 @@ IthisIsAnInterface
 
 public class ccPlayerMovement : MonoBehaviour
 {
-    //public variables
-    #region
     public CharacterController Controller;
     public float GroundSpeed;
-    public float Gravity;
-    #endregion
 
-    //private variables
-    #region
     private PlayerControls _Controls;
     private Vector2 _Move;
-    #endregion
-
 
     //Before the first frame the game starts
     private void Awake()
@@ -91,7 +83,7 @@ public class ccPlayerMovement : MonoBehaviour
 
         float _vertical = _Move.y;
 
-        Vector3 _moveVector = new Vector3(_horizontal, 0f, 0f).normalized;
+        Vector3 _moveVector = new Vector3(_horizontal, _vertical, 0f).normalized;
 
         //apply movement
         if (_moveVector.magnitude > 0.1f)
@@ -99,11 +91,7 @@ public class ccPlayerMovement : MonoBehaviour
             _moveVector.x = _moveVector.x * GroundSpeed * Time.deltaTime;
         }
 
-
         //apply gravity
-        _moveVector.y -= Gravity * Time.deltaTime;
-
-        //Move controller
-        Controller.Move(_moveVector);
+        Controller.Move(_moveVector * GroundSpeed * Time.deltaTime);
     }
 }
