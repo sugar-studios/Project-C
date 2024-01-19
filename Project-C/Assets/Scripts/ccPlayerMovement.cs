@@ -19,32 +19,34 @@ public class ccPlayerMovement : MonoBehaviour
     private const float _MediumThreshold = 0.20f;
     private const float _LowThreshold = 0.25f;
     private const float _MoveMagnitudeThreshold = 0.1f;
-    private const float Gravity = 9.8f; // Adjust as needed
 
     // Public Variables
     public CharacterController Controller;
+    public float FastFallMultiplier;
     public float GroundSpeed;
-    public float JumpHeight; // Adjust as needed
+    public float JumpHeight;
+    public float Gravity;
+    public float MomentumBuildUpSpeed = 8f; // Speed at which momentum builds up
+    public float AirborneMomentumFactor = 1.5f; // Increase momentum when airborne
 
     // Private Variables
     private PlayerControls _Controls;
     private Vector2 _Move;
-    private Vector3 _NVelocity;
-    private Vector3 _OVelocity;
-    private float _YVelocity; // Vertical velocity for jumping and gravity
-    private bool _IsGrounded; // Add a grounded check
+    private Vector3 _CurrentVelocity;
+    private float _YVelocity;
+    private bool _IsGrounded;
+    private bool _FastfallCheck;
+    private bool _FastFallBuffer;
 
     // Before the first frame the game starts
     private void Awake()
     {
         _Controls = new PlayerControls();
-
-        // Jump function
         _Controls.Gameplay.Jump.performed += ctx => Jump();
-
-        // Get move value
         _Controls.Gameplay.Move.performed += ctx => _Move = ctx.ReadValue<Vector2>();
         _Controls.Gameplay.Move.canceled += ctx => _Move = Vector2.zero;
+        _FastfallCheck = false;
+        _FastFallBuffer = false;
     }
 
     // Enable controls
@@ -60,15 +62,14 @@ public class ccPlayerMovement : MonoBehaviour
     }
 
     // Jump
-    // Jump
     private void Jump()
     {
         if (_IsGrounded)
         {
-            _YVelocity = Mathf.Sqrt(-1 * JumpHeight * Gravity);
+            Debug.Log("Jump!");
+            _YVelocity = Mathf.Sqrt(2 * Gravity * JumpHeight);
         }
     }
-
 
     // Set inputs to either 1, 0.35, or 0
     private void StandardizeMoveValues()
@@ -83,43 +84,43 @@ public class ccPlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Create moveVector
+        // Standardize Move Values
         StandardizeMoveValues();
 
+        // Horizontal input
         float horizontal = _Move.x;
-        float vertical = _Move.y;
 
-        Vector3 moveVector = new Vector3(horizontal, 0f, 0f);
+        // Desired moveVector
+        Vector3 targetVelocity = new Vector3(horizontal * GroundSpeed, 0f, 0f);
 
-        if (moveVector.magnitude > _MoveMagnitudeThreshold)
-        {
-            moveVector *= GroundSpeed * Time.deltaTime;
-        }
+        // Apply momentum
+        float momentumMultiplier = _IsGrounded ? 1f : AirborneMomentumFactor + 1 * 2;
+        _CurrentVelocity = Vector3.Lerp(_CurrentVelocity, targetVelocity, MomentumBuildUpSpeed * Time.deltaTime * momentumMultiplier);
 
-        // Apply gravity
-        if (!_IsGrounded)
-        {
-            _YVelocity -= Gravity * Time.deltaTime;
-        }
-        else
-        {
-            _YVelocity = -Gravity * Time.deltaTime;
-        }
+        float appliedGravity = Gravity;
+        if (!_IsGrounded && _Move.y == -1) { _FastfallCheck = true; _FastFallBuffer = false; }
+        if (_FastfallCheck && _Move.y != -1) { _FastFallBuffer = true; Debug.Log("hdsjaf"); }
+        if (_FastfallCheck && _Move.y == -1 && _FastFallBuffer) { appliedGravity *= FastFallMultiplier; }
 
-        // Lerp between old and new velocity
-        Vector3 lerpedVelocity = Vector3.Lerp(_OVelocity, _NVelocity, 0.5f); // Adjust the lerp factor as needed
+        // Always apply gravity
+        _YVelocity -= appliedGravity * Time.deltaTime;
 
-        // Move character
-        Controller.Move((lerpedVelocity + new Vector3(0f, _YVelocity, 0f)) * GroundSpeed * Time.deltaTime);
-
-        // Get old velocity
-        _OVelocity = moveVector;
-
-        // Grounded check
+        // Check if the character is grounded
         _IsGrounded = Controller.isGrounded;
-        if (_IsGrounded)
+        if (_IsGrounded && _YVelocity < 0)
         {
-            _YVelocity = -Gravity * Time.deltaTime; // Reset vertical velocity when grounded
+            _YVelocity = -0.5f; // Small negative value to stick to the ground
+            _FastfallCheck = false;
+            _FastFallBuffer = false;
         }
+
+        // Integrate vertical movement (jump and gravity) with horizontal movement
+        Vector3 finalMove = _CurrentVelocity + new Vector3(0f, _YVelocity, 0f);
+
+        // Move character controller
+        Controller.Move(finalMove * Time.deltaTime);
     }
 }
+
+
+

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2237400959006830678}
   - component: {fileID: 9130276256664059040}
   - component: {fileID: 7643577053992687361}
+  - component: {fileID: 8725909207177900809}
   m_Layer: 6
   m_Name: Crate
   m_TagString: Untagged
@@ -104,7 +105,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9.999909, y: 2.3830338, z: 10.000002}
+  m_Size: {x: 10, y: 2, z: 9}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &7643577053992687361
 Rigidbody:
@@ -133,3 +134,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 88
   m_CollisionDetection: 0
+--- !u!135 &8725909207177900809
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5727557328563098886}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 4.9999995
+  m_Center: {x: 0, y: 0, z: 0}
