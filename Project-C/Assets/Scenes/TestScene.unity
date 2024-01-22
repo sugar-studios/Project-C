@@ -611,13 +611,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fa390b04d0fab429c9e58036171f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   Controller: {fileID: 1273855052}
-  FastFallMultiplier: 20
+  FastFallMultiplier: 500
   GroundSpeed: 5
   JumpHeight: 4
   Gravity: 30
   MomentumBuildUpSpeed: 8
   AirborneMomentumFactor: 1.5
+  _MaxJumps: 2
 --- !u!54 &1273855060
 Rigidbody:
   m_ObjectHideFlags: 0
