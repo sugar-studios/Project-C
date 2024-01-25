@@ -42,6 +42,9 @@ public class ccPlayerMovement : MonoBehaviour
     private bool _FastFallBuffer;
     private int _JumpsRemaining; // Tracks the number of jumps remaining (for double jumping)
     private float _DownInputDuration = 0f; // Tracks how long the down input has been held
+    private RaycastHit _Hit;
+    private float _GroundCheckDistance = 10f;
+    private bool _HitDetect;
 
     private void Awake()
     {
@@ -85,45 +88,35 @@ public class ccPlayerMovement : MonoBehaviour
 
     private bool CheckGround()
     {
-        Vector3 boxSize = new Vector3(Controller.bounds.size.x, 0.1f, Controller.bounds.size.z); // Adjust the Y size to a small value for the ground check
-        RaycastHit hit;
-        Vector3 boxBottomCenter = Controller.bounds.center + Vector3.down * (Controller.bounds.extents.y + boxSize.y / 2); // Center of the bottom of the box
-
-        bool hasHit = Physics.BoxCast(boxBottomCenter, boxSize / 2, Vector3.down, out hit, Quaternion.identity, 1f, stageLayerMask);
-
-        // Draw box
-        DebugDrawBox(boxBottomCenter, boxSize * 2, Quaternion.identity, hasHit ? Color.green : Color.red, 0f);
-
+        _HitDetect = Physics.BoxCast(Controller.bounds.center, transform.localScale * 0.5f, transform.forward, out _Hit, transform.rotation, _GroundCheckDistance)
+        if (_HitDetect)
+        {
+            //Output the name of the Collider your Box hit
+            Debug.Log("Hit : " + _HitDetect.collider.name);
+        }
         return hasHit;
     }
 
-    // Helper method to draw the box
-    void DebugDrawBox(Vector3 center, Vector3 size, Quaternion orientation, Color color, float duration)
+    void OnDrawGizmos()
     {
-        Vector3 halfExtents = size / 2;
-        Vector3 frontTopLeft = center + orientation * new Vector3(-halfExtents.x, halfExtents.y, -halfExtents.z);
-        Vector3 frontTopRight = center + orientation * new Vector3(halfExtents.x, halfExtents.y, -halfExtents.z);
-        Vector3 frontBottomLeft = center + orientation * new Vector3(-halfExtents.x, -halfExtents.y, -halfExtents.z);
-        Vector3 frontBottomRight = center + orientation * new Vector3(halfExtents.x, -halfExtents.y, -halfExtents.z);
-        Vector3 backTopLeft = center + orientation * new Vector3(-halfExtents.x, halfExtents.y, halfExtents.z);
-        Vector3 backTopRight = center + orientation * new Vector3(halfExtents.x, halfExtents.y, halfExtents.z);
-        Vector3 backBottomLeft = center + orientation * new Vector3(-halfExtents.x, -halfExtents.y, halfExtents.z);
-        Vector3 backBottomRight = center + orientation * new Vector3(halfExtents.x, -halfExtents.y, halfExtents.z);
+        Gizmos.color = Color.red;
 
-        Debug.DrawLine(frontTopLeft, frontTopRight, color, duration);
-        Debug.DrawLine(frontTopRight, frontBottomRight, color, duration);
-        Debug.DrawLine(frontBottomRight, frontBottomLeft, color, duration);
-        Debug.DrawLine(frontBottomLeft, frontTopLeft, color, duration);
-
-        Debug.DrawLine(backTopLeft, backTopRight, color, duration);
-        Debug.DrawLine(backTopRight, backBottomRight, color, duration);
-        Debug.DrawLine(backBottomRight, backBottomLeft, color, duration);
-        Debug.DrawLine(backBottomLeft, backTopLeft, color, duration);
-
-        Debug.DrawLine(frontTopLeft, backTopLeft, color, duration);
-        Debug.DrawLine(frontTopRight, backTopRight, color, duration);
-        Debug.DrawLine(frontBottomRight, backBottomRight, color, duration);
-        Debug.DrawLine(frontBottomLeft, backBottomLeft, color, duration);
+        //Check if there has been a hit yet
+        if (m_HitDetect)
+        {
+            //Draw a Ray forward from GameObject toward the hit
+            Gizmos.DrawRay(transform.position, transform.forward * _Hit.distance);
+            //Draw a cube that extends to where the hit exists
+            Gizmos.DrawWireCube(transform.position + transform.forward * _Hit.distance, transform.localScale);
+        }
+        //If there hasn't been a hit yet, draw the ray at the maximum distance
+        else
+        {
+            //Draw a Ray forward from GameObject toward the maximum distance
+            Gizmos.DrawRay(transform.position, transform.forward * _GroundCheckDistance);
+            //Draw a cube at the maximum distance
+            Gizmos.DrawWireCube(transform.position + transform.forward * _GroundCheckDistance, transform.localScale);
+        }
     }
 
 
