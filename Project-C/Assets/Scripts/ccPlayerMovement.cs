@@ -24,13 +24,15 @@ public class ccPlayerMovement : MonoBehaviour
 
     // Public Variables
     public CharacterController Controller;
+    public float Traction;
     public float FastFallMultiplier;
     public float GroundSpeed;
     public float JumpHeight;
     public float Gravity;
     public float MomentumBuildUpSpeed = 8f; // Speed at which momentum builds up
-    public float AirborneMomentumFactor = 1.5f; // Increase momentum when airborne
     public int _MaxJumps;
+    public float MomentumMultiplier;
+    public float AirborneSpeed;
 
     // Private Variables
     private PlayerControls _Controls;
@@ -43,8 +45,9 @@ public class ccPlayerMovement : MonoBehaviour
     private int _JumpsRemaining; // Tracks the number of jumps remaining (for double jumping)
     private float _DownInputDuration = 0f; // Tracks how long the down input has been held
     private RaycastHit _Hit;
-    private float _GroundCheckDistance = 10f;
+    private float _GroundCheckDistance = 12f;
     private bool _HitDetect;
+    private bool _JumpRequested = false;
 
     private void Awake()
     {
@@ -69,11 +72,12 @@ public class ccPlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        if (_JumpsRemaining > 0)
+        Debug.Log("JUMP");
+        if (_IsGrounded)
         {
-            _YVelocity = Mathf.Sqrt(JumpHeight * 50);
-            _JumpsRemaining--;
-            Debug.Log("Jump! Jumps remaining: " + _JumpsRemaining);
+            Debug.Log("TRUE JUMP");
+            _YVelocity = Mathf.Sqrt(JumpHeight * 2f * Gravity); // Use the kinematic equation for jump height
+            _JumpRequested = true; // Set the flag to true when jump is requested
         }
     }
 
@@ -88,36 +92,33 @@ public class ccPlayerMovement : MonoBehaviour
 
     private bool CheckGround()
     {
-        _HitDetect = Physics.BoxCast(Controller.bounds.center, transform.localScale * 0.5f, transform.forward, out _Hit, transform.rotation, _GroundCheckDistance)
-        if (_HitDetect)
-        {
-            //Output the name of the Collider your Box hit
-            Debug.Log("Hit : " + _HitDetect.collider.name);
-        }
-        return hasHit;
+        _HitDetect = Physics.BoxCast(Controller.bounds.center, transform.localScale * 0.5f, Vector3.down, out _Hit, transform.rotation, _GroundCheckDistance);
+        //if (_HitDetect) {Debug.Log("Hit : " + _Hit.collider.name);} else {Debug.Log(null);}
+        return _HitDetect;
     }
 
-    void OnDrawGizmos()
+    /*void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
 
         //Check if there has been a hit yet
-        if (m_HitDetect)
+        if (_HitDetect)
         {
             //Draw a Ray forward from GameObject toward the hit
-            Gizmos.DrawRay(transform.position, transform.forward * _Hit.distance);
+            Gizmos.DrawRay(transform.position, Vector3.down * _Hit.distance);
             //Draw a cube that extends to where the hit exists
-            Gizmos.DrawWireCube(transform.position + transform.forward * _Hit.distance, transform.localScale);
+            Gizmos.DrawWireCube(Controller.bounds.center + Vector3.down * _Hit.distance, transform.localScale);
         }
         //If there hasn't been a hit yet, draw the ray at the maximum distance
         else
         {
-            //Draw a Ray forward from GameObject toward the maximum distance
-            Gizmos.DrawRay(transform.position, transform.forward * _GroundCheckDistance);
+            //Draw a Ray down from GameObject toward the maximum distance
+            Gizmos.DrawRay(transform.position, Vector3.down * _GroundCheckDistance);
             //Draw a cube at the maximum distance
-            Gizmos.DrawWireCube(transform.position + transform.forward * _GroundCheckDistance, transform.localScale);
+            Gizmos.DrawWireCube(Controller.bounds.center + Vector3.down * _GroundCheckDistance, transform.localScale);
         }
-    }
+    }*/
+
 
 
     void Update()
@@ -125,9 +126,16 @@ public class ccPlayerMovement : MonoBehaviour
         StandardizeMoveValues();
 
         float horizontal = _Move.x;
-        Vector3 targetVelocity = new Vector3(horizontal * GroundSpeed, 0f, 0f);
-        float momentumMultiplier = _IsGrounded ? 1f : AirborneMomentumFactor + 1 * 2;
-        _CurrentVelocity = Vector3.Lerp(_CurrentVelocity, targetVelocity, MomentumBuildUpSpeed * Time.deltaTime * momentumMultiplier);
+
+        // Use AirborneSpeed if not grounded, otherwise use GroundSpeed
+        float currentSpeed = _IsGrounded ? GroundSpeed : AirborneSpeed;
+        Vector3 targetVelocity = new Vector3(horizontal * currentSpeed, 0f, 0f);
+
+        // Adjust the momentum build-up based on whether the character is airborne or grounded
+        float currentMomentumBuildUpSpeed = _IsGrounded ? MomentumBuildUpSpeed : MomentumBuildUpSpeed * Traction;
+        _CurrentVelocity = Vector3.Lerp(_CurrentVelocity, targetVelocity, currentMomentumBuildUpSpeed * Time.deltaTime);
+
+        _IsGrounded = Controller.isGrounded; // Check if grounded before applying gravity
 
         float appliedGravity = Gravity;
 
@@ -162,20 +170,41 @@ public class ccPlayerMovement : MonoBehaviour
             }
         }
 
-        _YVelocity -= appliedGravity * Time.deltaTime;
-
-        _IsGrounded = CheckGround();
-        Debug.Log(_IsGrounded);
-        if (_IsGrounded)
+        if (_IsGrounded && !_JumpRequested)
         {
-            _YVelocity = -0.5f;
-            _FastfallCheck = false;
-            _FastFallBuffer = false;
-            _DownInputDuration = 0f;
-            _JumpsRemaining = _MaxJumps; // Reset jumps when grounded
+            // Apply a small negative velocity when grounded to stick the player to the ground
+            _YVelocity = Mathf.Max(_YVelocity, -0.5f);
+        }
+        else
+        {
+            // Apply gravity over time
+            if (_YVelocity - (appliedGravity * Time.deltaTime) <= -appliedGravity)
+            {
+                _YVelocity = -appliedGravity;
+            }
+            else
+            {
+                _YVelocity -= appliedGravity * Time.deltaTime;
+            }
         }
 
         Vector3 finalMove = _CurrentVelocity + new Vector3(0f, _YVelocity, 0f);
         Controller.Move(finalMove * Time.deltaTime);
+
+        // After moving, check if character is grounded
+        if (Controller.isGrounded && !_JumpRequested)
+        {
+            _YVelocity = -0.5f; // Reset YVelocity when grounded but not when jump is requested
+            _JumpsRemaining = _MaxJumps; // Reset jumps
+            _FastfallCheck = false;
+            _FastFallBuffer = false;
+            _DownInputDuration = 0f;
+        }
+
+        // Reset the jump requested flag after the character has left the ground
+        if (_JumpRequested && !Controller.isGrounded)
+        {
+            _JumpRequested = false;
+        }
     }
 }
