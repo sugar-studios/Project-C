@@ -10,8 +10,30 @@ public class titleManager : MonoBehaviour
     public GameObject Options;
     public GameObject Practice;
 
+    private PlayerControls _Controls;
     private GameObject _CurrentScreen;
     private List<GameObject> _ScreenCollection;
+
+    private void Awake()
+    {
+        _Controls = new PlayerControls();
+        _Controls.Gameplay.Start.performed += ctx => StartButton();
+
+    }
+
+    private void OnEnable()
+    {
+        _Controls.Gameplay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _Controls.Gameplay.Disable();
+    }
+
+    private void StartButton()
+    { 
+    }
 
     void Start()
     {
@@ -53,9 +75,9 @@ public class titleManager : MonoBehaviour
 
     private void Update()
     {
-        if (_CurrentScreen == TitleScreen)
-        {
-            Debug.Log("heelo");
-        }
+        //if (input.anykey())
+        //{ 
+        
+        //}
     }
 }
