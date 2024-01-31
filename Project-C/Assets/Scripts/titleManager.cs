@@ -10,15 +10,15 @@ public class titleManager : MonoBehaviour
     public GameObject Options;
     public GameObject Practice;
 
-    private GameObject _currentScreen;
-    private List<GameObject> _screenCollection;
+    private GameObject _CurrentScreen;
+    private List<GameObject> _ScreenCollection;
 
     void Start()
     {
-        _screenCollection = new List<GameObject> { TitleScreen, HomeDashboard, Duels, Options, Practice };
-        _currentScreen = TitleScreen;
+        _ScreenCollection = new List<GameObject> { TitleScreen, HomeDashboard, Duels, Options, Practice };
+        _CurrentScreen = TitleScreen;
 
-        foreach (var screen in _screenCollection)
+        foreach (var screen in _ScreenCollection)
         {
             if (screen != null)
             {
@@ -26,28 +26,36 @@ public class titleManager : MonoBehaviour
             }
         }
 
-        if (_currentScreen != null)
+        if (_CurrentScreen != null)
         {
-            _currentScreen.SetActive(true);
+            _CurrentScreen.SetActive(true);
         }
     }
 
     public void ScreenTransition(GameObject targetScreen)
     {
-        if (_currentScreen != null)
+        if (_CurrentScreen != null)
         {
-            _currentScreen.SetActive(false);
+            _CurrentScreen.SetActive(false);
         }
 
         if (targetScreen != null)
         {
             targetScreen.SetActive(true);
-            _currentScreen = targetScreen;
+            _CurrentScreen = targetScreen;
         }
     }
 
     public void CoolFunction()
     {
         Debug.Log("CLICK!");
+    }
+
+    private void Update()
+    {
+        if (_CurrentScreen == TitleScreen)
+        {
+            Debug.Log("heelo");
+        }
     }
 }
