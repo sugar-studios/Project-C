@@ -9,6 +9,10 @@ public class titleManager : MonoBehaviour
     public GameObject Duels;
     public GameObject Options;
     public GameObject Practice;
+    public GameObject DuelsImage;
+    public GameObject OptionsImage;
+    public GameObject PracticeImage;
+
 
     private PlayerControls _Controls;
     private GameObject _CurrentScreen;
@@ -68,6 +72,8 @@ public class titleManager : MonoBehaviour
             _CurrentScreen = targetScreen;
         }
     }
+
+    public void PreviewImage(GameObject)
 
 
     private void Update()
