@@ -33,6 +33,7 @@ public class titleManager : MonoBehaviour
 
     private void StartButton()
     { 
+        if (_CurrentScreen == TitleScreen) { ScreenTransition(HomeDashboard); }
     }
 
     void Start()
@@ -68,16 +69,9 @@ public class titleManager : MonoBehaviour
         }
     }
 
-    public void CoolFunction()
-    {
-        Debug.Log("CLICK!");
-    }
 
     private void Update()
     {
-        //if (input.anykey())
-        //{ 
-        
-        //}
+
     }
 }
