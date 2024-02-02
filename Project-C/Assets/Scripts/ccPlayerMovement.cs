@@ -29,10 +29,11 @@ public class ccPlayerMovement : MonoBehaviour
     public float GroundSpeed;
     public float JumpHeight;
     public float Gravity;
-    public float MomentumBuildUpSpeed = 8f; // Speed at which momentum builds up
-    public int _MaxJumps;
+    public float MomentumBuildUpSpeed = 8f;
+    public int MaxJumps = 2; // Total jumps available
     public float MomentumMultiplier;
     public float AirborneSpeed;
+    public AudioSource jump;
 
     // Private Variables
     private PlayerControls _Controls;
@@ -42,8 +43,8 @@ public class ccPlayerMovement : MonoBehaviour
     private bool _IsGrounded;
     private bool _FastfallCheck;
     private bool _FastFallBuffer;
-    private int _JumpsRemaining; // Tracks the number of jumps remaining (for double jumping)
-    private float _DownInputDuration = 0f; // Tracks how long the down input has been held
+    private int _JumpsRemaining;
+    private float _DownInputDuration = 0f;
     private RaycastHit _Hit;
     private float _GroundCheckDistance = 12f;
     private bool _HitDetect;
@@ -57,7 +58,7 @@ public class ccPlayerMovement : MonoBehaviour
         _Controls.Gameplay.Move.canceled += ctx => _Move = Vector2.zero;
         _FastfallCheck = false;
         _FastFallBuffer = false;
-        _JumpsRemaining = _MaxJumps; // Initialize with max jumps on awake
+        _JumpsRemaining = MaxJumps; // Initialize with max jumps on awake
     }
 
     private void OnEnable()
@@ -72,12 +73,13 @@ public class ccPlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        Debug.Log("JUMP");
-        if (_IsGrounded)
+        if (_JumpsRemaining > 0)
         {
-            Debug.Log("TRUE JUMP");
-            _YVelocity = Mathf.Sqrt(JumpHeight * 2f * Gravity); // Use the kinematic equation for jump height
-            _JumpRequested = true; // Set the flag to true when jump is requested
+            _YVelocity = Mathf.Sqrt(JumpHeight * 2f * Gravity);
+            _JumpsRemaining--; // Decrement the jump counter
+            _JumpRequested = true;
+            jump.Play();
+            
         }
     }
 
@@ -126,17 +128,12 @@ public class ccPlayerMovement : MonoBehaviour
         StandardizeMoveValues();
 
         float horizontal = _Move.x;
-
-        // Use AirborneSpeed if not grounded, otherwise use GroundSpeed
         float currentSpeed = _IsGrounded ? GroundSpeed : AirborneSpeed;
         Vector3 targetVelocity = new Vector3(horizontal * currentSpeed, 0f, 0f);
-
-        // Adjust the momentum build-up based on whether the character is airborne or grounded
         float currentMomentumBuildUpSpeed = _IsGrounded ? MomentumBuildUpSpeed : MomentumBuildUpSpeed * Traction;
         _CurrentVelocity = Vector3.Lerp(_CurrentVelocity, targetVelocity, currentMomentumBuildUpSpeed * Time.deltaTime);
 
         _IsGrounded = Controller.isGrounded; // Check if grounded before applying gravity
-
         float appliedGravity = Gravity;
 
         if (!_IsGrounded)
@@ -172,36 +169,25 @@ public class ccPlayerMovement : MonoBehaviour
 
         if (_IsGrounded && !_JumpRequested)
         {
-            // Apply a small negative velocity when grounded to stick the player to the ground
             _YVelocity = Mathf.Max(_YVelocity, -0.5f);
         }
         else
         {
-            // Apply gravity over time
-            if (_YVelocity - (appliedGravity * Time.deltaTime) <= -appliedGravity)
-            {
-                _YVelocity = -appliedGravity;
-            }
-            else
-            {
-                _YVelocity -= appliedGravity * Time.deltaTime;
-            }
+            _YVelocity -= appliedGravity * Time.deltaTime;
         }
 
         Vector3 finalMove = _CurrentVelocity + new Vector3(0f, _YVelocity, 0f);
         Controller.Move(finalMove * Time.deltaTime);
 
-        // After moving, check if character is grounded
-        if (Controller.isGrounded && !_JumpRequested)
+        if (Controller.isGrounded)
         {
-            _YVelocity = -0.5f; // Reset YVelocity when grounded but not when jump is requested
-            _JumpsRemaining = _MaxJumps; // Reset jumps
+            _YVelocity = -0.5f; // Reset YVelocity when grounded
+            _JumpsRemaining = MaxJumps; // Reset jumps when touching the ground
             _FastfallCheck = false;
             _FastFallBuffer = false;
             _DownInputDuration = 0f;
         }
 
-        // Reset the jump requested flag after the character has left the ground
         if (_JumpRequested && !Controller.isGrounded)
         {
             _JumpRequested = false;
