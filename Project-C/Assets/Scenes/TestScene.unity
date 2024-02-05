@@ -3276,7 +3276,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1274975729}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3d8ffd314162af74c97761977bef3dab, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3385,10 +3385,9 @@ MonoBehaviour:
   _JumpHeight: 16.5
   _GroundSpeed: 1750
   _DashSpeed: 3500
-  _AirSpeed: 2500
-  _MaxGroundSpeed: 8
-  _MaxDashSpeed: 12
-  _MaxAirSpeed: 24
+  _AirSpeed: 1900
+  _MaxSpeed: 8
+  _MaxDashSpeed: 10
   MaxDoubleJump: 1
   SpeedLerpFactor: 0.1
   _JumpSound: {fileID: 1274975738}
