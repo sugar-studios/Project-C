@@ -113,12 +113,11 @@ public class titleManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        ScreenTransition(LoadScreen);
         StartCoroutine(LoadSceneAsynchronusly(sceneName));
     }
 
-    IEnumerator LoadSceneAsynchronusly(string sceneName) 
-    { 
+    IEnumerator LoadSceneAsynchronusly(string sceneName)
+    {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
 
         while (!operation.isDone)
