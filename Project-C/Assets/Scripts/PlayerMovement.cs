@@ -19,14 +19,17 @@ public class newPlayerMovement : MonoBehaviour
     private float _CoyoteTime = 5f;
     private float _CoyoteTimeCounter;
     private bool _IsFacingRight;
+    private bool _IsDashing = false;
 
 
     [SerializeField] private LayerMask _GroundLayer;
     [SerializeField] private float _Gravity = 4;
     [SerializeField] private float _JumpHeight;
     [SerializeField] private float _GroundSpeed;
+    [SerializeField] private float _DashSpeed;
     [SerializeField] private float _AirSpeed;
     [SerializeField] private float _MaxSpeed;
+    [SerializeField] private float _MaxDashSpeed;
     [SerializeField] private float MaxDoubleJump;
     [SerializeField] private float SpeedLerpFactor = 0.1f; // Adjust this value for smoother speed transitions
 
@@ -38,6 +41,8 @@ public class newPlayerMovement : MonoBehaviour
     {
         _Controls = new PlayerControls();
         _Controls.Gameplay.Jump.performed += ctx => Jump();
+        _Controls.Gameplay.Dash.performed += ctx => StartDash();
+        _Controls.Gameplay.Dash.canceled += ctx => StopDash();
         _Controls.Gameplay.Move.performed += ctx => _RawInputVector = ctx.ReadValue<Vector2>();
         _Controls.Gameplay.Move.canceled += ctx => _RawInputVector = Vector2.zero;
     }
@@ -92,7 +97,17 @@ public class newPlayerMovement : MonoBehaviour
         
     }
 
-    private void Flip()
+    void StartDash()
+    { 
+        _IsDashing = true;
+    }
+
+    void StopDash()
+    {
+        _IsDashing = false;
+    }
+
+    void Flip()
     {
         if (_IsFacingRight && _Horizontal < 0f || !_IsFacingRight && _Horizontal > 0f)
         {
@@ -141,18 +156,28 @@ public class newPlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float targetSpeed = Grounded ? _GroundSpeed : _AirSpeed;
+        float targetSpeed;
+        float maxSpeed;
 
-        // Smoothly lerp the currentSpeed towards the targetSpeed
-        _CurrentSpeed = Mathf.Lerp(_CurrentSpeed, targetSpeed, SpeedLerpFactor);
+        if (Grounded)
+        {
+            targetSpeed = _IsDashing ? _DashSpeed : _GroundSpeed;
+            maxSpeed = _IsDashing ? _MaxDashSpeed : _MaxSpeed;
+        }
+        else
+        {
+            targetSpeed = _AirSpeed;
+            maxSpeed = _MaxSpeed;
+        }
 
-        float horizontalForce = _Horizontal * _CurrentSpeed * Time.deltaTime;
+        float horizontalForce = _Horizontal * targetSpeed * Time.deltaTime;
 
-        // Apply the force while clamping the velocity
         _RB.AddForce(new Vector2(horizontalForce, 0));
 
-        float clampedVelocityX = Mathf.Clamp(_RB.velocity.x, -_MaxSpeed, _MaxSpeed);
-        _RB.velocity = new Vector2(clampedVelocityX, _RB.velocity.y);
+        if (_RB.velocity.x > maxSpeed)
+        { 
+            _RB.velocity = new Vector2(maxSpeed, _RB.velocity.y);
+        }
 
 
         if (Mathf.Abs(_RB.velocity.x) > 0 && Grounded)
