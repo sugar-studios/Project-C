@@ -13,23 +13,27 @@ public class newPlayerMovement : MonoBehaviour
     private Rigidbody2D _RB;
     private GameObject _Footstep;
     private Vector2 _RawInputVector;
+    private short _ManualFastFallLock = 0;
     private float _Horizontal;
     private float _DoubleJumpCount;
-    private float _CurrentSpeed;
-    private float _CoyoteTime = 5f;
+    private float _CoyoteTime = .2f;
     private float _CoyoteTimeCounter;
-    private bool _IsFacingRight;
+    private float _GravityMultiplier;
+    public bool _IsFacingRight;
     private bool _IsDashing = false;
+    private bool _ManualFastFall = false;
 
 
     [SerializeField] private LayerMask _GroundLayer;
     [SerializeField] private float _Gravity = 4;
     [SerializeField] private float _JumpHeight;
+    [SerializeField] private float _MidAirJumpHeight;
     [SerializeField] private float _GroundSpeed;
     [SerializeField] private float _DashSpeed;
     [SerializeField] private float _AirSpeed;
     [SerializeField] private float _MaxSpeed;
     [SerializeField] private float _MaxDashSpeed;
+    [SerializeField] private float _MaxAirSpeed;
     [SerializeField] private float MaxDoubleJump;
     [SerializeField] private float SpeedLerpFactor = 0.1f; // Adjust this value for smoother speed transitions
 
@@ -84,16 +88,16 @@ public class newPlayerMovement : MonoBehaviour
     }
 
     //Jump function
-    void Jump()
+    private void Jump()
     {
-        if (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0)
-        {
-            _JumpSound.Play();
-            _RB.velocity = new Vector2(_RB.velocity.x, _JumpHeight);
-            Flip();
-            _CoyoteTimeCounter = 0;
-            if (!Grounded ) { _DoubleJumpCount--; }
-        }
+            if (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0)
+            {
+                if (!(_CoyoteTimeCounter > 0)) { _RB.velocity = new Vector2(_RB.velocity.x, _MidAirJumpHeight); _DoubleJumpCount--; } else { _RB.velocity = new Vector2(_RB.velocity.x, _JumpHeight); }
+                _JumpSound.Play();
+                Flip();
+                _CoyoteTimeCounter = 0;
+            }
+
         
     }
 
@@ -120,7 +124,17 @@ public class newPlayerMovement : MonoBehaviour
 
     void Footsteps()
     {
-        _Footstep.SetActive(true);
+        if (_IsDashing)
+        {
+            _Footstep.GetComponent<AudioSource>().pitch = 3f;
+            _Footstep.SetActive(true);
+        }
+        else
+        {
+            _Footstep.GetComponent<AudioSource>().pitch = 2.5f;
+            _Footstep.SetActive(true);
+        }
+        
     }
 
     void StopFootsteps()
@@ -146,16 +160,45 @@ public class newPlayerMovement : MonoBehaviour
             _DoubleJumpCount = MaxDoubleJump;
             Flip();
             _CoyoteTimeCounter = _CoyoteTime;
+            _ManualFastFallLock = 0;
+            _ManualFastFall = false;
+            _GravityMultiplier = _Gravity;
         }
         else
         {
-            _CoyoteTime -= Time.deltaTime;
+            if (_CoyoteTimeCounter > 0)
+            {
+                _CoyoteTimeCounter -= Time.deltaTime;
+            }
+
+            /*
+            if (!_ManualFastFall && _ManualFastFallLock == 0 && PlayerInputVector.y == -1)
+            {
+                _ManualFastFallLock = 1;
+            }
+
+            if (!_ManualFastFall && _ManualFastFallLock == 1 && PlayerInputVector.y == 0)
+            {
+                _ManualFastFallLock = 2;
+            }
+
+            if (!_ManualFastFall && _ManualFastFallLock == 2 && PlayerInputVector.y == -1)
+            {
+                _ManualFastFall = true;
+            }
+
+            if ((_RB.velocity.y < 0 && PlayerInputVector.y == -1) || _ManualFastFall)
+            { 
+                _GravityMultiplier *= 1.1f;
+            } */
         }
 
     }
 
     private void FixedUpdate()
     {
+
+
         float targetSpeed;
         float maxSpeed;
 
@@ -167,16 +210,16 @@ public class newPlayerMovement : MonoBehaviour
         else
         {
             targetSpeed = _AirSpeed;
-            maxSpeed = _MaxSpeed;
+            maxSpeed = _MaxAirSpeed;
         }
 
         float horizontalForce = _Horizontal * targetSpeed * Time.deltaTime;
 
         _RB.AddForce(new Vector2(horizontalForce, 0));
 
-        if (_RB.velocity.x > maxSpeed)
+        if (Mathf.Abs(_RB.velocity.x) > maxSpeed)
         { 
-            _RB.velocity = new Vector2(maxSpeed, _RB.velocity.y);
+            _RB.velocity = new Vector2(maxSpeed * Mathf.Sign(_RB.velocity.x), _RB.velocity.y);
         }
 
 
