@@ -13,7 +13,6 @@ public class newPlayerMovement : MonoBehaviour
     private Rigidbody2D _RB;
     private GameObject _Footstep;
     private Vector2 _RawInputVector;
-    private short _ManualFastFallLock = 0;
     private float _Horizontal;
     private float _DoubleJumpCount;
     private float _CoyoteTime = .2f;
@@ -21,7 +20,6 @@ public class newPlayerMovement : MonoBehaviour
     private float _GravityMultiplier;
     public bool _IsFacingRight;
     private bool _IsDashing = false;
-    private bool _ManualFastFall = false;
 
 
     [SerializeField] private LayerMask _GroundLayer;
@@ -160,8 +158,6 @@ public class newPlayerMovement : MonoBehaviour
             _DoubleJumpCount = MaxDoubleJump;
             Flip();
             _CoyoteTimeCounter = _CoyoteTime;
-            _ManualFastFallLock = 0;
-            _ManualFastFall = false;
             _GravityMultiplier = _Gravity;
         }
         else
@@ -170,27 +166,6 @@ public class newPlayerMovement : MonoBehaviour
             {
                 _CoyoteTimeCounter -= Time.deltaTime;
             }
-
-            /*
-            if (!_ManualFastFall && _ManualFastFallLock == 0 && PlayerInputVector.y == -1)
-            {
-                _ManualFastFallLock = 1;
-            }
-
-            if (!_ManualFastFall && _ManualFastFallLock == 1 && PlayerInputVector.y == 0)
-            {
-                _ManualFastFallLock = 2;
-            }
-
-            if (!_ManualFastFall && _ManualFastFallLock == 2 && PlayerInputVector.y == -1)
-            {
-                _ManualFastFall = true;
-            }
-
-            if ((_RB.velocity.y < 0 && PlayerInputVector.y == -1) || _ManualFastFall)
-            { 
-                _GravityMultiplier *= 1.1f;
-            } */
         }
 
     }
