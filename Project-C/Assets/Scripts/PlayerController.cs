@@ -1,32 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    private float horizontal;
-    private float speed = 8f;
-    private bool isFacingRight = true;
+    private Rigidbody2D _RB;
+    private bool _IsFacingRight = true;
+    private bool _IsDashing = false;
+    private float _Horizontal;
     private float _DoubleJumpCount;
     private float _CoyoteTime = .2f;
     private float _CoyoteTimeCounter;
 
-    [SerializeField] private float _JumpHeight = 16f;
-    [SerializeField] private float _MidAirJumpHeight = 16f;
-    [SerializeField] private Rigidbody2D _RB;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float MaxDoubleJump;
+    private Vector2 _MovementInput = Vector2.zero;
+    private bool _Jumped;
+    private bool _FastFalling;
+
+    [SerializeField]
+    private float _JumpHeight = 16f;
+    [SerializeField]
+    private float _NGroundSpeed = 8f;
+    [SerializeField]
+    private float _DGroundSpeed = 11f;
+    [SerializeField]
+    private float _NAirSpeed = 9.5f;
+    [SerializeField]
+    private float _MidAirJumpHeight = 16f;
+    [SerializeField]
+    private Transform _GroundCheck;
+    [SerializeField]
+    private LayerMask _GroundLayer;
+    [SerializeField]
+    private float _MaxDoubleJump;
 
     private void Start()
     {
         _RB = gameObject.GetComponent<Rigidbody2D>();
     }
 
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        _MovementInput = context.ReadValue<Vector2>();  
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    { 
+        _Jumped = context.ReadValue<bool>();
+        _Jumped = context.action.triggered;
+    }
+
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        _IsDashing = context.ReadValue<bool>();
+        _IsDashing = context.action.triggered;
+    }
+
+    public void OnFastFall(InputAction.CallbackContext context)
+    {
+        _IsFastFalling = context.ReadValue<bool>();
+        _IsFastFalling = context.action.triggered;
+    }
+
     void Update()
     {
-        horizontal = StandardizeMoveValues(Input.GetAxisRaw("Horizontal"));
+        _Horizontal = StandardizeMoveValues(Input.GetAxisRaw("Horizontal"));
 
         if (Input.GetButtonDown("Jump") && (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0))
         {
@@ -37,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
         if (IsGrounded())
         {
-            _DoubleJumpCount = MaxDoubleJump;
+            _DoubleJumpCount = _MaxDoubleJump;
             Flip();
             _CoyoteTimeCounter = _CoyoteTime;
         }
@@ -48,18 +87,30 @@ public class PlayerController : MonoBehaviour
                 _CoyoteTimeCounter -= Time.deltaTime;
             }
         }
-
-        Flip();
     }
 
     private void FixedUpdate()
     {
-        _RB.velocity = new Vector2(horizontal * speed, _RB.velocity.y);
+        if (IsGrounded())
+        {
+            if (_IsDashing)
+            {
+                _RB.velocity = new Vector2(_Horizontal * _DGroundSpeed, _RB.velocity.y);
+            }
+            else
+            {
+                _RB.velocity = new Vector2(_Horizontal * _NGroundSpeed, _RB.velocity.y);
+            }
+        }
+        else
+        {
+            _RB.velocity = new Vector2(_Horizontal * _NAirSpeed, _RB.velocity.y);
+        }
     }
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        return Physics2D.OverlapCircle(_GroundCheck.position, 0.2f, _GroundLayer);
     }
 
     private float StandardizeMoveValues(float num)
@@ -71,9 +122,9 @@ public class PlayerController : MonoBehaviour
 
     private void Flip()
     {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        if (_IsFacingRight && _Horizontal < 0f || !_IsFacingRight && _Horizontal > 0f)
         {
-            isFacingRight = !isFacingRight;
+            _IsFacingRight = !_IsFacingRight;
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
