@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AttackHitBox : MonoBehaviour
 {
+    /*
     [SerializeField] LayerMask _Player1;
 
     private void OnTriggerEnter(Collider2D player)
@@ -13,4 +14,5 @@ public class AttackHitBox : MonoBehaviour
             Rigidbody2D _RB = _Player1.GetComponent<
         }
     }
+    */
 }

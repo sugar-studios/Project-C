@@ -8,8 +8,8 @@ public class newPlayerMovement : MonoBehaviour
 {
     public bool Grounded;
     public Vector2 PlayerInputVector;
+    public PlayerControls Controls;
 
-    private PlayerControls _Controls;
     private Rigidbody2D _RB;
     private GameObject _Footstep;
     private Vector2 _RawInputVector;
@@ -41,25 +41,25 @@ public class newPlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        _Controls = new PlayerControls();
-        _Controls.Gameplay.Jump.performed += ctx => Jump();
-        _Controls.Gameplay.Dash.performed += ctx => StartDash();
-        _Controls.Gameplay.Dash.canceled += ctx => StopDash();
-        _Controls.Gameplay.Move.performed += ctx => _RawInputVector = ctx.ReadValue<Vector2>();
-        _Controls.Gameplay.Move.canceled += ctx => _RawInputVector = Vector2.zero;
+        Controls = new PlayerControls();
+        Controls.Gameplay.Jump.performed += ctx => Jump();
+        Controls.Gameplay.Dash.performed += ctx => StartDash();
+        Controls.Gameplay.Dash.canceled += ctx => StopDash();
+        Controls.Gameplay.Move.performed += ctx => _RawInputVector = ctx.ReadValue<Vector2>();
+        Controls.Gameplay.Move.canceled += ctx => _RawInputVector = Vector2.zero;
     }
 
     private void OnEnable()
     {
         Debug.Log("Controls Enabled");
-        _Controls.Gameplay.Enable();
+        Controls.Gameplay.Enable();
     }
 
 
     private void OnDisable()
     {
         Debug.Log("Controls Disabled");
-        _Controls.Gameplay.Disable();
+        Controls.Gameplay.Disable();
     }
 
     // Start is called before the first frame update
