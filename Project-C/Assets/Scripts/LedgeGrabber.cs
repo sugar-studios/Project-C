@@ -82,7 +82,7 @@ public class LedgeGrabber : MonoBehaviour
         _RB.velocity = Vector2.zero;
         _RB.gravityScale = 0;
         // Calculate the target position without immediately setting _Parent.transform.position
-        targetPosition = new Vector2(_CurrentLedge.transform.GetChild(2).transform.gameObject.transform.position.x + (_Parent.GetComponent<Collider2D>().bounds.size.x / 2 * direction), _CurrentLedge.transform.GetChild(1).gameObject.transform.position.y);
+        targetPosition = new Vector2(_CurrentLedge.transform.GetChild(2).transform.gameObject.transform.position.x + (_Parent.GetComponent<Collider2D>().bounds.size.x / 2 * direction), _CurrentLedge.transform.GetChild(2).gameObject.transform.position.y);
         _Parent.GetComponent<newPlayerMovement>().enabled = false;
         LedgeGrab = true;
     }

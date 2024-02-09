@@ -13,8 +13,8 @@ public class Blastzones : MonoBehaviour
     {
         if ((Player1.value & (1 << other.gameObject.layer)) != 0)
         {
-            other.gameObject.SetActive(false);
             gameManager.GameOver();
+            other.gameObject.SetActive(false);
         }
     }
 }
