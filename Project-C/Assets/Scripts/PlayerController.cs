@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+    public Vector2 PlayerInputVector;
+
     private Rigidbody2D _RB;
     private bool _IsFacingRight = true;
     private bool _IsDashing = false;
@@ -13,10 +15,11 @@ public class PlayerController : MonoBehaviour
     private float _DoubleJumpCount;
     private float _CoyoteTime = .2f;
     private float _CoyoteTimeCounter;
+    private bool _FastFalling = false;
 
     private Vector2 _MovementInput = Vector2.zero;
-    private bool _Jumped;
-    private bool _FastFalling;
+    private bool _Jumped = false;
+    private bool _FastFall = false;
 
     [SerializeField]
     private float _JumpHeight = 16f;
@@ -25,7 +28,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _DGroundSpeed = 11f;
     [SerializeField]
-    private float _NAirSpeed = 9.5f;
+    private float _NAirSpeed = 2300f;
+    [SerializeField]
+    private float _FastFallSpeed = 16f;
+    [SerializeField]
+    private float _NAirSpeedCap = 9.5f;
     [SerializeField]
     private float _MidAirJumpHeight = 16f;
     [SerializeField]
@@ -47,27 +54,27 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     { 
-        _Jumped = context.ReadValue<bool>();
         _Jumped = context.action.triggered;
     }
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        _IsDashing = context.ReadValue<bool>();
         _IsDashing = context.action.triggered;
     }
 
     public void OnFastFall(InputAction.CallbackContext context)
     {
-        _IsFastFalling = context.ReadValue<bool>();
-        _IsFastFalling = context.action.triggered;
+        _FastFall = context.action.triggered;
     }
 
     void Update()
     {
-        _Horizontal = StandardizeMoveValues(Input.GetAxisRaw("Horizontal"));
+        PlayerInputVector = new Vector2(StandardizeMoveValues(_MovementInput.x), StandardizeMoveValues(_MovementInput.y));
+        _Horizontal = PlayerInputVector.x;
 
-        if (Input.GetButtonDown("Jump") && (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0))
+
+
+        if (_Jumped && (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0))
         {
             if (!(_CoyoteTimeCounter > 0)) { _RB.velocity = new Vector2(_RB.velocity.x, _MidAirJumpHeight); _DoubleJumpCount--; } else { _RB.velocity = new Vector2(_RB.velocity.x, _JumpHeight); }
             Flip();
@@ -79,6 +86,8 @@ public class PlayerController : MonoBehaviour
             _DoubleJumpCount = _MaxDoubleJump;
             Flip();
             _CoyoteTimeCounter = _CoyoteTime;
+            _FastFalling = false;
+            _FastFall = false;
         }
         else
         {
@@ -86,27 +95,43 @@ public class PlayerController : MonoBehaviour
             {
                 _CoyoteTimeCounter -= Time.deltaTime;
             }
+            if (_FastFall)
+            {
+                _FastFalling = true;
+            }
         }
+
     }
 
     private void FixedUpdate()
     {
+        Debug.Log(_IsDashing);
         if (IsGrounded())
         {
             if (_IsDashing)
             {
-                _RB.velocity = new Vector2(_Horizontal * _DGroundSpeed, _RB.velocity.y);
+                _RB.velocity = new Vector2(Mathf.Clamp(_Horizontal * _DGroundSpeed, -_NAirSpeedCap, _NAirSpeedCap), _RB.velocity.y);
             }
             else
             {
-                _RB.velocity = new Vector2(_Horizontal * _NGroundSpeed, _RB.velocity.y);
+                _RB.velocity = new Vector2(Mathf.Clamp(_Horizontal * _NGroundSpeed, -_NAirSpeedCap, _NAirSpeedCap), _RB.velocity.y);
             }
         }
         else
         {
-            _RB.velocity = new Vector2(_Horizontal * _NAirSpeed, _RB.velocity.y);
+            float ff = _FastFalling ? _FastFallSpeed : 0.0f;
+            float horizontalForce = _Horizontal * _NAirSpeed * Time.deltaTime;
+
+            _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - ff);
+            _RB.AddForce(new Vector2(horizontalForce, 0));
+
+            if (Mathf.Abs(_RB.velocity.x) > _NAirSpeedCap)
+            {
+                _RB.velocity = new Vector2(_NAirSpeedCap * Mathf.Sign(_RB.velocity.x), _RB.velocity.y);
+            }
         }
     }
+
 
     private bool IsGrounded()
     {

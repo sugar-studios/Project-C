@@ -38,9 +38,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""a52e1954-724a-4355-a96d-41815f344fc7"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -51,7 +51,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""06dfe901-467b-4bfe-b6bf-638b66d9d87e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""MultiTap"",
                     ""initialStateCheck"": false
                 },
                 {

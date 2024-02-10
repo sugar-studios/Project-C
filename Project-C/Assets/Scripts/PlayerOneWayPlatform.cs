@@ -4,14 +4,14 @@ using UnityEngine;
 public class PlayerOneWayPlatform : MonoBehaviour
 {
     private GameObject currentOneWayPlatform;
-    private newPlayerMovement _Player;
+    private PlayerController _Player;
 
     [SerializeField] private BoxCollider2D _PlayerCollider;
     [SerializeField] private AudioSource _PlatformFallSound;
 
     private void Start()
     {
-        _Player = transform.GetComponent<newPlayerMovement>();
+        _Player = transform.GetComponent<PlayerController>();
     }
 
     private void Update()
@@ -20,7 +20,7 @@ public class PlayerOneWayPlatform : MonoBehaviour
         {
             if (currentOneWayPlatform != null)
             {
-                _PlatformFallSound.Play();
+                //_PlatformFallSound.Play();
                 StartCoroutine(DisableCollision());
             }
         }
