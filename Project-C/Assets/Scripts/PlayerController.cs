@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
         if (_Jumped && (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0))
         {
-            if (!(_CoyoteTimeCounter > 0)) { _RB.velocity = new Vector2(_RB.velocity.x, _MidAirJumpHeight); _DoubleJumpCount--; } else { _RB.velocity = new Vector2(_RB.velocity.x, _JumpHeight); }
+            if (!(_CoyoteTimeCounter > 0)) { _RB.velocity = new Vector2(_RB.velocity.x, _MidAirJumpHeight); _DoubleJumpCount--; _Jumped = false; } else { _RB.velocity = new Vector2(_RB.velocity.x, _JumpHeight); _Jumped = false; }
             Flip();
             _CoyoteTimeCounter = 0;
         }
@@ -94,10 +94,6 @@ public class PlayerController : MonoBehaviour
             if (_CoyoteTimeCounter > 0)
             {
                 _CoyoteTimeCounter -= Time.deltaTime;
-            }
-            if (_FastFall)
-            {
-                _FastFalling = true;
             }
         }
 
@@ -119,15 +115,26 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            float ff = _FastFalling ? _FastFallSpeed : 0.0f;
+            float ff = _FastFall ? _FastFallSpeed : 0.0f;
             float horizontalForce = _Horizontal * _NAirSpeed * Time.deltaTime;
 
-            _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - ff);
+            if (!_FastFalling && _FastFall)
+            {
+                _RB.velocity = new Vector2(_RB.velocity.x, -ff * 2);
+                _FastFalling = true;
+            }
+            else
+            {
+                _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - ff);
+            }
+
+            Debug.Log(_FastFall);
+
             _RB.AddForce(new Vector2(horizontalForce, 0));
 
             if (Mathf.Abs(_RB.velocity.x) > _NAirSpeedCap)
             {
-                _RB.velocity = new Vector2(_NAirSpeedCap * Mathf.Sign(_RB.velocity.x), _RB.velocity.y);
+                _RB.velocity = new Vector2(_NAirSpeedCap * Mathf.Sign(_RB.velocity.x), _RB.velocity.y - ff);
             }
         }
     }
