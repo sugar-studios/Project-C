@@ -416,8 +416,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerInputVector: {x: 0, y: 0}
-  State: Idle
-  _JumpHeight: 16
+  State: 
+  _JumpHeight: 16.1
   _NGroundSpeed: 5
   _DGroundSpeed: 11
   _NAirSpeed: 2300
@@ -3712,7 +3712,6 @@ MonoBehaviour:
   _MaxDashSpeed: 10
   _MaxAirSpeed: 10
   MaxDoubleJump: 1
-  SpeedLerpFactor: 0.1
   _JumpSound: {fileID: 1274975738}
 --- !u!50 &1274975735
 Rigidbody2D:
