@@ -416,8 +416,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerInputVector: {x: 0, y: 0}
+  State: Idle
   _JumpHeight: 16
-  _NGroundSpeed: 4
+  _NGroundSpeed: 5
   _DGroundSpeed: 11
   _NAirSpeed: 2300
   _FastFallSpeed: 3
@@ -427,6 +428,9 @@ MonoBehaviour:
   _GroundLayer:
     serializedVersion: 2
     m_Bits: 128
+  _PlatformLayer:
+    serializedVersion: 2
+    m_Bits: 512
   _MaxDoubleJump: 1
 --- !u!61 &32846780
 BoxCollider2D:
@@ -598,7 +602,19 @@ MonoBehaviour:
     m_ActionId: 2268e1fd-4bd1-42b3-8929-0ffa88332d5b
     m_ActionName: Gameplay/SpecialAttack[/DualShock4GamepadHID/buttonSouth,/Keyboard/o]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 32846779}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 26b0c134-65b9-4a74-83e6-751afd0ec526
     m_ActionName: Gameplay/NormalAttack[/Keyboard/i,/DualShock4GamepadHID/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0

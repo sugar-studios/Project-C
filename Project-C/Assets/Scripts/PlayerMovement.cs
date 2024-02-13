@@ -33,7 +33,7 @@ public class newPlayerMovement : MonoBehaviour
     [SerializeField] private float _MaxDashSpeed;
     [SerializeField] private float _MaxAirSpeed;
     [SerializeField] private float MaxDoubleJump;
-    [SerializeField] private float SpeedLerpFactor = 0.1f; // Adjust this value for smoother speed transitions
+    //[SerializeField] private float SpeedLerpFactor = 0.1f; // Adjust this value for smoother speed transitions
 
     //Audio shit
     [SerializeField] private AudioSource _JumpSound;
