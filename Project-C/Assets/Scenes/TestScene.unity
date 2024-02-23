@@ -416,14 +416,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerInputVector: {x: 0, y: 0}
+  PlayerMovementVector: {x: 0, y: 0}
   State: 
   StanderizeMovement: 0
   _JumpHeight: 16.1
   _FastFallSpeed: 2.5
-  _NGroundSpeed: 5
-  _DGroundSpeed: 11
-  _NAirSpeed: 2300
-  _NAirSpeedCap: 9.5
+  _NGroundSpeedCap: 3
+  _DGroundSpeedCap: 7
+  _NAirSpeedCap: 5
+  _NGroundSpeed: 2000
+  _DGroundSpeed: 2000
+  _NAirSpeed: 2000
   _MidAirJumpHeight: 16
   _GroundCheck: {fileID: 2108821884}
   _GroundLayer:
@@ -442,7 +445,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 32846778}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 3d8ffd314162af74c97761977bef3dab, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

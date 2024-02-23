@@ -28,13 +28,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _FastFallSpeed = 0.1f;
     [SerializeField]
-    private float _NGroundSpeed = 8f;
+    private float _NGroundSpeedCap = 7f;
     [SerializeField]
-    private float _DGroundSpeed = 11f;
-    [SerializeField]
-    private float _NAirSpeed = 2300f;
+    private float _DGroundSpeedCap = 11f;
     [SerializeField]
     private float _NAirSpeedCap = 9.5f;
+    [SerializeField]
+    private float _NGroundSpeed = 1750f;
+    [SerializeField]
+    private float _DGroundSpeed = 2250f;
+    [SerializeField]
+    private float _NAirSpeed = 2000f;
     [SerializeField]
     private float _MidAirJumpHeight = 16f;
     [SerializeField]
@@ -77,6 +81,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(_RB.velocity);
 
         PlayerInputVector = new Vector2(StandardizeMoveValues(_MovementInput.x), StandardizeMoveValues(_MovementInput.y));
         PlayerMovementVector = PlayerInputVector = StanderizeMovement ? PlayerInputVector : _MovementInput;
@@ -149,20 +154,46 @@ public class PlayerController : MonoBehaviour
         {
             if (_IsDashing)
             {
-                _RB.velocity = new Vector2(_Horizontal * _DGroundSpeed, _RB.velocity.y);
+                Debug.Log(_Horizontal);
+                Move(_Horizontal, _DGroundSpeed, _DGroundSpeedCap, true);
             }
             else
             {
-                _RB.velocity = new Vector2(_Horizontal * _NGroundSpeed, _RB.velocity.y);
+                Debug.Log(_Horizontal);
+                Move(_Horizontal, _NGroundSpeed, _NGroundSpeedCap, true);
             }
         }
         else
         {
-            _RB.velocity = new Vector2(_Horizontal * _NGroundSpeed, _RB.velocity.y);
+            Move(_Horizontal, _NAirSpeed, _NAirSpeedCap, true);
+
             if (_FastFalling)
             {
                 _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - _FastFallSpeed);
             }
+        }
+    }
+
+
+    /*Basically it takes in a horizantal, accelereation, max speed, force mode, and capping values. 
+     * horizantal is an float that represent a postive or negitive number. Postive means right, negative means left. It aslso indaiacates the movement multiplier 1 = full speed, 0 = no speed.
+     * acceleration is how fast the player will move forward (this is NOT max speed), it is how fast the player will reach max speed, higher number = more responisve.
+     * max speed is the cap on how fast the player will move once full acceleration is reached. This is the actual player movement speed. If you don't put a max speed, it will not be capped
+     * impulse is if you want instanious force or applied force. Impule makes going in the opposite direction faster and reponsive, but applied forece has more force behind it. 
+     */
+    private void Move(float horizantal, float acc, float max = 0, bool impulse = false)
+    {
+        if (impulse)
+        {
+            _RB.AddForce(new Vector2(horizantal * acc * Time.deltaTime, 0), ForceMode2D.Impulse);
+        }
+        else
+        {
+            _RB.AddForce(new Vector2(horizantal * acc * Time.deltaTime, 0));
+        }
+        if (max > 0)
+        {
+            _RB.velocity = new Vector2(Mathf.Clamp(_RB.velocity.x, -max, max), _RB.velocity.y);
         }
     }
 
