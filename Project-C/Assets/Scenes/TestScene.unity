@@ -417,11 +417,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerInputVector: {x: 0, y: 0}
   State: 
+  StanderizeMovement: 0
   _JumpHeight: 16.1
+  _FastFallSpeed: 2.5
   _NGroundSpeed: 5
   _DGroundSpeed: 11
   _NAirSpeed: 2300
-  _FastFallSpeed: 3
   _NAirSpeedCap: 9.5
   _MidAirJumpHeight: 16
   _GroundCheck: {fileID: 2108821884}

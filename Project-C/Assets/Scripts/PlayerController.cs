@@ -7,31 +7,32 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public Vector2 PlayerInputVector;
+    public Vector2 PlayerMovementVector;
     public string State;
+    public bool StanderizeMovement = false;
 
     private Rigidbody2D _RB;
     private bool _IsFacingRight = true;
     private bool _IsDashing = false;
+    private bool _FastFalling = false;
     private float _Horizontal;
     private float _DoubleJumpCount;
     private float _CoyoteTime = .2f;
     private float _CoyoteTimeCounter;
-    private bool _FastFalling = false;
 
     private Vector2 _MovementInput = Vector2.zero;
     private bool _Jumped = false;
-    private bool _FastFall = false;
 
     [SerializeField]
     private float _JumpHeight = 16f;
+    [SerializeField]
+    private float _FastFallSpeed = 0.1f;
     [SerializeField]
     private float _NGroundSpeed = 8f;
     [SerializeField]
     private float _DGroundSpeed = 11f;
     [SerializeField]
     private float _NAirSpeed = 2300f;
-    [SerializeField]
-    private float _FastFallSpeed = 16f;
     [SerializeField]
     private float _NAirSpeedCap = 9.5f;
     [SerializeField]
@@ -68,31 +69,23 @@ public class PlayerController : MonoBehaviour
 
     public void OnFastFall(InputAction.CallbackContext context)
     {
-        _FastFall = context.action.triggered;
-    }
-
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        if (context.action.triggered)
+        if (!IsGrounded())
         {
-            if (State == "Free")
-            {
-                State = "Attacking";
-                Debug.Log("Attack");
-                StartCoroutine(AttackEndLag(1));
-            }
+            _FastFalling = true;
         }
     }
 
     void Update()
     {
+
         PlayerInputVector = new Vector2(StandardizeMoveValues(_MovementInput.x), StandardizeMoveValues(_MovementInput.y));
+        PlayerMovementVector = PlayerInputVector = StanderizeMovement ? PlayerInputVector : _MovementInput;
 
         if (IsGrounded())
         {
             if (State == "Free")
             {
-                _Horizontal = PlayerInputVector.x;
+                _Horizontal = PlayerMovementVector.x;
             }
             else
             {
@@ -101,7 +94,14 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _Horizontal = PlayerInputVector.x;
+            if (State == "Free")
+            {
+                _Horizontal = PlayerMovementVector.x;
+            }
+            else
+            {
+                _Horizontal = PlayerMovementVector.x/3;
+            }
         }
 
 
@@ -110,7 +110,18 @@ public class PlayerController : MonoBehaviour
         {
             if (State == "Free")
             {
-                if (!(_CoyoteTimeCounter > 0)) { _RB.velocity = new Vector2(_RB.velocity.x, _MidAirJumpHeight); _DoubleJumpCount--; _Jumped = false; } else { _RB.velocity = new Vector2(_RB.velocity.x, _JumpHeight); _Jumped = false; }
+                if (!(_CoyoteTimeCounter > 0))
+                {
+                    _FastFalling = false;
+                    _RB.velocity = new Vector2(_RB.velocity.x/3, _MidAirJumpHeight);
+                    _DoubleJumpCount--; _Jumped = false;
+                } 
+                else
+                {
+                    _FastFalling = false;
+                    _RB.velocity = new Vector2(_RB.velocity.x/3, _JumpHeight);
+                    _Jumped = false;
+                }
                 _CoyoteTimeCounter = 0;
             }
         }
@@ -121,7 +132,6 @@ public class PlayerController : MonoBehaviour
             Flip();
             _CoyoteTimeCounter = _CoyoteTime;
             _FastFalling = false;
-            _FastFall = false;
         }
         else
         {
@@ -148,24 +158,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            float ff = _FastFall ? _FastFallSpeed : 0.0f;
-            float horizontalForce = _Horizontal * _NAirSpeed * Time.deltaTime;
-
-            if (!_FastFalling && _FastFall)
+            _RB.velocity = new Vector2(_Horizontal * _NGroundSpeed, _RB.velocity.y);
+            if (_FastFalling)
             {
-                _RB.velocity = new Vector2(_RB.velocity.x, -ff * 2);
-                _FastFalling = true;
-            }
-            else
-            {
-                _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - ff);
-            }
-
-            _RB.AddForce(new Vector2(horizontalForce, 0));
-
-            if (Mathf.Abs(_RB.velocity.x) > _NAirSpeedCap)
-            {
-                _RB.velocity = new Vector2(_NAirSpeedCap * Mathf.Sign(_RB.velocity.x), _RB.velocity.y - ff);
+                _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - _FastFallSpeed);
             }
         }
     }
@@ -193,12 +189,6 @@ public class PlayerController : MonoBehaviour
             localScale.x *= -1f;
             transform.localScale = localScale;
         }
-    }
-
-    private IEnumerator AttackEndLag(float EndLag)
-    {   
-        yield return new WaitForSeconds(EndLag);
-        State = "Free";
     }
 }
 
