@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+
+    #region Varible creation  
+
     public Vector2 PlayerInputVector;
     public Vector2 PlayerMovementVector;
     public string State;
@@ -25,30 +28,45 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float _JumpHeight = 16f;
+
     [SerializeField]
     private float _FastFallSpeed = 0.1f;
+
     [SerializeField]
     private float _NGroundSpeedCap = 7f;
+
     [SerializeField]
     private float _DGroundSpeedCap = 11f;
+
     [SerializeField]
     private float _NAirSpeedCap = 9.5f;
+
     [SerializeField]
     private float _NGroundSpeed = 1750f;
+
     [SerializeField]
     private float _DGroundSpeed = 2250f;
+
     [SerializeField]
     private float _NAirSpeed = 2000f;
+
     [SerializeField]
     private float _MidAirJumpHeight = 16f;
+
     [SerializeField]
     private Transform _GroundCheck;
+
     [SerializeField]
     private LayerMask _GroundLayer;
+
     [SerializeField]
     private LayerMask _PlatformLayer;
+
     [SerializeField]
     private float _MaxDoubleJump;
+
+    #endregion
+
 
     private void Start()
     {
@@ -56,6 +74,7 @@ public class PlayerController : MonoBehaviour
         State = "Free";
     }
 
+    #region Input functions
     public void OnMove(InputAction.CallbackContext context)
     {
         _MovementInput = context.ReadValue<Vector2>();  
@@ -79,15 +98,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #endregion
+
     void Update()
     {
-        Debug.Log(_RB.velocity);
-
+        #region input vectors
+        //Get the player input Vecotor
         PlayerInputVector = new Vector2(StandardizeMoveValues(_MovementInput.x), StandardizeMoveValues(_MovementInput.y));
+        //Set movment insensity to either be the input vector or raw
         PlayerMovementVector = PlayerInputVector = StanderizeMovement ? PlayerInputVector : _MovementInput;
+        #endregion
 
+        #region player speed while free and not free
         if (IsGrounded())
         {
+            //if the player is free and grounded they have full movement contriol otherwise they cannot move
             if (State == "Free")
             {
                 _Horizontal = PlayerMovementVector.x;
@@ -99,6 +124,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            //if the player is not free and airborne they have some movement contriol otherwise they can move freeley
             if (State == "Free")
             {
                 _Horizontal = PlayerMovementVector.x;
@@ -109,8 +135,15 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        #endregion
 
+        #region Jumping
 
+        /*
+         * Allow the player to jump if they get the jump flag, and they either have coyote time or double jump
+         * If they don't have any coyote time, they'll consume a double jump
+         * 
+         */
         if (_Jumped && (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0))
         {
             if (State == "Free")
@@ -130,6 +163,7 @@ public class PlayerController : MonoBehaviour
                 _CoyoteTimeCounter = 0;
             }
         }
+        #endregion
 
         if (IsGrounded())
         {
