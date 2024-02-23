@@ -392,10 +392,11 @@ GameObject:
   - component: {fileID: 32846784}
   - component: {fileID: 32846783}
   - component: {fileID: 32846779}
+  - component: {fileID: 32846785}
   - component: {fileID: 32846782}
   - component: {fileID: 32846781}
-  - component: {fileID: 32846785}
   - component: {fileID: 32846780}
+  - component: {fileID: 32846786}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -709,6 +710,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _PlayerCollider: {fileID: 32846780}
   _PlatformFallSound: {fileID: 0}
+--- !u!114 &32846786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32846778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b3c98cb07ba5d94b99115c1d768ade2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &64947245
 GameObject:
   m_ObjectHideFlags: 0
