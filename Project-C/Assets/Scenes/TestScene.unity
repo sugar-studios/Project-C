@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 32846781}
   - component: {fileID: 32846780}
   - component: {fileID: 32846786}
+  - component: {fileID: 32846787}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -418,13 +419,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerInputVector: {x: 0, y: 0}
   PlayerMovementVector: {x: 0, y: 0}
-  State: 
+  PlayerState: {fileID: 0}
   StanderizeMovement: 0
   _JumpHeight: 16.1
   _FastFallSpeed: 2.5
-  _NGroundSpeedCap: 3
-  _DGroundSpeedCap: 7
-  _NAirSpeedCap: 5
+  _NGroundSpeedCap: 4.25
+  _DGroundSpeedCap: 8.25
+  _NAirSpeedCap: 6.25
   _NGroundSpeed: 2000
   _DGroundSpeed: 2000
   _NAirSpeed: 2000
@@ -722,6 +723,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b3c98cb07ba5d94b99115c1d768ade2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &32846787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32846778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d42fb1db46b2cab438858355e908e115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  State: Free
 --- !u!1 &64947245
 GameObject:
   m_ObjectHideFlags: 0
@@ -4510,8 +4524,8 @@ Transform:
   m_GameObject: {fileID: 1629248180}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.474, y: 0.423, z: 0}
-  m_LocalScale: {x: 0.10625, y: 0.10625, z: 0.10625}
+  m_LocalPosition: {x: 0.498, y: 0.444, z: 0}
+  m_LocalScale: {x: 0.225, y: 0.2625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 32846784}

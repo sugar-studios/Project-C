@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(PlayerStateManager))]
 public class PlayerController : MonoBehaviour
 {
 
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 PlayerInputVector;
     public Vector2 PlayerMovementVector;
-    public string State;
+    public PlayerStateManager PlayerState;
     public bool StanderizeMovement = false;
 
     private Rigidbody2D _RB;
@@ -69,7 +70,12 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        //get rigidbody
         _RB = gameObject.GetComponent<Rigidbody2D>();
+
+        PlayerState = gameObject.GetComponent<PlayerStateManager>();
+
+        Debug.Log(PlayerState.State);
     }
 
     #region Input functions
@@ -102,50 +108,38 @@ public class PlayerController : MonoBehaviour
     /*
      * Update is to manage states and inputs that need to happen indpendent of physiscs
      */
-
     void Update()
     {
         #region input vectors
         //Get the player input Vecotor
-        PlayerInputVector = new Vector2(StandardizeMoveValues(_MovementInput.x), StandardizeMoveValues(_MovementInput.y));
+        PlayerInputVector = new Vector2(StandardizeValues(_MovementInput.x), StandardizeValues(_MovementInput.y));
         //Set movment insensity to either be the input vector or raw
-        PlayerMovementVector = PlayerInputVector = StanderizeMovement ? PlayerInputVector : _MovementInput;
-        #endregion
-
-        #region player speed while free and not free
-        if (IsGrounded())
-        {
-            _Horizontal = PlayerMovementVector.x;
-        }
-        else
-        {
-            _Horizontal = PlayerMovementVector.x;
-        }
-
+        PlayerMovementVector = StanderizeMovement ? PlayerInputVector : _MovementInput;
         #endregion
 
         #region Jumping
-
         /*
          * Allow the player to jump if they get the jump flag, and they either have coyote time or double jump
          * If they don't have any coyote time, they'll consume a double jump
-         * 
          */
-        if (_Jumped && (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0))
+        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
         {
-            if (!(_CoyoteTimeCounter > 0))
+            if (_Jumped && (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0))
             {
-                _FastFalling = false;
-                _RB.velocity = new Vector2(_RB.velocity.x / 3, _MidAirJumpHeight);
-                _DoubleJumpCount--; _Jumped = false;
+                if (!(_CoyoteTimeCounter > 0))
+                {
+                    _FastFalling = false;
+                    _RB.velocity = new Vector2(_RB.velocity.x / 3, _MidAirJumpHeight);
+                    _DoubleJumpCount--; _Jumped = false;
+                }
+                else
+                {
+                    _FastFalling = false;
+                    _RB.velocity = new Vector2(_RB.velocity.x / 3, _JumpHeight);
+                    _Jumped = false;
+                }
+                _CoyoteTimeCounter = 0;
             }
-            else
-            {
-                _FastFalling = false;
-                _RB.velocity = new Vector2(_RB.velocity.x / 3, _JumpHeight);
-                _Jumped = false;
-            }
-            _CoyoteTimeCounter = 0;
         }
         #endregion
 
@@ -178,30 +172,38 @@ public class PlayerController : MonoBehaviour
      */
     private void FixedUpdate()
     {
-        #region grounded move
+        #region grounded move)
         if (IsGrounded())
         {
-            if (_IsDashing)
+            if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
             {
-                Debug.Log(_Horizontal);
-                Move(_Horizontal, _DGroundSpeed, _DGroundSpeedCap, true);
-            }
-            else
-            {
-                Debug.Log(_Horizontal);
-                Move(_Horizontal, _NGroundSpeed, _NGroundSpeedCap, true);
+                if (_IsDashing)
+                {
+                    Move(PlayerMovementVector.x, _DGroundSpeed, _DGroundSpeedCap, true);
+                }
+                else
+                {
+                    Move(PlayerMovementVector.x, _NGroundSpeed, _NGroundSpeedCap, true);
+                }
             }
         }
         #endregion
         #region Arial move
         else
         {
-            Move(_Horizontal, _NAirSpeed, _NAirSpeedCap, true);
-
-            //If the player is fast falling add downward velocity to their descent
-            if (_FastFalling)
+            if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
             {
-                _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - _FastFallSpeed);
+                Move(PlayerMovementVector.x, _NAirSpeed, _NAirSpeedCap);
+
+                //If the player is fast falling add downward velocity to their descent
+                if (_FastFalling)
+                {
+                    _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - _FastFallSpeed);
+                }
+            }
+            else
+            {
+                Move(PlayerMovementVector.x, _NAirSpeed/2, _NAirSpeedCap / 3, false);
             }
         }
         #endregion
@@ -261,7 +263,7 @@ public class PlayerController : MonoBehaviour
      */
     private void Flip()
     {
-        if (_IsFacingRight && _Horizontal < 0f || !_IsFacingRight && _Horizontal > 0f)
+        if (_IsFacingRight && PlayerMovementVector.x < 0f || !_IsFacingRight && PlayerMovementVector.x > 0f)
         {
             _IsFacingRight = !_IsFacingRight;
             Vector3 localScale = transform.localScale;
