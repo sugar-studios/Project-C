@@ -67,11 +67,9 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-
     private void Start()
     {
         _RB = gameObject.GetComponent<Rigidbody2D>();
-        State = "Free";
     }
 
     #region Input functions
@@ -100,6 +98,11 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+
+    /*
+     * Update is to manage states and inputs that need to happen indpendent of physiscs
+     */
+
     void Update()
     {
         #region input vectors
@@ -112,27 +115,11 @@ public class PlayerController : MonoBehaviour
         #region player speed while free and not free
         if (IsGrounded())
         {
-            //if the player is free and grounded they have full movement contriol otherwise they cannot move
-            if (State == "Free")
-            {
-                _Horizontal = PlayerMovementVector.x;
-            }
-            else
-            {
-                _Horizontal = 0;
-            }
+            _Horizontal = PlayerMovementVector.x;
         }
         else
         {
-            //if the player is not free and airborne they have some movement contriol otherwise they can move freeley
-            if (State == "Free")
-            {
-                _Horizontal = PlayerMovementVector.x;
-            }
-            else
-            {
-                _Horizontal = PlayerMovementVector.x/3;
-            }
+            _Horizontal = PlayerMovementVector.x;
         }
 
         #endregion
@@ -146,25 +133,28 @@ public class PlayerController : MonoBehaviour
          */
         if (_Jumped && (_CoyoteTimeCounter > 0 || _DoubleJumpCount > 0))
         {
-            if (State == "Free")
+            if (!(_CoyoteTimeCounter > 0))
             {
-                if (!(_CoyoteTimeCounter > 0))
-                {
-                    _FastFalling = false;
-                    _RB.velocity = new Vector2(_RB.velocity.x/3, _MidAirJumpHeight);
-                    _DoubleJumpCount--; _Jumped = false;
-                } 
-                else
-                {
-                    _FastFalling = false;
-                    _RB.velocity = new Vector2(_RB.velocity.x/3, _JumpHeight);
-                    _Jumped = false;
-                }
-                _CoyoteTimeCounter = 0;
+                _FastFalling = false;
+                _RB.velocity = new Vector2(_RB.velocity.x / 3, _MidAirJumpHeight);
+                _DoubleJumpCount--; _Jumped = false;
             }
+            else
+            {
+                _FastFalling = false;
+                _RB.velocity = new Vector2(_RB.velocity.x / 3, _JumpHeight);
+                _Jumped = false;
+            }
+            _CoyoteTimeCounter = 0;
         }
         #endregion
 
+        #region Reset values on grounded and activate coyote time
+
+        /*
+         * If the player us grounded reset double jump, allow the player to change direction, reset coyote time, and turn of fast falling
+         * if the player is not grounded start the coyote time counter. 
+         */
         if (IsGrounded())
         {
             _DoubleJumpCount = _MaxDoubleJump;
@@ -179,11 +169,16 @@ public class PlayerController : MonoBehaviour
                 _CoyoteTimeCounter -= Time.deltaTime;
             }
         }
+        #endregion
 
     }
 
+    /*
+     * Fixed upadte is where all the physiscs based opeations happen like moving
+     */
     private void FixedUpdate()
     {
+        #region grounded move
         if (IsGrounded())
         {
             if (_IsDashing)
@@ -197,18 +192,23 @@ public class PlayerController : MonoBehaviour
                 Move(_Horizontal, _NGroundSpeed, _NGroundSpeedCap, true);
             }
         }
+        #endregion
+        #region Arial move
         else
         {
             Move(_Horizontal, _NAirSpeed, _NAirSpeedCap, true);
 
+            //If the player is fast falling add downward velocity to their descent
             if (_FastFalling)
             {
                 _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - _FastFallSpeed);
             }
         }
+        #endregion
     }
 
 
+    #region Player Move Function
     /*Basically it takes in a horizantal, accelereation, max speed, force mode, and capping values. 
      * horizantal is an float that represent a postive or negitive number. Postive means right, negative means left. It aslso indaiacates the movement multiplier 1 = full speed, 0 = no speed.
      * acceleration is how fast the player will move forward (this is NOT max speed), it is how fast the player will reach max speed, higher number = more responisve.
@@ -230,21 +230,35 @@ public class PlayerController : MonoBehaviour
             _RB.velocity = new Vector2(Mathf.Clamp(_RB.velocity.x, -max, max), _RB.velocity.y);
         }
     }
+    #endregion
 
 
+    #region Ground Check
+    /*
+     * Checks if the user is grounded by doing a sphere cast at the ground check location (found in editor) 
+     */
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(_GroundCheck.position, 0.2f, _GroundLayer);
     }
+    #endregion
 
-
-    private float StandardizeMoveValues(float num)
+    #region Standerize Inputs
+    /*
+     * This function takes in a number from 0-.99 and turns it into either a 1 or 0
+     */
+    private float StandardizeValues(float num)
     {
         num = (Mathf.Abs(num) >= 0.34f) ? 1 * Mathf.Sign(num) : 0;
 
         return num;
     }
+    #endregion
 
+    #region Flip player
+    /*
+     * This flips the orientaion of the player right/left
+     */
     private void Flip()
     {
         if (_IsFacingRight && _Horizontal < 0f || !_IsFacingRight && _Horizontal > 0f)
@@ -255,6 +269,7 @@ public class PlayerController : MonoBehaviour
             transform.localScale = localScale;
         }
     }
+    #endregion
 }
 
 
