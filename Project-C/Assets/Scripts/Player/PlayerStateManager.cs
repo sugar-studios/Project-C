@@ -12,7 +12,8 @@ public class PlayerStateManager : MonoBehaviour
         Inactionable,
         Stunned,
         PsedeuFree,
-        FreeAction
+        FreeAction,
+        Attacking
     }
 
     void Start()

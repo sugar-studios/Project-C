@@ -419,8 +419,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerInputVector: {x: 0, y: 0}
   PlayerMovementVector: {x: 0, y: 0}
-  PlayerState: {fileID: 0}
-  StanderizeMovement: 0
+  PlayerState: {fileID: 32846787}
+  StanderizeMovement: 1
   _JumpHeight: 16.1
   _FastFallSpeed: 2.5
   _NGroundSpeedCap: 4.25
@@ -604,15 +604,27 @@ MonoBehaviour:
     m_ActionId: daf25587-9763-4674-b175-626338b0fe76
     m_ActionName: Gameplay/Start[/Keyboard/enter,/DualShock4GamepadHID/start]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 32846786}
+        m_TargetAssemblyTypeName: PlayerAttacker, Assembly-CSharp
+        m_MethodName: SpecialAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2268e1fd-4bd1-42b3-8929-0ffa88332d5b
     m_ActionName: Gameplay/SpecialAttack[/DualShock4GamepadHID/buttonSouth,/Keyboard/o]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 32846779}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnAttack
-        m_Mode: 0
+      - m_Target: {fileID: 32846786}
+        m_TargetAssemblyTypeName: PlayerAttacker, Assembly-CSharp
+        m_MethodName: NormalAttackL
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -735,7 +747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d42fb1db46b2cab438858355e908e115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  State: Free
+  State: 0
 --- !u!1 &64947245
 GameObject:
   m_ObjectHideFlags: 0

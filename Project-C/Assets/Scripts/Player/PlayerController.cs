@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviour
         #region Arial move
         else
         {
-            if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
+            if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction || PlayerState.State == PlayerStateManager.PossibleStates.Attacking || PlayerState.State == PlayerStateManager.PossibleStates.PsedeuFree)
             {
                 Move(PlayerMovementVector.x, _NAirSpeed, _NAirSpeedCap);
 

@@ -1,18 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerAttacker : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public PlayerStateManager PlayerState;
+
     void Start()
     {
-        
+        PlayerState = gameObject.GetComponent<PlayerStateManager>();
+    }
+    public void NormalAttackL()
+    {
+        Debug.Log("A");
+        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+        AttackTimeOut();
+    }
+    public void NormalAttackM()
+    {
+        Debug.Log("B");
+        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+        AttackTimeOut();
+    }
+    public void NormalAttackH()
+    {
+        Debug.Log("C");
+        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+        AttackTimeOut();
+    }
+    public void SpecialAttack()
+    {
+        Debug.Log("D");
+        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+        AttackTimeOut();
     }
 
-    // Update is called once per frame
-    void Update()
+    void AttackTimeOut()
     {
-        
+        Invoke(nameof(RestartState, 0.5f));
+    }
+
+    void RestartState()
+    {
+        PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
     }
 }
