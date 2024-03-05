@@ -151,10 +151,13 @@ public class PlayerController : MonoBehaviour
          */
         if (IsGrounded())
         {
-            _DoubleJumpCount = _MaxDoubleJump;
-            Flip();
-            _CoyoteTimeCounter = _CoyoteTime;
-            _FastFalling = false;
+            if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
+            {
+                Flip();
+                _DoubleJumpCount = _MaxDoubleJump;
+                _CoyoteTimeCounter = _CoyoteTime;
+                _FastFalling = false;
+            }
         }
         else
         {
