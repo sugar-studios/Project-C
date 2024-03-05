@@ -14,9 +14,9 @@ public class PlayerController : MonoBehaviour
     public Vector2 PlayerMovementVector;
     public PlayerStateManager PlayerState;
     public bool StanderizeMovement = false;
+    public bool IsFacingRight = true;
 
     private Rigidbody2D _RB;
-    private bool _IsFacingRight = true;
     private bool _IsDashing = false;
     private bool _FastFalling = false;
     private float _Horizontal;
@@ -266,9 +266,9 @@ public class PlayerController : MonoBehaviour
      */
     private void Flip()
     {
-        if (_IsFacingRight && PlayerMovementVector.x < 0f || !_IsFacingRight && PlayerMovementVector.x > 0f)
+        if (IsFacingRight && PlayerMovementVector.x < 0f || !IsFacingRight && PlayerMovementVector.x > 0f)
         {
-            _IsFacingRight = !_IsFacingRight;
+            IsFacingRight = !IsFacingRight;
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
