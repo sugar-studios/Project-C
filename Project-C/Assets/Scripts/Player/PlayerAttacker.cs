@@ -13,32 +13,44 @@ public class PlayerAttacker : MonoBehaviour
     }
     public void NormalAttackL()
     {
-        Debug.Log("A");
-        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-        AttackTimeOut();
+        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
+        {
+            Debug.Log("A");
+            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+            AttackTimeOut();
+        }
     }
     public void NormalAttackM()
     {
-        Debug.Log("B");
-        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-        AttackTimeOut();
+        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
+        {
+            Debug.Log("B");
+            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+            AttackTimeOut();
+        }
     }
     public void NormalAttackH()
     {
-        Debug.Log("C");
-        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-        AttackTimeOut();
+        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
+        {
+            Debug.Log("C");
+            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+            AttackTimeOut();
+        }
     }
     public void SpecialAttack()
     {
-        Debug.Log("D");
-        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-        AttackTimeOut();
+        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
+        {
+            Debug.Log("D");
+            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+            AttackTimeOut();
+        }
     }
 
     void AttackTimeOut()
     {
-        Invoke(nameof(RestartState, 0.5f));
+        Invoke("RestartState", 0.5f);
     }
 
     void RestartState()
