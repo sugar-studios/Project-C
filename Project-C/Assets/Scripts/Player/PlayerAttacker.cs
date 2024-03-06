@@ -24,7 +24,9 @@ public class PlayerAttacker : MonoBehaviour
         {
             Debug.Log("A");
             PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-            Vector3 targetpos = gameObject.transform.position;
+            Vector3 targetpos = new Vector3(1f,
+                                            0,
+                                            0);
             GameObject ActiveHitbox = CreateHitbox(SquareHitbox, targetpos, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
             StartCoroutine(AttackTimeOut(ActiveHitbox, .5f, targetpos));
         }
@@ -63,49 +65,40 @@ public class PlayerAttacker : MonoBehaviour
         }
     }
 
-    // Coroutine for handling the attack timeout
     IEnumerator AttackTimeOut(GameObject activeHitbox, float time, Vector3 targetPosition)
     {
-        // Set the activeHitbox position to the targetPosition
-        activeHitbox.transform.position = targetPosition;
+        float endTime = Time.time + time;
 
-        // Log message for debugging
-        Debug.Log("Coroutine started - activeHitbox moved to target position.");
+        int playerDir = Player.IsFacingRight ? 1 : -1;
 
-        // Wait for the specified amount of time
-        yield return new WaitForSeconds(time);
+        while (Time.time < endTime)
+        {
+            float elapsedTime = Time.time + time - endTime;
 
-        // Log message for debugging
-        Debug.Log("Waiting time is over.");
+            activeHitbox.transform.position = new Vector3(gameObject.transform.position.x + (targetPosition.x * playerDir),
+                                                          gameObject.transform.position.y + targetPosition.y,
+                                                          gameObject.transform.position.z + targetPosition.z);
 
-        // Call RestartState and pass activeHitbox
+            yield return null;
+        }
+
         RestartState(activeHitbox);
     }
+
 
     void RestartState(GameObject activeHitbox)
     {
         Destroy(activeHitbox);
-
-        // Change player state
         PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
     }
 
 
     GameObject CreateHitbox(GameObject prefab, Vector3 position, Vector3 eulerAngles, Vector3 size)
     {
-        // Assuming Player.IsFacingRight is a boolean indicating the player's facing direction
         int playerDir = Player.IsFacingRight ? 1 : -1;
-
-        // Adjust the position based on the player's direction
-        position = new Vector3(position.x * playerDir, position.y, position.z);
-
-        // Instantiate the prefab with the given rotation and position adjustments
+        position = new Vector3(gameObject.transform.position.x + position.x * playerDir, gameObject.transform.position.y + position.y, gameObject.transform.position.z + position.z);
         GameObject instance = Instantiate(prefab, position, Quaternion.Euler(eulerAngles));
-
-        // Set the local scale of the instance to the specified size
         instance.transform.localScale = size;
-
-        // Return the newly created instance
         return instance;
     }
 }
