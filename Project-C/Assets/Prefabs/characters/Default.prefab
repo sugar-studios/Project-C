@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7778744130163577226}
   - component: {fileID: 66133910084733133}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: OrientationCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 571884512594424303}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 7946432551139750238}
   - component: {fileID: 8769526111340798644}
   - component: {fileID: 6907211935116382668}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
