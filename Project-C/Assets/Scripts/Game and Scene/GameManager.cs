@@ -49,10 +49,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        GameplayUI.SetActive(false );
+        GameplayUI.SetActive(false);
         TempGameOver.SetActive(true);
-        BackgroundUI.SetActive(true );
+        BackgroundUI.SetActive(true);
     }
-
-
 }

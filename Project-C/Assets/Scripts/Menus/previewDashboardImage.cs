@@ -1,77 +1,55 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems; // Make sure to include this for event handling
+using UnityEngine.EventSystems;
 
-// Ensure the class implements the necessary interfaces for pointer events
-public class PreviewDashboardImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class PreviewDashboardImage : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     public GameObject DuelsImage;
     public GameObject OptionsImage;
     public GameObject PracticeImage;
     public AudioSource Select1;
     public AudioSource Select2;
-    public AudioSource Selcted;
+    public AudioSource Selected;
 
     private void Start()
     {
-        // Initially, make all images inactive
-        DuelsImage.SetActive(false);
-        PracticeImage.SetActive(false);
-        OptionsImage.SetActive(false);
+        SetActiveImage(null); // Deactivate all images initially
     }
 
-    // Implement the OnPointerEnter method from the IPointerEnterHandler interface
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnSelect(BaseEventData eventData)
     {
-        Debug.Log("Mouse Enter");
-        // Activate corresponding image based on the game object's name
-        if (gameObject.name == "Duels")
-        {
-            DuelsImage.SetActive(true);
-            PracticeImage.SetActive(false);
-            OptionsImage.SetActive(false);
-            ClickSound();
-        }
-        else if (gameObject.name == "Practice")
-        {
-            DuelsImage.SetActive(false);
-            PracticeImage.SetActive(true);
-            OptionsImage.SetActive(false);
-            ClickSound();
-        }
-        else if (gameObject.name == "Options") // Make sure the name matches exactly, case-sensitive
-        {
-            DuelsImage.SetActive(false);
-            PracticeImage.SetActive(false);
-            OptionsImage.SetActive(true);
-            ClickSound();
-        }
+        Debug.Log("Item Selected");
+        SetActiveImage(gameObject.name);
+        PlayClickSound();
     }
 
-    // Implement the OnPointerExit method to handle when the mouse leaves the UI element
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnDeselect(BaseEventData eventData)
     {
-        // Optionally, deactivate all images when the pointer exits the button
-        DuelsImage.SetActive(false);
-        PracticeImage.SetActive(false);
-        OptionsImage.SetActive(false);
+        Debug.Log("Item Deselected");
+        SetActiveImage(null); // Deactivate all images
     }
 
-    void OnClicked() { 
-        Selcted.Play();
-    }
-
-    void ClickSound()
+    private void SetActiveImage(string imageName)
     {
-        if (UnityEngine.Random.Range(0f, 1f) == 1)
+        DuelsImage.SetActive(imageName == "Duels");
+        PracticeImage.SetActive(imageName == "Practice");
+        OptionsImage.SetActive(imageName == "Options");
+    }
+
+    private void PlayClickSound()
+    {
+        // Improved logic for playing a random sound
+        if (UnityEngine.Random.Range(0, 2) == 0) // Use integer range for a 50/50 chance
         {
             Select1.Play();
-        } else
+        }
+        else
         {
             Select2.Play();
         }
-        
+    }
+
+    void OnClicked()
+    {
+        Selected.Play();
     }
 }

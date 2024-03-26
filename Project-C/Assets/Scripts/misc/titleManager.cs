@@ -18,8 +18,6 @@ public class titleManager : MonoBehaviour
     public Button DuelsButton;
     public Button OptionsButton;
     public Button PracticeButton;
-    public GameObject customCursor;
-    public float cursorSpeed;
     public AudioSource Select;
 
 
@@ -71,8 +69,6 @@ public class titleManager : MonoBehaviour
         {
             _CurrentScreen.SetActive(true);
         }
-
-        //customCursor.SetActive(false);
     }
 
     public void ScreenTransition(GameObject targetScreen)
@@ -86,30 +82,9 @@ public class titleManager : MonoBehaviour
         {
             targetScreen.SetActive(true);
             _CurrentScreen = targetScreen;
-            //if(_CurrentScreen == HomeDashboard) { customCursor.SetActive(true); }
         }
     }
 
-
-    private void Update()
-    {
-        if (_CurrentScreen == HomeDashboard)
-        {
-            MoveCustomCursor();
-        }
-    }
-
-    void MoveCustomCursor()
-    {
-        Vector3 moveDirection = new Vector3(_Move.x, _Move.y, 0);
-        customCursor.transform.position += moveDirection * cursorSpeed * Time.deltaTime;
-
-        // Optionally, clamp the cursor's position to the screen bounds
-        Vector3 clampedPosition = customCursor.transform.position;
-        clampedPosition.x = Mathf.Clamp(clampedPosition.x, 0, Screen.width);
-        clampedPosition.y = Mathf.Clamp(clampedPosition.y, 0, Screen.height);
-        customCursor.transform.position = clampedPosition;
-    }
 
     public void LoadScene(string sceneName)
     {
