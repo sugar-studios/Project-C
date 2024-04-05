@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class moveCamera : MonoBehaviour
 {
-    public GameObject[] Players;
+    public List<GameObject> Players;
     public float MaxZoom = -8f;
     public float MinZoom = -3f;
     public float ZoomSpeed = 5f;
     public float MoveSpeed = 5f;
     public float YoffSet = 0f;
-    public bool DEBUGleaveBlastZones = false; 
+    public bool DEBUGleaveBlastZones = false;
 
     private float ZoomLevel;
     private GameObject leftBracket;
     private GameObject rightBracket;
-    private BoxCollider blastZoneCollider; 
+    private BoxCollider2D blastZoneCollider; // Changed to BoxCollider2D for 2D
 
     void Start()
     {
         leftBracket = this.gameObject.transform.GetChild(0).gameObject;
         rightBracket = this.gameObject.transform.GetChild(1).gameObject;
 
-        blastZoneCollider = GameObject.FindGameObjectWithTag("Blastzones").GetComponent<BoxCollider>();
+        // Changed to get BoxCollider2D component for 2D
+        blastZoneCollider = GameObject.FindGameObjectWithTag("CameraBoarder").GetComponent<BoxCollider2D>();
 
         ZoomLevel = this.transform.position.z;
     }
@@ -49,8 +50,9 @@ public class moveCamera : MonoBehaviour
 
     Vector3 AdjustPositionWithinBlastZone(Vector3 newPosition)
     {
-        Vector3 minCorner = blastZoneCollider.bounds.min;
-        Vector3 maxCorner = blastZoneCollider.bounds.max;
+        // Adjustments for 2D by using the bounds of the BoxCollider2D
+        Vector2 minCorner = blastZoneCollider.bounds.min;
+        Vector2 maxCorner = blastZoneCollider.bounds.max;
 
         float clampedX = Mathf.Clamp(newPosition.x, minCorner.x, maxCorner.x);
         float clampedY = Mathf.Clamp(newPosition.y, minCorner.y, maxCorner.y);
@@ -60,6 +62,11 @@ public class moveCamera : MonoBehaviour
 
     Vector3 CalculateTargetPosition()
     {
+        if (Players == null || Players.Count == 0)
+        {
+            return new Vector3(0, 0, -8); // Default position for 2D
+        }
+
         float totalX = 0f;
         float totalY = 0f;
         foreach (var player in Players)
@@ -67,14 +74,19 @@ public class moveCamera : MonoBehaviour
             totalX += player.transform.position.x;
             totalY += player.transform.position.y;
         }
-        float averageX = totalX / Players.Length;
-        float averageY = totalY / Players.Length;
+        float averageX = Players.Count > 0 ? totalX / Players.Count : 0;
+        float averageY = Players.Count > 0 ? totalY / Players.Count : 0;
 
         return new Vector3(averageX, averageY, transform.position.z);
     }
 
     float CalculateTargetZoom()
     {
+        if (Players == null || Players.Count == 0)
+        {
+            return MaxZoom; // Default zoom for 2D
+        }
+
         float maxDistance = 0f;
         foreach (var player in Players)
         {
