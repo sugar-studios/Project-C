@@ -13,7 +13,7 @@ public class PlayerSpawn : MonoBehaviour
         if (playerList != null)
         {
             // Add this game object to the camera's Players list
-            playerList.Players.Add(this.gameObject);
+            playerList.players.Add(this.gameObject);
         }
         else
         {

@@ -1,129 +1,127 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-
 
 public class moveCamera : MonoBehaviour
 {
     [Header("Player Settings")]
     [Tooltip("List of all players to track with the camera.")]
-    public List<GameObject> Players;
+    public List<GameObject> players;
 
     [Header("Zoom Settings")]
     [Tooltip("Maximum zoom level.")]
-    public float MaxZoom = -8f;
+    public float maxZoom = -8f;
     [Tooltip("Minimum zoom level.")]
-    public float MinZoom = -3f;
+    public float minZoom = -3f;
     [Tooltip("Speed of zoom adjustment.")]
-    public float ZoomSpeed = 5f;
+    public float zoomSpeed = 5f;
 
     [Header("Camera Pan Settings")]
     [Tooltip("Speed of camera movement.")]
-    public float MoveSpeed = 5f;
+    public float moveSpeed = 5f;
     [Tooltip("Vertical offset for the camera position.")]
-    public float YoffSet = 0f;
+    public float yOffset = 0f;
     [Tooltip("Padding for the X-axis within the camera bounds.")]
     public float xPadding = 1f;
     [Tooltip("Padding for the Y-axis within the camera bounds.")]
     public float yPadding = 1f;
 
+    [Header("Default Camera Position")]
+    [Tooltip("Default position of the camera.")]
+    public Vector3 defaultPosition = new Vector3(0f, 0f, -10f);
+
     [Header("Debug Settings")]
     [Tooltip("If true, camera will ignore blast zone constraints.")]
-    public bool DEBUGleaveBlastZones = false;
-    [Tooltip("Backup maunal refrence of collider if the main camera border is not found.")]
+    public bool debugIgnoreBlastZones = false;
+    [Tooltip("Backup manual reference of collider if the main camera border is not found.")]
     public Collider backupBlastZoneCollider;
 
-    private float ZoomLevel;
-    private GameObject leftBracket;
-    private GameObject rightBracket;
-    private Collider blastZoneCollider;
+    private float zoomLevel;
+    private Bounds blastZoneBounds;
 
-    void Start()
+    private void Start()
     {
-        leftBracket = this.gameObject.transform.GetChild(0).gameObject;
-        rightBracket = this.gameObject.transform.GetChild(1).gameObject;
-
-        blastZoneCollider = GameObject.FindGameObjectWithTag("CameraBoarder")?.GetComponent<Collider>();
-        if (blastZoneCollider == null)
-        {
-            blastZoneCollider = backupBlastZoneCollider;
-        }
-
-        ZoomLevel = this.transform.position.z;
+        InitializeBlastZone();
+        zoomLevel = transform.position.z;
     }
 
-    void Update()
+    private void InitializeBlastZone()
+    {
+        Collider collider = GameObject.FindGameObjectWithTag("CameraBorder")?.GetComponent<Collider>();
+        if (collider != null)
+        {
+            blastZoneBounds = collider.bounds;
+        }
+        else if (backupBlastZoneCollider != null)
+        {
+            blastZoneBounds = backupBlastZoneCollider.bounds;
+            Debug.LogWarning("Using backup blast zone collider.");
+        }
+        else
+        {
+            Debug.LogError("No valid camera border found. Please attach a Collider.");
+        }
+    }
+
+    private void Update()
     {
         float targetZoom = CalculateTargetZoom();
-        ZoomLevel = Mathf.Lerp(ZoomLevel, targetZoom, Time.deltaTime * ZoomSpeed);
+        zoomLevel = Mathf.Lerp(zoomLevel, targetZoom, Time.deltaTime * zoomSpeed);
         MoveCameraPosition();
     }
 
-    void MoveCameraPosition()
+    private void MoveCameraPosition()
     {
-        Vector3 targetPosition = CalculateTargetPosition();
-        Vector3 newPosition = new Vector3(targetPosition.x, targetPosition.y + YoffSet, ZoomLevel);
+        Vector3 targetPosition = CalculateTargetPosition() + new Vector3(0, yOffset, 0);
+        Vector3 newPosition = new Vector3(targetPosition.x, targetPosition.y, zoomLevel);
 
-        if (!DEBUGleaveBlastZones)
+        if (!debugIgnoreBlastZones)
         {
             newPosition = AdjustPositionWithinBlastZone(newPosition);
         }
 
-        transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * MoveSpeed);
+        transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * moveSpeed);
     }
 
-    Vector3 AdjustPositionWithinBlastZone(Vector3 newPosition)
+    private Vector3 AdjustPositionWithinBlastZone(Vector3 position)
     {
-        Vector2 minCorner = blastZoneCollider.bounds.min;
-        Vector2 maxCorner = blastZoneCollider.bounds.max;
-
-        float clampedX = Mathf.Clamp(newPosition.x, minCorner.x + xPadding, maxCorner.x - xPadding);
-        float clampedY = Mathf.Clamp(newPosition.y, minCorner.y + yPadding, maxCorner.y - yPadding);
-
-        return new Vector3(clampedX, clampedY, newPosition.z);
+        float clampedX = Mathf.Clamp(position.x, blastZoneBounds.min.x + xPadding, blastZoneBounds.max.x - xPadding);
+        float clampedY = Mathf.Clamp(position.y, blastZoneBounds.min.y + yPadding, blastZoneBounds.max.y - yPadding);
+        return new Vector3(clampedX, clampedY, position.z);
     }
 
-    Vector3 CalculateTargetPosition()
+    private Vector3 CalculateTargetPosition()
     {
-        if (Players == null || Players.Count == 0)
+        if (players == null || players.Count == 0)
         {
-            return new Vector3(0, 0, -8);
+            return defaultPosition;
         }
 
-        float totalX = 0f;
-        float totalY = 0f;
-        foreach (var player in Players)
+        Vector3 totalPosition = Vector3.zero;
+        foreach (GameObject player in players)
         {
-            totalX += player.transform.position.x;
-            totalY += player.transform.position.y;
+            totalPosition += player.transform.position;
         }
-        float averageX = Players.Count > 0 ? totalX / Players.Count : 0;
-        float averageY = Players.Count > 0 ? totalY / Players.Count : 0;
-
-        return new Vector3(averageX, averageY, transform.position.z);
+        return totalPosition / players.Count;
     }
 
-    float CalculateTargetZoom()
+    private float CalculateTargetZoom()
     {
-        if (Players == null || Players.Count == 0)
+        if (players == null || players.Count == 0)
         {
-            return MaxZoom;
+            return defaultPosition.z;
         }
 
         float maxDistance = 0f;
-        foreach (var player in Players)
+        for (int i = 0; i < players.Count; i++)
         {
-            foreach (var otherPlayer in Players)
+            for (int j = i + 1; j < players.Count; j++)
             {
-                float distanceX = Mathf.Abs(player.transform.position.x - otherPlayer.transform.position.x);
-                float distanceY = Mathf.Abs(player.transform.position.y - otherPlayer.transform.position.y);
-                float distance = Mathf.Max(distanceX, distanceY);
+                float distance = Vector3.Distance(players[i].transform.position, players[j].transform.position);
                 maxDistance = Mathf.Max(maxDistance, distance);
             }
         }
 
-        float targetZoom = MaxZoom - maxDistance;
-        return Mathf.Clamp(targetZoom, MinZoom, MaxZoom);
+        float targetZoom = maxZoom - maxDistance;
+        return Mathf.Clamp(targetZoom, minZoom, maxZoom);
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - Blastzones
   - TopBlastzones
   - CameraBoarder
+  - CameraBorder
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Ledge
   - Platform
   - Hitbox
-  - 
+  - CameraBorders
   - 
   - 
   - 
