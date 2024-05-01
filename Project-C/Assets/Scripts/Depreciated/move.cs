@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class move : MonoBehaviour
 {
-    public bool useUnityInput; // Changed variable name to avoid conflict with UnityEngine.Input
+    public bool useUnityInput;
+    public Int32 speed; 
+    // Changed variable name to avoid conflict with UnityEngine.Input
     // Update is called once per frame
     void Update()
     {
@@ -12,22 +15,22 @@ public class move : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                transform.position += new Vector3(-1 * Time.deltaTime, 0, 0);
+                transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
             }
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                transform.position += new Vector3(1 * Time.deltaTime, 0, 0);
+                transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
             }
         }
         else
         {
             if (Input.GetKey(KeyCode.A))
             {
-                transform.position += new Vector3(-1 * Time.deltaTime, 0, 0);
+                transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
             }
             if (Input.GetKey(KeyCode.D))
             {
-                transform.position += new Vector3(1 * Time.deltaTime, 0, 0);
+                transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
             }
         }
     }

@@ -1,29 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+
 
 public class moveCamera : MonoBehaviour
 {
+    [Header("Player Settings")]
+    [Tooltip("List of all players to track with the camera.")]
     public List<GameObject> Players;
+
+    [Header("Zoom Settings")]
+    [Tooltip("Maximum zoom level.")]
     public float MaxZoom = -8f;
+    [Tooltip("Minimum zoom level.")]
     public float MinZoom = -3f;
+    [Tooltip("Speed of zoom adjustment.")]
     public float ZoomSpeed = 5f;
+
+    [Header("Camera Pan Settings")]
+    [Tooltip("Speed of camera movement.")]
     public float MoveSpeed = 5f;
+    [Tooltip("Vertical offset for the camera position.")]
     public float YoffSet = 0f;
+    [Tooltip("Padding for the X-axis within the camera bounds.")]
+    public float xPadding = 1f;
+    [Tooltip("Padding for the Y-axis within the camera bounds.")]
+    public float yPadding = 1f;
+
+    [Header("Debug Settings")]
+    [Tooltip("If true, camera will ignore blast zone constraints.")]
     public bool DEBUGleaveBlastZones = false;
+    [Tooltip("Backup maunal refrence of collider if the main camera border is not found.")]
+    public Collider backupBlastZoneCollider;
 
     private float ZoomLevel;
     private GameObject leftBracket;
     private GameObject rightBracket;
-    private BoxCollider2D blastZoneCollider; // Changed to BoxCollider2D for 2D
+    private Collider blastZoneCollider;
 
     void Start()
     {
         leftBracket = this.gameObject.transform.GetChild(0).gameObject;
         rightBracket = this.gameObject.transform.GetChild(1).gameObject;
 
-        // Changed to get BoxCollider2D component for 2D
-        blastZoneCollider = GameObject.FindGameObjectWithTag("CameraBoarder").GetComponent<BoxCollider2D>();
+        blastZoneCollider = GameObject.FindGameObjectWithTag("CameraBoarder")?.GetComponent<Collider>();
+        if (blastZoneCollider == null)
+        {
+            blastZoneCollider = backupBlastZoneCollider;
+        }
 
         ZoomLevel = this.transform.position.z;
     }
@@ -50,12 +75,11 @@ public class moveCamera : MonoBehaviour
 
     Vector3 AdjustPositionWithinBlastZone(Vector3 newPosition)
     {
-        // Adjustments for 2D by using the bounds of the BoxCollider2D
         Vector2 minCorner = blastZoneCollider.bounds.min;
         Vector2 maxCorner = blastZoneCollider.bounds.max;
 
-        float clampedX = Mathf.Clamp(newPosition.x, minCorner.x, maxCorner.x);
-        float clampedY = Mathf.Clamp(newPosition.y, minCorner.y, maxCorner.y);
+        float clampedX = Mathf.Clamp(newPosition.x, minCorner.x + xPadding, maxCorner.x - xPadding);
+        float clampedY = Mathf.Clamp(newPosition.y, minCorner.y + yPadding, maxCorner.y - yPadding);
 
         return new Vector3(clampedX, clampedY, newPosition.z);
     }
@@ -64,7 +88,7 @@ public class moveCamera : MonoBehaviour
     {
         if (Players == null || Players.Count == 0)
         {
-            return new Vector3(0, 0, -8); // Default position for 2D
+            return new Vector3(0, 0, -8);
         }
 
         float totalX = 0f;
@@ -84,7 +108,7 @@ public class moveCamera : MonoBehaviour
     {
         if (Players == null || Players.Count == 0)
         {
-            return MaxZoom; // Default zoom for 2D
+            return MaxZoom;
         }
 
         float maxDistance = 0f;
