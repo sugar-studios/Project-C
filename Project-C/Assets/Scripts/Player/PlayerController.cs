@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerStateManager))]
+[RequireComponent(typeof(PlayerInputReceiver))]
 public class PlayerController : MonoBehaviour
 {
 
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private float _DoubleJumpCount;
     private float _CoyoteTime = .2f;
     private float _CoyoteTimeCounter;
+
+    private PlayerInputReceiver _inputReceiver;
 
     private Vector2 _MovementInput = Vector2.zero;
     private bool _Jumped = false;
@@ -68,6 +71,47 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        _inputReceiver = GetComponent<PlayerInputReceiver>();
+        _inputReceiver.OnMoveEvent += HandleMove;
+        _inputReceiver.OnJumpEvent += HandleJump;
+        _inputReceiver.OnDashEvent += HandleDash;
+        _inputReceiver.OnFastFallEvent += HandleFastFall;
+    }
+
+    private void HandleMove(Vector2 movementInput)
+    {
+        _MovementInput = movementInput;
+    }
+
+    private void HandleJump(bool jumped)
+    {
+        _Jumped = jumped;
+    }
+
+    private void HandleDash(bool isDashing)
+    {
+        _IsDashing = isDashing;
+    }
+
+    private void HandleFastFall(bool fastFalling)
+    {
+        if (!IsGrounded() && fastFalling)
+        {
+            _FastFalling = true;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe to prevent memory leaks
+        _inputReceiver.OnMoveEvent -= HandleMove;
+        _inputReceiver.OnJumpEvent -= HandleJump;
+        _inputReceiver.OnDashEvent -= HandleDash;
+        _inputReceiver.OnFastFallEvent -= HandleFastFall;
+    }
+
     private void Start()
     {
         //get rigidbody
@@ -78,6 +122,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(PlayerState.State);
     }
 
+    //FOCUS ON THESE
     #region Input functions
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -130,7 +175,8 @@ public class PlayerController : MonoBehaviour
                 {
                     _FastFalling = false;
                     _RB.velocity = new Vector2(_RB.velocity.x / 3, _MidAirJumpHeight);
-                    _DoubleJumpCount--; _Jumped = false;
+                    _DoubleJumpCount--; 
+                    _Jumped = false;
                 }
                 else
                 {

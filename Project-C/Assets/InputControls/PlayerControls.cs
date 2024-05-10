@@ -73,7 +73,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SpecialAttack"",
+                    ""name"": ""Trademark"",
                     ""type"": ""Button"",
                     ""id"": ""2268e1fd-4bd1-42b3-8929-0ffa88332d5b"",
                     ""expectedControlType"": ""Button"",
@@ -82,13 +82,31 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""NormalAttack"",
+                    ""name"": ""Normal"",
                     ""type"": ""Button"",
                     ""id"": ""26b0c134-65b9-4a74-83e6-751afd0ec526"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Heavy"",
+                    ""type"": ""Button"",
+                    ""id"": ""557453d4-7a7d-45a4-b9f9-3ae69dc103a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Strike"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""285e13ea-8412-4d14-8aee-d8b372dca4b5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -231,7 +249,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""NormalAttack"",
+                    ""action"": ""Normal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -242,7 +260,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""NormalAttack"",
+                    ""action"": ""Normal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -253,7 +271,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""SpecialAttack"",
+                    ""action"": ""Trademark"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -264,7 +282,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""SpecialAttack"",
+                    ""action"": ""Trademark"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -287,6 +305,94 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Controller"",
                     ""action"": ""FastFall"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54b55dc7-cd7c-45af-adb1-06b1c9957259"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Heavy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d6ce7f49-77c2-4315-9096-e39f534d8e3e"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Heavy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrow"",
+                    ""id"": ""cd42d374-69d5-42dc-9a2a-ba5a1069fa84"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Strike"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""0f48da4b-518c-43f4-9c10-d8cde269d309"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Strike"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""bae99ef4-308c-4c71-b95c-f458a266e5f2"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Strike"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""5d97b2de-99b6-4402-89e5-568edacecbc0"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Strike"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""fe149e8e-a13f-42b1-a806-97c99dddded2"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Strike"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""53895c96-c185-44fe-b200-78058cb0ce11"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Strike"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -325,8 +431,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_FastFall = m_Gameplay.FindAction("FastFall", throwIfNotFound: true);
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
         m_Gameplay_Start = m_Gameplay.FindAction("Start", throwIfNotFound: true);
-        m_Gameplay_SpecialAttack = m_Gameplay.FindAction("SpecialAttack", throwIfNotFound: true);
-        m_Gameplay_NormalAttack = m_Gameplay.FindAction("NormalAttack", throwIfNotFound: true);
+        m_Gameplay_Trademark = m_Gameplay.FindAction("Trademark", throwIfNotFound: true);
+        m_Gameplay_Normal = m_Gameplay.FindAction("Normal", throwIfNotFound: true);
+        m_Gameplay_Heavy = m_Gameplay.FindAction("Heavy", throwIfNotFound: true);
+        m_Gameplay_Strike = m_Gameplay.FindAction("Strike", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -393,8 +501,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_FastFall;
     private readonly InputAction m_Gameplay_Dash;
     private readonly InputAction m_Gameplay_Start;
-    private readonly InputAction m_Gameplay_SpecialAttack;
-    private readonly InputAction m_Gameplay_NormalAttack;
+    private readonly InputAction m_Gameplay_Trademark;
+    private readonly InputAction m_Gameplay_Normal;
+    private readonly InputAction m_Gameplay_Heavy;
+    private readonly InputAction m_Gameplay_Strike;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -404,8 +514,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @FastFall => m_Wrapper.m_Gameplay_FastFall;
         public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
         public InputAction @Start => m_Wrapper.m_Gameplay_Start;
-        public InputAction @SpecialAttack => m_Wrapper.m_Gameplay_SpecialAttack;
-        public InputAction @NormalAttack => m_Wrapper.m_Gameplay_NormalAttack;
+        public InputAction @Trademark => m_Wrapper.m_Gameplay_Trademark;
+        public InputAction @Normal => m_Wrapper.m_Gameplay_Normal;
+        public InputAction @Heavy => m_Wrapper.m_Gameplay_Heavy;
+        public InputAction @Strike => m_Wrapper.m_Gameplay_Strike;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -430,12 +542,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Start.started += instance.OnStart;
             @Start.performed += instance.OnStart;
             @Start.canceled += instance.OnStart;
-            @SpecialAttack.started += instance.OnSpecialAttack;
-            @SpecialAttack.performed += instance.OnSpecialAttack;
-            @SpecialAttack.canceled += instance.OnSpecialAttack;
-            @NormalAttack.started += instance.OnNormalAttack;
-            @NormalAttack.performed += instance.OnNormalAttack;
-            @NormalAttack.canceled += instance.OnNormalAttack;
+            @Trademark.started += instance.OnTrademark;
+            @Trademark.performed += instance.OnTrademark;
+            @Trademark.canceled += instance.OnTrademark;
+            @Normal.started += instance.OnNormal;
+            @Normal.performed += instance.OnNormal;
+            @Normal.canceled += instance.OnNormal;
+            @Heavy.started += instance.OnHeavy;
+            @Heavy.performed += instance.OnHeavy;
+            @Heavy.canceled += instance.OnHeavy;
+            @Strike.started += instance.OnStrike;
+            @Strike.performed += instance.OnStrike;
+            @Strike.canceled += instance.OnStrike;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -455,12 +573,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Start.started -= instance.OnStart;
             @Start.performed -= instance.OnStart;
             @Start.canceled -= instance.OnStart;
-            @SpecialAttack.started -= instance.OnSpecialAttack;
-            @SpecialAttack.performed -= instance.OnSpecialAttack;
-            @SpecialAttack.canceled -= instance.OnSpecialAttack;
-            @NormalAttack.started -= instance.OnNormalAttack;
-            @NormalAttack.performed -= instance.OnNormalAttack;
-            @NormalAttack.canceled -= instance.OnNormalAttack;
+            @Trademark.started -= instance.OnTrademark;
+            @Trademark.performed -= instance.OnTrademark;
+            @Trademark.canceled -= instance.OnTrademark;
+            @Normal.started -= instance.OnNormal;
+            @Normal.performed -= instance.OnNormal;
+            @Normal.canceled -= instance.OnNormal;
+            @Heavy.started -= instance.OnHeavy;
+            @Heavy.performed -= instance.OnHeavy;
+            @Heavy.canceled -= instance.OnHeavy;
+            @Strike.started -= instance.OnStrike;
+            @Strike.performed -= instance.OnStrike;
+            @Strike.canceled -= instance.OnStrike;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -503,7 +627,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnFastFall(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnStart(InputAction.CallbackContext context);
-        void OnSpecialAttack(InputAction.CallbackContext context);
-        void OnNormalAttack(InputAction.CallbackContext context);
+        void OnTrademark(InputAction.CallbackContext context);
+        void OnNormal(InputAction.CallbackContext context);
+        void OnHeavy(InputAction.CallbackContext context);
+        void OnStrike(InputAction.CallbackContext context);
     }
 }

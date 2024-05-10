@@ -1,14 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerStateManager))]
+[RequireComponent(typeof(PlayerInputReceiver))]  // Ensure PlayerInputReceiver is a required component
 public class PlayerAttacker : MonoBehaviour
 {
     public PlayerStateManager PlayerState;
     public PlayerController Player;
+    private PlayerInputReceiver inputReceiver;  // Reference to the PlayerInputReceiver
 
     public GameObject SquareHitbox;
     public GameObject CapsuleHitbox;
@@ -17,81 +20,46 @@ public class PlayerAttacker : MonoBehaviour
     {
         PlayerState = gameObject.GetComponent<PlayerStateManager>();
         Player = gameObject.GetComponent<PlayerController>();
+        inputReceiver = gameObject.GetComponent<PlayerInputReceiver>();
+
+        // Subscribe to input events
+        inputReceiver.OnLightAttackEvent += (triggered) => StartAttack(triggered, 0.1f, 0.5f, 0.2f, SquareHitbox, new Vector3(1, 1, 1), Vector3.zero);
+        inputReceiver.OnHeavyAttackEvent += (triggered) => StartAttack(triggered, 0.2f, 0.7f, 0.3f, SquareHitbox, new Vector3(1, 1, 1), new Vector3(0, 0, 45));
+        inputReceiver.OnTrademarkAttackEvent += (triggered) => StartAttack(triggered, 0.3f, 1.0f, 0.4f, CapsuleHitbox, new Vector3(2, 2, 2), new Vector3(0, 0, 90));
     }
-    public void NormalAttackL()
+
+    void OnDestroy()
     {
-        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
-        {
-            Debug.Log("A");
-            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-            Vector3 targetpos = new Vector3(1f,
-                                            0,
-                                            0);
-            GameObject ActiveHitbox = CreateHitbox(SquareHitbox, targetpos, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
-            StartCoroutine(AttackTimeOut(ActiveHitbox, .5f, targetpos));
-        }
+        // Unsubscribe to avoid memory leaks
+        inputReceiver.OnLightAttackEvent -= (triggered) => StartAttack(triggered, 0.1f, 0.5f, 0.2f, SquareHitbox, new Vector3(1, 1, 1), Vector3.zero);
+        inputReceiver.OnHeavyAttackEvent -= (triggered) => StartAttack(triggered, 0.2f, 0.7f, 0.3f, SquareHitbox, new Vector3(1, 1, 1), new Vector3(0, 0, 45));
+        inputReceiver.OnTrademarkAttackEvent -= (triggered) => StartAttack(triggered, 0.3f, 1.0f, 0.4f, CapsuleHitbox, new Vector3(2, 2, 2), new Vector3(0, 0, 90));
     }
-    public void NormalAttackM()
+
+    void StartAttack(bool triggered, float startupTime, float activeTime, float endLag, GameObject hitboxPrefab, Vector3 hitboxSize, Vector3 rotation)
     {
-        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
+        if (triggered && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
         {
-            Debug.Log("B");
-            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-            Vector3 targetpos = gameObject.transform.position;
-            GameObject ActiveHitbox = CreateHitbox(SquareHitbox, targetpos, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
-            StartCoroutine(AttackTimeOut(ActiveHitbox, .5f, targetpos));
-        }
-    }
-    public void NormalAttackH()
-    {
-        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
-        {
-            Debug.Log("C");
-            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-            Vector3 targetpos = gameObject.transform.position;
-            GameObject ActiveHitbox = CreateHitbox(SquareHitbox, targetpos, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
-            StartCoroutine(AttackTimeOut(ActiveHitbox, .5f, targetpos));
-        }
-    }
-    public void SpecialAttack()
-    {
-        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
-        {
-            Debug.Log("D");
-            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-            Vector3 targetpos = gameObject.transform.position;
-            GameObject ActiveHitbox = CreateHitbox(SquareHitbox, targetpos, new Vector3(0, 0, 0), new Vector3(1, 1, 1));
-            StartCoroutine(AttackTimeOut(ActiveHitbox, .5f, targetpos));
+            Debug.Log("Starting attack");
+            StartCoroutine(PerformAttack(startupTime, activeTime, endLag, hitboxPrefab, hitboxSize, rotation));
         }
     }
 
-    IEnumerator AttackTimeOut(GameObject activeHitbox, float time, Vector3 targetPosition)
+    IEnumerator PerformAttack(float startupTime, float activeTime, float endLag, GameObject prefab, Vector3 size, Vector3 eulerAngles)
     {
-        float endTime = Time.time + time;
+        PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
+        yield return new WaitForSeconds(startupTime);
 
-        int playerDir = Player.IsFacingRight ? 1 : -1;
+        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+        GameObject activeHitbox = CreateHitbox(prefab, new Vector3(1f, 0, 0), eulerAngles, size);
+        yield return new WaitForSeconds(activeTime);
 
-        while (Time.time < endTime)
-        {
-            float elapsedTime = Time.time + time - endTime;
-
-            activeHitbox.transform.position = new Vector3(gameObject.transform.position.x + (targetPosition.x * playerDir),
-                                                          gameObject.transform.position.y + targetPosition.y,
-                                                          gameObject.transform.position.z + targetPosition.z);
-
-            yield return null;
-        }
-
-        RestartState(activeHitbox);
-    }
-
-
-    void RestartState(GameObject activeHitbox)
-    {
         Destroy(activeHitbox);
+        PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
+        yield return new WaitForSeconds(endLag);
+
         PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
     }
-
 
     GameObject CreateHitbox(GameObject prefab, Vector3 position, Vector3 eulerAngles, Vector3 size)
     {
@@ -99,6 +67,8 @@ public class PlayerAttacker : MonoBehaviour
         position = new Vector3(gameObject.transform.position.x + position.x * playerDir, gameObject.transform.position.y + position.y, gameObject.transform.position.z + position.z);
         GameObject instance = Instantiate(prefab, position, Quaternion.Euler(eulerAngles));
         instance.transform.localScale = size;
+        instance.tag = gameObject.tag;
+        instance.transform.parent = this.transform;
         return instance;
     }
 }

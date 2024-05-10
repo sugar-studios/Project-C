@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
 {
+    /*
     private newPlayerMovement _Player;
 
     [SerializeField] private LayerMask _GroundLayer;
@@ -30,4 +31,5 @@ public class GroundCheck : MonoBehaviour
             _Player.Grounded = false;
         }
     }
+    */
 }

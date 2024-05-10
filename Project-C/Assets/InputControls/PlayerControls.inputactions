@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SpecialAttack",
+                    "name": "Trademark",
                     "type": "Button",
                     "id": "2268e1fd-4bd1-42b3-8929-0ffa88332d5b",
                     "expectedControlType": "Button",
@@ -60,13 +60,31 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "NormalAttack",
+                    "name": "Normal",
                     "type": "Button",
                     "id": "26b0c134-65b9-4a74-83e6-751afd0ec526",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Heavy",
+                    "type": "Button",
+                    "id": "557453d4-7a7d-45a4-b9f9-3ae69dc103a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Strike",
+                    "type": "PassThrough",
+                    "id": "285e13ea-8412-4d14-8aee-d8b372dca4b5",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -209,7 +227,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "NormalAttack",
+                    "action": "Normal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -220,7 +238,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "NormalAttack",
+                    "action": "Normal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -231,7 +249,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "SpecialAttack",
+                    "action": "Trademark",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -242,7 +260,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "SpecialAttack",
+                    "action": "Trademark",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -265,6 +283,94 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "FastFall",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54b55dc7-cd7c-45af-adb1-06b1c9957259",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Heavy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d6ce7f49-77c2-4315-9096-e39f534d8e3e",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Heavy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Arrow",
+                    "id": "cd42d374-69d5-42dc-9a2a-ba5a1069fa84",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Strike",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "0f48da4b-518c-43f4-9c10-d8cde269d309",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Strike",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "bae99ef4-308c-4c71-b95c-f458a266e5f2",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Strike",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "5d97b2de-99b6-4402-89e5-568edacecbc0",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Strike",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "fe149e8e-a13f-42b1-a806-97c99dddded2",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Strike",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "53895c96-c185-44fe-b200-78058cb0ce11",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Strike",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
