@@ -26,6 +26,8 @@ public class PlayerInputReceiver : MonoBehaviour
     public bool T_Attack;
     public bool P_Attack;
 
+    public bool IsCharging { get; private set; } // Add this property
+
     public void OnMove(InputAction.CallbackContext context)
     {
         PlayerDirectionalInput = context.ReadValue<Vector2>();
@@ -62,18 +64,19 @@ public class PlayerInputReceiver : MonoBehaviour
         OnHeavyAttackEvent?.Invoke(H_Attack);
     }
 
-    
     public void OnTrademarkAttack(InputAction.CallbackContext context)
     {
-        T_Attack = context.action.triggered;
-        OnTrademarkAttackEvent?.Invoke(T_Attack);
+        if (context.phase == InputActionPhase.Started)
+        {
+            T_Attack = true;
+            IsCharging = true;
+            OnTrademarkAttackEvent?.Invoke(T_Attack);
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            T_Attack = false;
+            IsCharging = false;
+            OnTrademarkAttackEvent?.Invoke(T_Attack);
+        }
     }
-    
-    /*
-    public void OnPowerStrike(InputAction.CallbackContext context)
-    {
-        P_Attack = context.action.triggered;
-        OnPowerStrikeEvent?.Invoke(P_Attack);
-    }
-    */
 }

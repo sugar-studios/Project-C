@@ -15,6 +15,10 @@ public class Hit
     public float knockback;
     public bool isSetKnockback;
     public float knockbackScaling;
+    public float speed;        // Added for projectiles
+    public float duration;     // Added for projectiles
+    public float dropOffRate;  // Added for projectile drop-off
+    public float maxChargeTime; // Added for chargeable projectiles
 }
 
 [System.Serializable]
@@ -28,4 +32,5 @@ public class Attack
     public List<Hit> hits; // List of hits for multi-hit attacks
     public string hitboxType;
     public string attackType;
+    public bool chargeable;    // Added for chargeable projectiles
 }

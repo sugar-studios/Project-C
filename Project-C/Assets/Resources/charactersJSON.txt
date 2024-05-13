@@ -79,14 +79,14 @@
                     "attackType": "melee"
                 },
                 "trademarkAttack": {
-                    "name": "Default Fury",
+                    "name": "Default Projectile",
                     "id": "default_trademark",
-                    "description": "Signature powerful attack.",
+                    "description": "A projectile attack with a 5 second duration.",
                     "moveLabel": "forward air special attack",
                     "priority": 3,
                     "hits": [
                         {
-                            "size": {"x": 3, "y": 3, "z": 3},
+                            "size": {"x": 1, "y": 1, "z": 1},
                             "scale": 1,
                             "rotation": {"x": 0, "y": 0, "z": 90},
                             "position": {"x": 2, "y": 0, "z": 0},
@@ -96,11 +96,16 @@
                             "damage": 30,
                             "knockback": 15,
                             "isSetKnockback": false,
-                            "knockbackScaling": 2.0
+                            "knockbackScaling": 2.0,
+                            "speed": 5.0,
+                            "duration": 5.0,
+                            "dropOffRate": 0.1,
+                            "maxChargeTime": 2.0
                         }
                     ],
                     "hitboxType": "capsule",
-                    "attackType": "melee"
+                    "attackType": "projectile",
+                    "chargeable": true
                 }
             }
         }

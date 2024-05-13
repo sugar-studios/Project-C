@@ -1120,7 +1120,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.8
+  m_fontSize: 26.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2174,7 +2174,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.8
+  m_fontSize: 26.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3843,7 +3843,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.45
+  m_fontSize: 26.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4477,7 +4477,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.9795535, y: 1}
-  m_AnchoredPosition: {x: -0.8007202, y: 0}
+  m_AnchoredPosition: {x: -0.8007355, y: 0}
   m_SizeDelta: {x: 4.7174, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &629145717
@@ -4722,7 +4722,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.45
+  m_fontSize: 26.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6683,7 +6683,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.1
+  m_fontSize: 24.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7542,20 +7542,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fa390b04d0fab429c9e58036171f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  Controller: {fileID: 1273855052}
-  Traction: 1
-  FastFallMultiplier: 10
-  GroundSpeed: 7
-  JumpHeight: 4
-  Gravity: 15
-  MomentumBuildUpSpeed: 8
-  MaxJumps: 2
-  MomentumMultiplier: 1
-  AirborneSpeed: 8
-  jump: {fileID: 1273855067}
 --- !u!54 &1273855060
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7621,9 +7607,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7663ee322f58b7a43924cb5107fa85f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!114 &1273855066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10830,7 +10813,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.1
+  m_fontSize: 24.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
