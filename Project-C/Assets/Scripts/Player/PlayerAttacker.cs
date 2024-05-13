@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerStateManager))]
@@ -51,27 +52,30 @@ public class PlayerAttacker : MonoBehaviour
         if (triggered && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
         {
             Debug.Log("Starting attack: " + attack.name);
-            StartCoroutine(PerformAttack(attack));
+            StartCoroutine(PerformMultiHitAttack(attack.hits, attack.hitboxType));
         }
     }
 
-    IEnumerator PerformAttack(Attack attack)
+    IEnumerator PerformMultiHitAttack(List<Hit> hits, string hitboxType)
     {
-        PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
-        yield return new WaitForSeconds(attack.startup);
+        foreach (var hit in hits)
+        {
+            PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
+            yield return new WaitForSeconds(hit.startup);
 
-        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-        GameObject activeHitbox = CreateHitbox(
-            attack.hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
-            attack.position,
-            attack.rotation,
-            attack.size * attack.scale
-        );
-        yield return new WaitForSeconds(attack.active);
+            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+            GameObject activeHitbox = CreateHitbox(
+                hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
+                hit.position,
+                hit.rotation,
+                hit.size * hit.scale
+            );
+            yield return new WaitForSeconds(hit.active);
 
-        Destroy(activeHitbox);
-        PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
-        yield return new WaitForSeconds(attack.endlag);
+            Destroy(activeHitbox);
+            PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
+            yield return new WaitForSeconds(hit.endlag);
+        }
 
         PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
     }

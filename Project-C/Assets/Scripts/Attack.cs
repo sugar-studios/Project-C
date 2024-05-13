@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 [System.Serializable]
-public class Attack
+public class Hit
 {
-    public string name;
-    public string id;
-    public string description;
-    public string moveLabel;
-    public int priority;
     public Vector3 size;
     public float scale;
     public Vector3 rotation;
@@ -19,6 +15,17 @@ public class Attack
     public float knockback;
     public bool isSetKnockback;
     public float knockbackScaling;
+}
+
+[System.Serializable]
+public class Attack
+{
+    public string name;
+    public string id;
+    public string description;
+    public string moveLabel;
+    public int priority;
+    public List<Hit> hits; // List of hits for multi-hit attacks
     public string hitboxType;
     public string attackType;
 }
