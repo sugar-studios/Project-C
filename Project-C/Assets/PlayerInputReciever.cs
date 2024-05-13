@@ -62,17 +62,18 @@ public class PlayerInputReceiver : MonoBehaviour
         OnHeavyAttackEvent?.Invoke(H_Attack);
     }
 
-    /*
+    
     public void OnTrademarkAttack(InputAction.CallbackContext context)
     {
         T_Attack = context.action.triggered;
         OnTrademarkAttackEvent?.Invoke(T_Attack);
     }
-    */
-
+    
+    /*
     public void OnPowerStrike(InputAction.CallbackContext context)
     {
         P_Attack = context.action.triggered;
         OnPowerStrikeEvent?.Invoke(P_Attack);
     }
+    */
 }

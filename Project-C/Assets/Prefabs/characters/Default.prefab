@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 8769526111340798644}
   - component: {fileID: 6907211935116382668}
   - component: {fileID: 198293643324170570}
+  - component: {fileID: 9001498259222549541}
   m_Layer: 6
   m_Name: Default
   m_TagString: Player
@@ -647,6 +648,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   SquareHitbox: {fileID: 1445656633853503757, guid: 87c5b9d1dafc31a4ea772d773bfbccd8, type: 3}
   CapsuleHitbox: {fileID: 1930949101233664753, guid: 15b088db3c8a5204fb819fd3d77e2cab, type: 3}
+  characterName: Default
 --- !u!114 &6907211935116382668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,3 +675,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerList: {fileID: 0}
+--- !u!114 &9001498259222549541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7125083341854606708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d7889fed6dc244284145de6b8d6f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jsonFile: {fileID: 4900000, guid: 3600f633a95677e498007b96f0ee5f1c, type: 3}
