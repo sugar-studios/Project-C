@@ -67,6 +67,12 @@ public class PlayerAttacker : MonoBehaviour
             {
                 StartCoroutine(PerformMultiHitAttack(attack.hits, attack.hitboxType));
             }
+
+            // Handle maintaining momentum
+            if (attack.maintainMomentum)
+            {
+                PlayerState.State = PlayerStateManager.PossibleStates.MaintainMomentum;
+            }
         }
     }
 
@@ -107,7 +113,8 @@ public class PlayerAttacker : MonoBehaviour
             attack.hits[0].size * attack.hits[0].scale,
             attack.hits[0].speed,
             attack.hits[0].duration,
-            attack.hits[0].dropOffRate
+            attack.hits[0].dropOffRate,
+            attack.projectileDir
         );
 
         PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
@@ -137,7 +144,8 @@ public class PlayerAttacker : MonoBehaviour
             attack.hits[0].size * attack.hits[0].scale * (1 + chargeTime / maxChargeTime),
             attack.hits[0].speed,
             attack.hits[0].duration,
-            attack.hits[0].dropOffRate
+            attack.hits[0].dropOffRate,
+            attack.projectileDir
         );
 
         PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
@@ -157,10 +165,12 @@ public class PlayerAttacker : MonoBehaviour
         return instance;
     }
 
-    GameObject CreateProjectile(GameObject prefab, Vector3 position, Vector3 eulerAngles, Vector3 size, float speed, float duration, float dropOffRate)
+    GameObject CreateProjectile(GameObject prefab, Vector3 position, Vector3 eulerAngles, Vector3 size, float speed, float duration, float dropOffRate, float projectileDir)
     {
         int playerDir = Player.IsFacingRight ? 1 : -1;
         position = new Vector3(gameObject.transform.position.x + position.x * playerDir, gameObject.transform.position.y + position.y, gameObject.transform.position.z + position.z);
+        eulerAngles.y = playerDir == 1 ? 0 : 180;
+        eulerAngles.z = playerDir == 1 ? projectileDir : (projectileDir + 180) % 360;
         GameObject instance = Instantiate(prefab, position, Quaternion.Euler(eulerAngles));
         instance.transform.localScale = size;
         instance.tag = gameObject.tag;

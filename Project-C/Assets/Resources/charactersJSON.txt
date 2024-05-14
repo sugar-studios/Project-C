@@ -105,7 +105,9 @@
                     ],
                     "hitboxType": "capsule",
                     "attackType": "projectile",
-                    "chargeable": true
+                    "chargeable": true,
+                    "projectileDir": 0,
+                    "maintainMomentum": true
                 }
             }
         }

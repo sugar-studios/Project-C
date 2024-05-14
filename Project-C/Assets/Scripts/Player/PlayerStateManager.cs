@@ -16,7 +16,8 @@ public class PlayerStateManager : MonoBehaviour
         FreeAction,      // The player is completely free to move and act.
         PreparingAttack, // The player is in the startup phase of an attack.
         Attacking,       // The player is actively attacking.
-        Recovering       // The player is in the recovery phase after an attack.
+        Recovering,      // The player is in the recovery phase after an attack.
+        MaintainMomentum // The player maintains momentum while performing certain actions.
     }
 
     void Start()
