@@ -301,7 +301,7 @@ public class PlayerController : MonoBehaviour
     /*
      * Checks if the user is grounded by doing a sphere cast at the ground check location (found in editor) 
      */
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics2D.OverlapCircle(_GroundCheck.position, 0.2f, _GroundLayer);
     }

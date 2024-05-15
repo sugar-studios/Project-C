@@ -15,10 +15,11 @@ public class JSONReader : MonoBehaviour
     [System.Serializable]
     public class Moveset
     {
-        public Attack lightAttack;
-        public Attack heavyAttack;
-        public Attack trademarkAttack;
+        public List<Attack> lightAttack;
+        public List<Attack> heavyAttack;
+        public List<Attack> trademarkAttack;
     }
+
 
     [System.Serializable]
     public class CharacterData
@@ -42,6 +43,24 @@ public class JSONReader : MonoBehaviour
             {
                 return character.moveset;
             }
+        }
+        return null;
+    }
+
+    // Method to get a specific attack based on moveLabel
+    public Attack GetAttackByLabel(Moveset moveset, string label)
+    {
+        foreach (Attack attack in moveset.lightAttack)
+        {
+            if (attack.moveLabel == label) return attack;
+        }
+        foreach (Attack attack in moveset.heavyAttack)
+        {
+            if (attack.moveLabel == label) return attack;
+        }
+        foreach (Attack attack in moveset.trademarkAttack)
+        {
+            if (attack.moveLabel == label) return attack;
         }
         return null;
     }

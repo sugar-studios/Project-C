@@ -19,12 +19,11 @@ public class PlayerAttacker : MonoBehaviour
 
     void Start()
     {
-        PlayerState = gameObject.GetComponent<PlayerStateManager>();
-        Player = gameObject.GetComponent<PlayerController>();
-        inputReceiver = gameObject.GetComponent<PlayerInputReceiver>();
-        jsonReader = gameObject.GetComponent<JSONReader>();
+        PlayerState = GetComponent<PlayerStateManager>();
+        Player = GetComponent<PlayerController>();
+        inputReceiver = GetComponent<PlayerInputReceiver>();
+        jsonReader = GetComponent<JSONReader>();
 
-        // Load the moveset for the specified character
         currentMoveset = jsonReader.GetMovesetByName(characterName);
 
         if (currentMoveset == null)
@@ -33,59 +32,75 @@ public class PlayerAttacker : MonoBehaviour
             return;
         }
 
-        // Subscribe to input events
-        inputReceiver.OnLightAttackEvent += (triggered) => StartAttack(triggered, currentMoveset.lightAttack);
-        inputReceiver.OnHeavyAttackEvent += (triggered) => StartAttack(triggered, currentMoveset.heavyAttack);
-        inputReceiver.OnTrademarkAttackEvent += (triggered) => StartAttack(triggered, currentMoveset.trademarkAttack);
+        inputReceiver.OnLightAttackEvent += HandleLightAttack;
+        inputReceiver.OnHeavyAttackEvent += HandleHeavyAttack;
+        inputReceiver.OnTrademarkAttackEvent += HandleTrademarkAttack;
     }
 
     void OnDestroy()
     {
-        // Unsubscribe to avoid memory leaks
-        inputReceiver.OnLightAttackEvent -= (triggered) => StartAttack(triggered, currentMoveset.lightAttack);
-        inputReceiver.OnHeavyAttackEvent -= (triggered) => StartAttack(triggered, currentMoveset.heavyAttack);
-        inputReceiver.OnTrademarkAttackEvent -= (triggered) => StartAttack(triggered, currentMoveset.trademarkAttack);
+        inputReceiver.OnLightAttackEvent -= HandleLightAttack;
+        inputReceiver.OnHeavyAttackEvent -= HandleHeavyAttack;
+        inputReceiver.OnTrademarkAttackEvent -= HandleTrademarkAttack;
     }
 
-    void StartAttack(bool triggered, Attack attack)
+    private void HandleLightAttack(bool triggered)
     {
-        if (triggered && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
-        {
-            Debug.Log("Starting attack: " + attack.name);
-            if (attack.attackType == "projectile")
-            {
-                if (attack.chargeable)
-                {
-                    StartCoroutine(PerformChargeableProjectileAttack(attack));
-                }
-                else
-                {
-                    StartCoroutine(PerformProjectileAttack(attack));
-                }
-            }
-            else
-            {
-                StartCoroutine(PerformMultiHitAttack(attack.hits, attack.hitboxType));
-            }
+        if (triggered)
+            StartAttack(GetAttackLabel("light"), currentMoveset.lightAttack);
+    }
 
-            // Handle maintaining momentum
-            if (attack.maintainMomentum)
-            {
-                PlayerState.State = PlayerStateManager.PossibleStates.MaintainMomentum;
-            }
+    private void HandleHeavyAttack(bool triggered)
+    {
+        if (triggered)
+            StartAttack(GetAttackLabel("heavy"), currentMoveset.heavyAttack);
+    }
+
+    private void HandleTrademarkAttack(bool triggered)
+    {
+        if (triggered)
+            StartAttack(GetAttackLabel("trademark"), currentMoveset.trademarkAttack);
+    }
+
+    private string GetAttackLabel(string attackType)
+    {
+        string stateLabel = Player.IsGrounded() ? "ground" : "air";
+        string direction = "neutral";
+
+        if (attackType != "trademark")
+        {
+            Vector2 inputVector = Player.PlayerInputVector;
+
+            if (Mathf.Abs(inputVector.x) > 0) direction = (inputVector.x > 0) == Player.IsFacingRight ? "forward" : "backward";
+            else if (inputVector.y > 0) direction = "upward";
+            else if (inputVector.y < 0) direction = "downward";
         }
+
+        return $"{direction} {stateLabel} {attackType} attack";
     }
 
-    IEnumerator PerformMultiHitAttack(List<Hit> hits, string hitboxType)
+    private void StartAttack(string moveLabel, List<Attack> attacks)
     {
-        foreach (var hit in hits)
-        {
-            PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
-            yield return new WaitForSeconds(hit.startup);
+        Attack selectedAttack = FindAttackInMoveset(attacks, moveLabel);
+        if (selectedAttack != null && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
+            StartCoroutine(PerformAttack(selectedAttack));
+    }
 
-            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+    private Attack FindAttackInMoveset(List<Attack> attacks, string moveLabel)
+    {
+        return attacks.Find(attack => attack.moveLabel.Equals(moveLabel, System.StringComparison.OrdinalIgnoreCase));
+    }
+
+    IEnumerator PerformAttack(Attack attack)
+    {
+        PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
+        yield return new WaitForSeconds(attack.hits[0].startup);
+
+        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
+        foreach (var hit in attack.hits)
+        {
             GameObject activeHitbox = CreateHitbox(
-                hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
+                attack.hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
                 hit.position,
                 hit.rotation,
                 hit.size * hit.scale
@@ -93,60 +108,7 @@ public class PlayerAttacker : MonoBehaviour
             yield return new WaitForSeconds(hit.active);
 
             Destroy(activeHitbox);
-            PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
-            yield return new WaitForSeconds(hit.endlag);
         }
-
-        PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
-    }
-
-    IEnumerator PerformProjectileAttack(Attack attack)
-    {
-        PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
-        yield return new WaitForSeconds(attack.hits[0].startup);
-
-        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-        GameObject projectile = CreateProjectile(
-            attack.hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
-            attack.hits[0].position,
-            attack.hits[0].rotation,
-            attack.hits[0].size * attack.hits[0].scale,
-            attack.hits[0].speed,
-            attack.hits[0].duration,
-            attack.hits[0].dropOffRate,
-            attack.projectileDir
-        );
-
-        PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
-        yield return new WaitForSeconds(attack.hits[0].endlag);
-
-        PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
-    }
-
-    IEnumerator PerformChargeableProjectileAttack(Attack attack)
-    {
-        PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
-        float chargeTime = 0f;
-        while (inputReceiver.IsCharging)
-        {
-            chargeTime += Time.deltaTime;
-            yield return null;
-        }
-
-        float maxChargeTime = attack.hits[0].maxChargeTime;
-        chargeTime = Mathf.Clamp(chargeTime, 0, maxChargeTime);
-
-        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
-        GameObject projectile = CreateProjectile(
-            attack.hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
-            attack.hits[0].position,
-            attack.hits[0].rotation,
-            attack.hits[0].size * attack.hits[0].scale * (1 + chargeTime / maxChargeTime),
-            attack.hits[0].speed,
-            attack.hits[0].duration,
-            attack.hits[0].dropOffRate,
-            attack.projectileDir
-        );
 
         PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
         yield return new WaitForSeconds(attack.hits[0].endlag);
@@ -162,20 +124,6 @@ public class PlayerAttacker : MonoBehaviour
         instance.transform.localScale = size;
         instance.tag = gameObject.tag;
         instance.transform.parent = this.transform;
-        return instance;
-    }
-
-    GameObject CreateProjectile(GameObject prefab, Vector3 position, Vector3 eulerAngles, Vector3 size, float speed, float duration, float dropOffRate, float projectileDir)
-    {
-        int playerDir = Player.IsFacingRight ? 1 : -1;
-        position = new Vector3(gameObject.transform.position.x + position.x * playerDir, gameObject.transform.position.y + position.y, gameObject.transform.position.z + position.z);
-        GameObject instance = Instantiate(prefab, position, Quaternion.Euler(eulerAngles)); // Keep the hitbox rotation independent
-        instance.transform.localScale = size;
-        instance.tag = gameObject.tag;
-
-        Projectile projectileScript = instance.AddComponent<Projectile>();
-        projectileScript.Initialize(speed, duration, playerDir, dropOffRate, projectileDir);
-
         return instance;
     }
 }
