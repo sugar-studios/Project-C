@@ -33,4 +33,6 @@ public class Attack
     public string hitboxType;
     public string attackType;
     public bool chargeable;    // Added for chargeable projectiles
+    public float projectileDir; // Added for projectile direction
+    public bool maintainMomentum; // Added to maintain momentum during attack
 }

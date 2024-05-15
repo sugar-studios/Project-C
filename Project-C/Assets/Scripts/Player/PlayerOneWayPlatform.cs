@@ -18,10 +18,14 @@ public class PlayerOneWayPlatform : MonoBehaviour
     {
         if (_Player.PlayerInputVector.y == -1)
         {
+            Debug.Log("Fall");
+            Debug.Log(currentOneWayPlatform);
             if (currentOneWayPlatform != null)
             {
+                Debug.Log("GO GO GO");
                 //_PlatformFallSound.Play();
-                StartCoroutine(DisableCollision());
+                StartCoroutine(DisableCollision(currentOneWayPlatform.GetComponent<BoxCollider2D>()));
+              
             }
         }
     }
@@ -42,9 +46,8 @@ public class PlayerOneWayPlatform : MonoBehaviour
         }
     }
 
-    private IEnumerator DisableCollision()
+    private IEnumerator DisableCollision(BoxCollider2D platformCollider)
     {
-        BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
 
         Physics2D.IgnoreCollision(_PlayerCollider, platformCollider);
         yield return new WaitForSeconds(0.25f);

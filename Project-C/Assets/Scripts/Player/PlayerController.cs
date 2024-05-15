@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMove(Vector2 movementInput)
     {
+        Debug.Log("MOVE");
         _MovementInput = movementInput;
     }
 
@@ -122,15 +123,15 @@ public class PlayerController : MonoBehaviour
         Debug.Log(PlayerState.State);
     }
 
-    //FOCUS ON THESE
+
     #region Input functions
     public void OnMove(InputAction.CallbackContext context)
     {
-        _MovementInput = context.ReadValue<Vector2>();  
+        _MovementInput = context.ReadValue<Vector2>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
-    { 
+    {
         _Jumped = context.action.triggered;
     }
 
@@ -148,6 +149,7 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
 
 
     /*
@@ -175,7 +177,7 @@ public class PlayerController : MonoBehaviour
                 {
                     _FastFalling = false;
                     _RB.velocity = new Vector2(_RB.velocity.x / 3, _MidAirJumpHeight);
-                    _DoubleJumpCount--; 
+                    _DoubleJumpCount--;
                     _Jumped = false;
                 }
                 else
@@ -240,7 +242,7 @@ public class PlayerController : MonoBehaviour
         #region Arial move
         else
         {
-            if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction || PlayerState.State == PlayerStateManager.PossibleStates.Attacking || PlayerState.State == PlayerStateManager.PossibleStates.PsedeuFree)
+            if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction || PlayerState.State == PlayerStateManager.PossibleStates.Attacking || PlayerState.State == PlayerStateManager.PossibleStates.PreparingAttack || PlayerState.State == PlayerStateManager.PossibleStates.Recovering || PlayerState.State == PlayerStateManager.PossibleStates.PsedeuFree)
             {
                 Move(PlayerMovementVector.x, _NAirSpeed, _NAirSpeedCap);
 
@@ -252,7 +254,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Move(PlayerMovementVector.x, _NAirSpeed/2, _NAirSpeedCap / 3, false);
+                Move(PlayerMovementVector.x, _NAirSpeed / 2, _NAirSpeedCap / 3, false);
             }
         }
         #endregion

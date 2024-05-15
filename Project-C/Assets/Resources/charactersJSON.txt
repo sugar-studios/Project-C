@@ -86,26 +86,28 @@
                     "priority": 3,
                     "hits": [
                         {
-                            "size": {"x": 1, "y": 1, "z": 1},
+                            "size": {"x": 0.25, "y": 0.4, "z": 1},
                             "scale": 1,
                             "rotation": {"x": 0, "y": 0, "z": 90},
                             "position": {"x": 2, "y": 0, "z": 0},
-                            "startup": 0.3,
-                            "active": 1.0,
-                            "endlag": 0.4,
+                            "startup": 0.1,
+                            "active": 0.0,
+                            "endlag": 0.05,
                             "damage": 30,
                             "knockback": 15,
                             "isSetKnockback": false,
                             "knockbackScaling": 2.0,
-                            "speed": 5.0,
-                            "duration": 5.0,
-                            "dropOffRate": 0.1,
+                            "speed": 20.0,
+                            "duration": 1.0,
+                            "dropOffRate": 0,
                             "maxChargeTime": 2.0
                         }
                     ],
                     "hitboxType": "capsule",
                     "attackType": "projectile",
-                    "chargeable": true
+                    "chargeable": true,
+                    "projectileDir": 0,
+                    "maintainMomentum": true
                 }
             }
         }
