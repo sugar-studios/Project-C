@@ -64,24 +64,30 @@ public class PlayerAttacker : MonoBehaviour
 
     private string GetAttackLabel(string attackType)
     {
-        string stateLabel = Player.IsGrounded() ? "ground" : "air";
+        string stateLabel = Player.IsGrounded() ? "ground" : "airial";
         string direction = "neutral";
 
-        if (attackType != "trademark")
-        {
-            Vector2 inputVector = Player.PlayerInputVector;
+        Vector2 inputVector = Player.PlayerInputVector;
 
-            if (Mathf.Abs(inputVector.x) > 0) direction = (inputVector.x > 0) == Player.IsFacingRight ? "forward" : "backward";
-            else if (inputVector.y > 0) direction = "upward";
-            else if (inputVector.y < 0) direction = "downward";
+        if (Mathf.Abs(inputVector.x) > 0) direction = (inputVector.x > 0) == Player.IsFacingRight ? "forward" : "backward";
+        else if (inputVector.y > 0) direction = "upward";
+        else if (inputVector.y < 0) direction = "downward";
+
+        if (attackType == "trademark")
+        {
+            stateLabel = "";
         }
 
+
+        Debug.Log($"{direction} {stateLabel} {attackType} attack");
         return $"{direction} {stateLabel} {attackType} attack";
     }
 
     private void StartAttack(string moveLabel, List<Attack> attacks)
     {
         Attack selectedAttack = FindAttackInMoveset(attacks, moveLabel);
+        Debug.Log(selectedAttack.name);
+        Debug.Log(moveLabel);
         if (selectedAttack != null && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
             StartCoroutine(PerformAttack(selectedAttack));
     }

@@ -493,7 +493,38 @@
                         "name": "Forward/Backward Trademark Projectile",
                         "id": "default_trademark_forward_backward",
                         "description": "A powerful energy blast shot forward or backward.",
-                        "moveLabel": "forward/backward special attack",
+                        "moveLabel": "forward  tradenark attack",
+                        "priority": 3,
+                        "hits": [
+                            {
+                                "size": {"x": 0.5, "y": 0.5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0.1,
+                                "active": 5.0,
+                                "endlag": 0.1,
+                                "damage": 30,
+                                "knockback": 15,
+                                "isSetKnockback": false,
+                                "knockbackScaling": 2.0,
+                                "speed": 15.0,
+                                "duration": 5.0,
+                                "dropOffRate": 0,
+                                "maxChargeTime": 2.0
+                            }
+                        ],
+                        "hitboxType": "capsule",
+                        "attackType": "projectile",
+                        "chargeable": true,
+                        "projectileDir": 0,
+                        "maintainMomentum": true
+                    },
+                    {
+                        "name": "Forward/Backward Trademark Projectile",
+                        "id": "default_trademark_forward_backward",
+                        "description": "A powerful energy blast shot forward or backward.",
+                        "moveLabel": "backward  trademark attack",
                         "priority": 3,
                         "hits": [
                             {
@@ -524,7 +555,7 @@
                         "name": "Upward Trademark Projectile",
                         "id": "default_trademark_upward",
                         "description": "A vertical energy burst shot upwards.",
-                        "moveLabel": "upward special attack",
+                        "moveLabel": "upward trademark attack",
                         "priority": 3,
                         "hits": [
                             {
@@ -555,7 +586,7 @@
                         "name": "Downward Trademark Projectile",
                         "id": "default_trademark_downward",
                         "description": "A downward energy spike shot to the ground.",
-                        "moveLabel": "downward special attack",
+                        "moveLabel": "downward  trademark attack",
                         "priority": 3,
                         "hits": [
                             {
@@ -586,7 +617,7 @@
                         "name": "Neutral Trademark Projectile",
                         "id": "default_trademark_neutral",
                         "description": "A neutral energy orb that hovers before shooting.",
-                        "moveLabel": "neutral special attack",
+                        "moveLabel": "neutral  trademark attack",
                         "priority": 3,
                         "hits": [
                             {
