@@ -357,13 +357,14 @@ MonoBehaviour:
   PlayerInputVector: {x: 0, y: 0}
   PlayerMovementVector: {x: 0, y: 0}
   PlayerState: {fileID: 6907211935116382668}
-  StanderizeMovement: 1
+  StanderizeMovement: 0
   IsFacingRight: 1
+  TimeBeforeFastFall: 0.2
   _JumpHeight: 16.1
   _FastFallSpeed: 2.5
-  _NGroundSpeedCap: 4.25
-  _DGroundSpeedCap: 8.25
-  _NAirSpeedCap: 6.25
+  _NGroundSpeedCap: 5.5
+  _DGroundSpeedCap: 10.5
+  _NAirSpeedCap: 8
   _NGroundSpeed: 2000
   _DGroundSpeed: 2000
   _NAirSpeed: 2000
@@ -389,7 +390,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _PlayerCollider: {fileID: 7946432551139750238}
-  _PlatformFallSound: {fileID: 0}
 --- !u!114 &6858918206480875587
 MonoBehaviour:
   m_ObjectHideFlags: 0

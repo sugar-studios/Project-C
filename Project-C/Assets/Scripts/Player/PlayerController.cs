@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public bool StanderizeMovement = false;
     public bool IsFacingRight = true;
 
+    private  float _AirTimeCounter = 0f; // Timer to track time spent airborne
+
     private Rigidbody2D _RB;
     private bool _IsDashing = false;
     private bool _FastFalling = false;
@@ -25,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private float _CoyoteTime = .2f;
     private float _CoyoteTimeCounter;
 
+    public float TimeBeforeFastFall = 0.2f;
     private PlayerInputReceiver _inputReceiver;
 
     private Vector2 _MovementInput = Vector2.zero;
@@ -255,6 +258,14 @@ public class PlayerController : MonoBehaviour
             else
             {
                 Move(PlayerMovementVector.x, _NAirSpeed / 2, _NAirSpeedCap / 3, false);
+            }
+            if (_AirTimeCounter > TimeBeforeFastFall)
+            {
+                _AirTimeCounter = TimeBeforeFastFall;
+            }
+            else
+            {
+                _AirTimeCounter += Time.deltaTime;
             }
         }
         #endregion

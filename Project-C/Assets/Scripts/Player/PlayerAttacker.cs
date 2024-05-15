@@ -102,7 +102,7 @@ public class PlayerAttacker : MonoBehaviour
 
     IEnumerator PerformProjectileAttack(Attack attack)
     {
-        PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
+        PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
         yield return new WaitForSeconds(attack.hits[0].startup);
 
         PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
