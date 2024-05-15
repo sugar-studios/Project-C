@@ -493,7 +493,7 @@
                         "name": "Forward/Backward Trademark Projectile",
                         "id": "default_trademark_forward_backward",
                         "description": "A powerful energy blast shot forward or backward.",
-                        "moveLabel": "forward  tradenark attack",
+                        "moveLabel": "forward  trademark attack",
                         "priority": 3,
                         "hits": [
                             {
@@ -555,7 +555,7 @@
                         "name": "Upward Trademark Projectile",
                         "id": "default_trademark_upward",
                         "description": "A vertical energy burst shot upwards.",
-                        "moveLabel": "upward trademark attack",
+                        "moveLabel": "upward  trademark attack",
                         "priority": 3,
                         "hits": [
                             {
