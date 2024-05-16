@@ -90,6 +90,7 @@ public class PlayerAttacker : MonoBehaviour
     private void StartAttack(string moveLabel, List<Attack> attacks)
     {
         Attack selectedAttack = FindAttackInMoveset(attacks, moveLabel);
+        bool groundOrAirAttack = moveLabel.Contains("ground") ? true : false;
         if (selectedAttack != null && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
         {
             PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
@@ -106,7 +107,7 @@ public class PlayerAttacker : MonoBehaviour
             }
             else
             {
-                StartCoroutine(PerformMultiHitAttack(selectedAttack.hits, selectedAttack.hitboxType));
+                StartCoroutine(PerformMultiHitAttack(selectedAttack.hits, selectedAttack.hitboxType, groundOrAirAttack));
             }
         }
     }
@@ -115,27 +116,63 @@ public class PlayerAttacker : MonoBehaviour
     {
         return attacks.Find(attack => attack.moveLabel.Equals(moveLabel, System.StringComparison.OrdinalIgnoreCase));
     }
-
-    IEnumerator PerformMultiHitAttack(List<Hit> hits, string hitboxType)
+    IEnumerator PerformMultiHitAttack(List<Hit> hits, string hitboxType, bool gOAA = true)
     {
+        GameObject activeHitbox = null;  // Declare outside to ensure scope covers the entire method.
+
         foreach (var hit in hits)
         {
             yield return new WaitForSeconds(hit.startup);
 
-            GameObject activeHitbox = CreateHitbox(
+            // Check if the player becomes grounded during startup or active phase and gOAA is false.
+            if (!gOAA && Player.IsGrounded())
+            {
+                // Cancel current attack and proceed to apply endlag.
+                if (activeHitbox != null)
+                {
+                    Destroy(activeHitbox);
+                    activeHitbox = null;
+                }
+                yield return new WaitForSeconds(hit.endlag);
+                break; // Exit the loop to end the attack sequence.
+            }
+
+            activeHitbox = CreateHitbox(
                 hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
                 hit.position,
                 hit.rotation,
                 hit.size * hit.scale
             );
+
             yield return new WaitForSeconds(hit.active);
 
-            Destroy(activeHitbox);
+            // Immediately destroy the hitbox after its active phase to ensure it doesn't linger.
+            if (activeHitbox != null)
+            {
+                Destroy(activeHitbox);
+                activeHitbox = null;
+            }
+
+            // Check again if the player has become grounded during endlag when gOAA is false.
+            if (!gOAA && Player.IsGrounded())
+            {
+                break; // Exit the loop to end the attack sequence immediately, skipping further endlag.
+            }
+
             yield return new WaitForSeconds(hit.endlag);
         }
 
-        PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
+        // Ensure hitbox is cleaned up in case of an early break from the loop.
+        if (activeHitbox != null)
+        {
+            Destroy(activeHitbox);
+            activeHitbox = null;
+        }
+
+        PlayerState.State = PlayerStateManager.PossibleStates.FreeAction; // Reset player state.
     }
+
+
 
     IEnumerator PerformProjectileAttack(Attack attack)
     {
