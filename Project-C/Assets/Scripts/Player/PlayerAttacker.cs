@@ -85,6 +85,7 @@ public class PlayerAttacker : MonoBehaviour
             stateLabel = "";
         }
 
+        Debug.Log($"{direction} {stateLabel} {attackType} attack");
         return $"{direction} {stateLabel} {attackType} attack";
     }
 
@@ -127,6 +128,8 @@ public class PlayerAttacker : MonoBehaviour
             }
             else if (selectedAttack.attackType == "melee")
             {
+                Debug.Log("Attack");
+                Debug.Log(groundOrAirAttack);
                 StartCoroutine(PerformMultiHitAttack(selectedAttack.hits, selectedAttack.hitboxType, selectedAttack.name, groundOrAirAttack));
             }
             if (!string.IsNullOrEmpty(selectedAttack.attackFunction))
@@ -158,6 +161,8 @@ public class PlayerAttacker : MonoBehaviour
     {
         GameObject activeHitbox = null;  // Declare outside to ensure scope covers the entire method.
 
+        Debug.Log(hits[0]);
+
         foreach (var hit in hits)
         {
             yield return new WaitForSeconds(hit.startup);
@@ -183,8 +188,11 @@ public class PlayerAttacker : MonoBehaviour
                 attack
             );
 
-            AttackHitbox hitboxScript = activeHitbox.GetComponent<AttackHitbox>();
-            hitboxScript.Initialize(hit, PlayerState, Player);
+            Hitbox hitboxScript = activeHitbox.GetComponent<Hitbox>();
+            if (hitboxScript != null)
+            {
+                hitboxScript.Initialize(hit, gameObject);
+            }
 
             yield return new WaitForSeconds(hit.active);
 
@@ -202,20 +210,6 @@ public class PlayerAttacker : MonoBehaviour
             }
 
             yield return new WaitForSeconds(hit.endlag);
-
-            if (hit.hitstun)
-            {
-                PlayerState.State = PlayerStateManager.PossibleStates.HitStun;
-                yield return new WaitForSeconds(hit.hitstunDuration);
-                PlayerState.State = PlayerStateManager.PossibleStates.PsedeuFree;
-                yield return new WaitForSeconds(1.0f);
-                PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
-            }
-
-            if (!string.IsNullOrEmpty(hit.hitFunction))
-            {
-                InvokeTrademarkFunction(hit.hitFunction);
-            }
         }
 
         // Ensure hitbox is cleaned up in case of an early break from the loop.
@@ -242,6 +236,12 @@ public class PlayerAttacker : MonoBehaviour
             attack.hits[0].dropOffRate,
             attack.projectileDir
         );
+
+        Hitbox hitboxScript = projectile.GetComponent<Hitbox>();
+        if (hitboxScript != null)
+        {
+            hitboxScript.Initialize(attack.hits[0], gameObject);
+        }
 
         if (!string.IsNullOrEmpty(attack.attackFunction))
         {
@@ -275,6 +275,12 @@ public class PlayerAttacker : MonoBehaviour
             attack.hits[0].dropOffRate,
             attack.projectileDir
         );
+
+        Hitbox hitboxScript = projectile.GetComponent<Hitbox>();
+        if (hitboxScript != null)
+        {
+            hitboxScript.Initialize(attack.hits[0], gameObject);
+        }
 
         if (!string.IsNullOrEmpty(attack.attackFunction))
         {

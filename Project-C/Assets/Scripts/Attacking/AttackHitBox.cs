@@ -1,69 +1,121 @@
 using UnityEngine;
 using System.Collections;
 
-public class AttackHitbox : MonoBehaviour
+public class Hitbox : MonoBehaviour
 {
-    private Hit hitData;
-    private PlayerStateManager attackerState;
-    private PlayerController attacker;
+    public int priority;
+    public Vector3 size;
+    public float scale;
+    public Vector3 rotation;
+    public Vector3 position;
+    public float startup;
+    public float active;
+    public float endlag;
+    public int damage;
+    public float knockback;
+    public bool isSetKnockback;
+    public float knockbackScaling;
+    public float speed;
+    public float duration;
+    public float dropOffRate;
+    public float maxChargeTime;
+    public bool hitstun;
+    public float hitstunDuration;
+    public string hitFunction;
 
-    public void Initialize(Hit hitData, PlayerStateManager attackerState, PlayerController attacker)
+    private GameObject attacker;
+
+    public void Initialize(Hit hit, GameObject attacker)
     {
-        this.hitData = hitData;
-        this.attackerState = attackerState;
+        priority = hit.priority;
+        size = hit.size;
+        scale = hit.scale;
+        rotation = hit.rotation;
+        position = hit.position;
+        startup = hit.startup;
+        active = hit.active;
+        endlag = hit.endlag;
+        damage = hit.damage;
+        knockback = hit.knockback;
+        isSetKnockback = hit.isSetKnockback;
+        knockbackScaling = hit.knockbackScaling;
+        speed = hit.speed;
+        duration = hit.duration;
+        dropOffRate = hit.dropOffRate;
+        maxChargeTime = hit.maxChargeTime;
+        hitstun = hit.hitstun;
+        hitstunDuration = hit.hitstunDuration;
+        hitFunction = hit.hitFunction;
+
         this.attacker = attacker;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Attack!!");
-        if (collision.gameObject.tag != attacker.gameObject.tag && collision.gameObject.layer == LayerMask.NameToLayer("Hurtbox"))
+        if (collision.gameObject.tag != attacker.tag && collision.gameObject.layer == LayerMask.NameToLayer("Hurtbox"))
         {
-            Debug.Log("Attack Connected");
-            PlayerStateManager targetState = collision.GetComponent<PlayerStateManager>();
-            Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
-            if (targetState != null)
-            {
-                ApplyHitEffects(targetState, collision.transform.position);
-            }
+            PlayerStateManager opponentState = collision.transform.parent.GetComponent<PlayerStateManager>();
+            Rigidbody2D opponentRb = collision.transform.parent.GetComponent<Rigidbody2D>();
 
-            Destroy(gameObject);
+            if (opponentState != null && opponentRb != null)
+            {
+                Debug.Log("step 1");
+                Debug.Log($"op state: {opponentState}");
+                Debug.Log($"op state: {opponentRb.velocity}");
+                ApplyHitEffects(opponentState, opponentRb);
+                Destroy(gameObject);
+            }
         }
     }
 
-    private void ApplyHitEffects(PlayerStateManager targetState, Vector3 hitPosition, Rigidbody2D rb)
+    private void ApplyHitEffects(PlayerStateManager opponentState, Rigidbody2D opponentRb)
     {
-        targetState.health -= hitData.damage;
+        // Apply damage
+        opponentState.health -= damage;
 
-        if (hitData.hitstun)
+        // Apply hitstun
+        if (hitstun)
         {
-            StartCoroutine(ApplyHitstunAndKnockback(targetState, hitPosition));
+            Debug.Log("step 2a");
+            //StartCoroutine(HitstunCoroutine(opponentState, opponentRb));
+            ApplyKnockback(opponentState, opponentRb);
         }
         else
         {
-            ApplyKnockback(targetState, hitPosition);
+            Debug.Log("step 2b");
+            ApplyKnockback(opponentState, opponentRb);
         }
     }
 
-    private IEnumerator ApplyHitstunAndKnockback(PlayerStateManager targetState, Vector3 hitPosition)
+    private IEnumerator HitstunCoroutine(PlayerStateManager opponentState, Rigidbody2D opponentRb)
     {
-        targetState.State = PlayerStateManager.PossibleStates.HitStun;
-        yield return new WaitForSeconds(hitData.hitstunDuration);
-        ApplyKnockback(targetState, hitPosition);
-        targetState.State = PlayerStateManager.PossibleStates.PsedeuFree;
-        yield return new WaitForSeconds(1.0f);
-        targetState.State = PlayerStateManager.PossibleStates.FreeAction;
+        Debug.Log("step 2.5a");
+        Debug.Log(hitstunDuration);
+        opponentState.State = PlayerStateManager.PossibleStates.HitStun;
+        yield return new WaitForSeconds(hitstunDuration);
+        ApplyKnockback(opponentState, opponentRb);
     }
 
-    private void ApplyKnockback(PlayerStateManager targetState, Vector3 hitPosition)
+    private void ApplyKnockback(PlayerStateManager opponentState, Rigidbody2D opponentRb)
     {
-        Vector2 direction = (hitPosition - attacker.transform.position).normalized;
-        float knockbackForce = hitData.isSetKnockback ? hitData.knockback : Mathf.Max(hitData.knockbackScaling * hitData.knockback - targetState.playerWeight, hitData.knockback / 3);
+        Debug.Log("step 3");
+        float totalKnockback = isSetKnockback ? knockback : knockback * (opponentState.KOScale / 100f)*10000;
+        Vector2 knockbackDirection = new Vector2(attacker.transform.localScale.x * Mathf.Cos(rotation.z * Mathf.Deg2Rad), Mathf.Sin(rotation.z * Mathf.Deg2Rad));
+        opponentRb.AddForce(knockbackDirection * totalKnockback, ForceMode2D.Impulse);
 
-        Rigidbody2D targetRB = targetState.GetComponent<Rigidbody2D>();
-        if (targetRB != null)
-        {
-            targetRB.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
-        }
+        // Apply KO scaling
+        opponentState.KOScale += knockbackScaling;
+
+        // Transition to pseudo-free state
+        opponentState.State = PlayerStateManager.PossibleStates.PsedeuFree;
+        StartCoroutine(PseudoFreeCoroutine(opponentState));
+    }
+
+    private IEnumerator PseudoFreeCoroutine(PlayerStateManager opponentState)
+    {
+        Debug.Log("step 4");
+        yield return new WaitForSeconds(1f);
+        Debug.Log("step 5");
+        opponentState.State = PlayerStateManager.PossibleStates.FreeAction;
     }
 }
