@@ -621,17 +621,17 @@
                         "hits": [
                             {
                                 "priority": 1,
-                                "size": {"x": 2, "y": 1.5, "z": 2},
+                                "size": {"x": 2.5, "y": 2.5, "z": 2.5},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
                                 "position": {"x": 0, "y": 0, "z": 0},
                                 "startup": 0.01,
                                 "active": 0.01,
                                 "endlag": 0.05,
-                                "damage": 24,
-                                "knockback": 12,
-                                "isSetKnockback": true,
-                                "knockbackScaling": 1.8
+                                "damage": 28,
+                                "knockback": 14,
+                                "isSetKnockback": false,
+                                "knockbackScaling": 1.8,
                             }
                         ],
                         "hitboxType": "capsule",

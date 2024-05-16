@@ -103,7 +103,7 @@ public class PlayerAttacker : MonoBehaviour
         {
             groundOrAirAttack = 3;
         }
-            Debug.Log(selectedAttack.attackType);
+        Debug.Log(selectedAttack.attackType);
         if (selectedAttack != null && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
         {
             PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
@@ -118,9 +118,10 @@ public class PlayerAttacker : MonoBehaviour
                     StartCoroutine(PerformProjectileAttack(selectedAttack));
                 }
             }
-            else
+            else if (selectedAttack.attackType == "melee")
             {
                 Debug.Log("Attack");
+                Debug.Log(groundOrAirAttack);
                 StartCoroutine(PerformMultiHitAttack(selectedAttack.hits, selectedAttack.hitboxType, selectedAttack.name, groundOrAirAttack));
             }
         }
@@ -130,16 +131,19 @@ public class PlayerAttacker : MonoBehaviour
     {
         return attacks.Find(attack => attack.moveLabel.Equals(moveLabel, System.StringComparison.OrdinalIgnoreCase));
     }
+
     IEnumerator PerformMultiHitAttack(List<Hit> hits, string hitboxType, string attack, byte gOAA = 3)
     {
         GameObject activeHitbox = null;  // Declare outside to ensure scope covers the entire method.
+
+        Debug.Log(hits[0]);
 
         foreach (var hit in hits)
         {
             yield return new WaitForSeconds(hit.startup);
 
             // Check if the player becomes grounded during startup or active phase and gOAA is false.
-            if (gOAA != 1 && Player.IsGrounded())
+            if ((gOAA == 2) && Player.IsGrounded())
             {
                 // Cancel current attack and proceed to apply endlag.
                 if (activeHitbox != null)
@@ -157,7 +161,7 @@ public class PlayerAttacker : MonoBehaviour
                 hit.rotation,
                 hit.size * hit.scale,
                 attack
-            ) ;
+            );
 
             yield return new WaitForSeconds(hit.active);
 
@@ -169,7 +173,7 @@ public class PlayerAttacker : MonoBehaviour
             }
 
             // Check again if the player has become grounded during endlag when gOAA is false.
-            if (gOAA != 1 && Player.IsGrounded())
+            if (gOAA == 2 && Player.IsGrounded())
             {
                 break; // Exit the loop to end the attack sequence immediately, skipping further endlag.
             }
@@ -186,8 +190,6 @@ public class PlayerAttacker : MonoBehaviour
 
         PlayerState.State = PlayerStateManager.PossibleStates.FreeAction; // Reset player state.
     }
-
-
 
     IEnumerator PerformProjectileAttack(Attack attack)
     {

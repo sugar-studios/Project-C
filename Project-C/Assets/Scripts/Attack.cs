@@ -35,4 +35,5 @@ public class Hit
     public float duration;
     public float dropOffRate;
     public float maxChargeTime;
+
 }
