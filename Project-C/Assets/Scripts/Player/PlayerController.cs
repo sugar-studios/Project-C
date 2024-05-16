@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public bool StanderizeMovement = false;
     public bool IsFacingRight = true;
 
-    private  float _AirTimeCounter = 0f; // Timer to track time spent airborne
+    private float _AirTimeCounter = 0f; // Timer to track time spent airborne
 
     private Rigidbody2D _RB;
     private bool _IsDashing = false;
@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
     private float _DoubleJumpCount;
     private float _CoyoteTime = .2f;
     private float _CoyoteTimeCounter;
+
+    public delegate void LandHandler();
+    public event LandHandler OnLandEvent;
+    private bool wasGroundedLastFrame = false;
 
     public float TimeBeforeFastFall = 0.2f;
     private PlayerInputReceiver _inputReceiver;
@@ -219,6 +223,7 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
+        CheckLanding();
     }
 
     /*
@@ -305,6 +310,16 @@ public class PlayerController : MonoBehaviour
     {
         return Physics2D.OverlapCircle(_GroundCheck.position, 0.2f, _GroundLayer);
     }
+
+    private void CheckLanding()
+    {
+        if (!wasGroundedLastFrame && IsGrounded())
+        {
+            OnLandEvent?.Invoke(); // Trigger the event when landing is detected
+        }
+        wasGroundedLastFrame = IsGrounded();
+    }
+
     #endregion
 
     #region Standerize Inputs
@@ -335,5 +350,3 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 }
-
-

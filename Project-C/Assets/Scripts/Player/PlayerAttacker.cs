@@ -46,20 +46,25 @@ public class PlayerAttacker : MonoBehaviour
 
     private void HandleLightAttack(bool triggered)
     {
-        if (triggered)
+        if (triggered && CanInitiateAttack())
             StartAttack(GetAttackLabel("light"), currentMoveset.lightAttack);
     }
 
     private void HandleHeavyAttack(bool triggered)
     {
-        if (triggered)
+        if (triggered && CanInitiateAttack())
             StartAttack(GetAttackLabel("heavy"), currentMoveset.heavyAttack);
     }
 
     private void HandleTrademarkAttack(bool triggered)
     {
-        if (triggered)
+        if (triggered && CanInitiateAttack())
             StartAttack(GetAttackLabel("trademark"), currentMoveset.trademarkAttack);
+    }
+
+    private bool CanInitiateAttack()
+    {
+        return PlayerState.State == PlayerStateManager.PossibleStates.FreeAction;
     }
 
     private string GetAttackLabel(string attackType)
@@ -85,10 +90,9 @@ public class PlayerAttacker : MonoBehaviour
     private void StartAttack(string moveLabel, List<Attack> attacks)
     {
         Attack selectedAttack = FindAttackInMoveset(attacks, moveLabel);
-        Debug.Log(selectedAttack.name);
-        Debug.Log(moveLabel);
         if (selectedAttack != null && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
         {
+            PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
             if (selectedAttack.attackType == "projectile")
             {
                 if (selectedAttack.chargeable)
@@ -116,10 +120,8 @@ public class PlayerAttacker : MonoBehaviour
     {
         foreach (var hit in hits)
         {
-            PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
             yield return new WaitForSeconds(hit.startup);
 
-            PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
             GameObject activeHitbox = CreateHitbox(
                 hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
                 hit.position,
@@ -129,7 +131,6 @@ public class PlayerAttacker : MonoBehaviour
             yield return new WaitForSeconds(hit.active);
 
             Destroy(activeHitbox);
-            PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
             yield return new WaitForSeconds(hit.endlag);
         }
 
@@ -138,10 +139,8 @@ public class PlayerAttacker : MonoBehaviour
 
     IEnumerator PerformProjectileAttack(Attack attack)
     {
-        PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
         yield return new WaitForSeconds(attack.hits[0].startup);
 
-        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
         GameObject projectile = CreateProjectile(
             attack.hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
             attack.hits[0].position,
@@ -153,7 +152,6 @@ public class PlayerAttacker : MonoBehaviour
             attack.projectileDir
         );
 
-        PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
         yield return new WaitForSeconds(attack.hits[0].endlag);
 
         PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
@@ -161,7 +159,6 @@ public class PlayerAttacker : MonoBehaviour
 
     IEnumerator PerformChargeableProjectileAttack(Attack attack)
     {
-        PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
         float chargeTime = 0f;
         while (inputReceiver.IsCharging)
         {
@@ -172,7 +169,6 @@ public class PlayerAttacker : MonoBehaviour
         float maxChargeTime = attack.hits[0].maxChargeTime;
         chargeTime = Mathf.Clamp(chargeTime, 0, maxChargeTime);
 
-        PlayerState.State = PlayerStateManager.PossibleStates.Attacking;
         GameObject projectile = CreateProjectile(
             attack.hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
             attack.hits[0].position,
@@ -184,7 +180,6 @@ public class PlayerAttacker : MonoBehaviour
             attack.projectileDir
         );
 
-        PlayerState.State = PlayerStateManager.PossibleStates.Recovering;
         yield return new WaitForSeconds(attack.hits[0].endlag);
 
         PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
