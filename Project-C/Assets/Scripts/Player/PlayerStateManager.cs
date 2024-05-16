@@ -6,6 +6,16 @@ public class PlayerStateManager : MonoBehaviour
 {
     public PossibleStates State;
 
+    [Range(0f, 100f)]
+    public float health = 100f;
+    [Range(0.1f, 1f)]
+    public float KOScale = 0.1f;
+    [Range(0f, 1f)]
+    public float ultimate = 0f;
+    [Range(0f, 3f)]
+    public float lives = 3f;
+    public float playerWeight = 10f;
+
     // Expanded the states to include detailed attack phases and a generic recovering state
     public enum PossibleStates
     {

@@ -8,9 +8,13 @@ public class TrademarkFunctions : MonoBehaviour
 
     public void default_trademark_neutral_hit()
     {
-        Debug.Log("Charge up");
+        Debug.Log("Blast!");
     }
     public void default_trademark_downward_attack()
+    {
+        Debug.Log("Recover");
+    }
+    public void default_trademark_forward_attack()
     {
         Debug.Log("Recover");
     }

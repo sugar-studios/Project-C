@@ -14,6 +14,7 @@ public class Attack
     public bool chargeable;
     public float projectileDir;
     public bool maintainMomentum;
+    public string attackFunction; // New optional parameter
 }
 
 [System.Serializable]
@@ -35,5 +36,7 @@ public class Hit
     public float duration;
     public float dropOffRate;
     public float maxChargeTime;
-
+    public bool hitstun; // New mandatory field
+    public float hitstunDuration; // New mandatory field
+    public string hitFunction; // New optional parameter
 }

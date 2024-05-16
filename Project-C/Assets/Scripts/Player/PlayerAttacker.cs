@@ -16,6 +16,7 @@ public class PlayerAttacker : MonoBehaviour
     public string characterName;
     private JSONReader jsonReader;
     private JSONReader.Moveset currentMoveset;
+    private TrademarkFunctions trademarkFunctions;
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class PlayerAttacker : MonoBehaviour
         Player = GetComponent<PlayerController>();
         inputReceiver = GetComponent<PlayerInputReceiver>();
         jsonReader = GetComponent<JSONReader>();
+        trademarkFunctions = GetComponent<TrademarkFunctions>();
 
         currentMoveset = jsonReader.GetMovesetByName(characterName);
 
@@ -83,13 +85,18 @@ public class PlayerAttacker : MonoBehaviour
             stateLabel = "";
         }
 
-        Debug.Log($"{direction} {stateLabel} {attackType} attack");
         return $"{direction} {stateLabel} {attackType} attack";
     }
 
     private void StartAttack(string moveLabel, List<Attack> attacks)
     {
         Attack selectedAttack = FindAttackInMoveset(attacks, moveLabel);
+        if (selectedAttack == null)
+        {
+            Debug.LogError($"Attack with label {moveLabel} not found");
+            return;
+        }
+
         byte groundOrAirAttack = 3;
         if (moveLabel.Contains("ground"))
         {
@@ -104,7 +111,7 @@ public class PlayerAttacker : MonoBehaviour
             groundOrAirAttack = 3;
         }
         Debug.Log(selectedAttack.attackType);
-        if (selectedAttack != null && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
+        if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
         {
             PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
             if (selectedAttack.attackType == "projectile")
@@ -120,10 +127,25 @@ public class PlayerAttacker : MonoBehaviour
             }
             else if (selectedAttack.attackType == "melee")
             {
-                Debug.Log("Attack");
-                Debug.Log(groundOrAirAttack);
                 StartCoroutine(PerformMultiHitAttack(selectedAttack.hits, selectedAttack.hitboxType, selectedAttack.name, groundOrAirAttack));
             }
+            if (!string.IsNullOrEmpty(selectedAttack.attackFunction))
+            {
+                InvokeTrademarkFunction(selectedAttack.attackFunction);
+            }
+        }
+    }
+
+    private void InvokeTrademarkFunction(string functionName)
+    {
+        var method = trademarkFunctions.GetType().GetMethod(functionName);
+        if (method != null)
+        {
+            method.Invoke(trademarkFunctions, null);
+        }
+        else
+        {
+            Debug.LogError("Function not found: " + functionName);
         }
     }
 
@@ -135,8 +157,6 @@ public class PlayerAttacker : MonoBehaviour
     IEnumerator PerformMultiHitAttack(List<Hit> hits, string hitboxType, string attack, byte gOAA = 3)
     {
         GameObject activeHitbox = null;  // Declare outside to ensure scope covers the entire method.
-
-        Debug.Log(hits[0]);
 
         foreach (var hit in hits)
         {
@@ -163,6 +183,9 @@ public class PlayerAttacker : MonoBehaviour
                 attack
             );
 
+            AttackHitbox hitboxScript = activeHitbox.GetComponent<AttackHitbox>();
+            hitboxScript.Initialize(hit, PlayerState, Player);
+
             yield return new WaitForSeconds(hit.active);
 
             // Immediately destroy the hitbox after its active phase to ensure it doesn't linger.
@@ -179,6 +202,20 @@ public class PlayerAttacker : MonoBehaviour
             }
 
             yield return new WaitForSeconds(hit.endlag);
+
+            if (hit.hitstun)
+            {
+                PlayerState.State = PlayerStateManager.PossibleStates.HitStun;
+                yield return new WaitForSeconds(hit.hitstunDuration);
+                PlayerState.State = PlayerStateManager.PossibleStates.PsedeuFree;
+                yield return new WaitForSeconds(1.0f);
+                PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
+            }
+
+            if (!string.IsNullOrEmpty(hit.hitFunction))
+            {
+                InvokeTrademarkFunction(hit.hitFunction);
+            }
         }
 
         // Ensure hitbox is cleaned up in case of an early break from the loop.
@@ -205,6 +242,11 @@ public class PlayerAttacker : MonoBehaviour
             attack.hits[0].dropOffRate,
             attack.projectileDir
         );
+
+        if (!string.IsNullOrEmpty(attack.attackFunction))
+        {
+            InvokeTrademarkFunction(attack.attackFunction);
+        }
 
         yield return new WaitForSeconds(attack.hits[0].endlag);
 
@@ -233,6 +275,11 @@ public class PlayerAttacker : MonoBehaviour
             attack.hits[0].dropOffRate,
             attack.projectileDir
         );
+
+        if (!string.IsNullOrEmpty(attack.attackFunction))
+        {
+            InvokeTrademarkFunction(attack.attackFunction);
+        }
 
         yield return new WaitForSeconds(attack.hits[0].endlag);
 

@@ -20,7 +20,6 @@ public class JSONReader : MonoBehaviour
         public List<Attack> trademarkAttack;
     }
 
-
     [System.Serializable]
     public class CharacterData
     {

@@ -23,7 +23,9 @@
                                 "damage": 10,
                                 "knockback": 5,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.2
+                                "knockbackScaling": 1.2,
+                                "hitstun": true,
+                                "hitstunDuration": 0.2
                             }
                         ],
                         "hitboxType": "square",
@@ -47,7 +49,9 @@
                                 "damage": 12,
                                 "knockback": 6,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.3
+                                "knockbackScaling": 1.3,
+                                "hitstun": true,
+                                "hitstunDuration": 0.25
                             }
                         ],
                         "hitboxType": "square",
@@ -71,7 +75,9 @@
                                 "damage": 12,
                                 "knockback": 6,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.3
+                                "knockbackScaling": 1.3,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3
                             }
                         ],
                         "hitboxType": "square",
@@ -95,7 +101,9 @@
                                 "damage": 15,
                                 "knockback": 7,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.4
+                                "knockbackScaling": 1.4,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3
                             }
                         ],
                         "hitboxType": "square",
@@ -119,7 +127,9 @@
                                 "damage": 13,
                                 "knockback": 7,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.3
+                                "knockbackScaling": 1.3,
+                                "hitstun": true,
+                                "hitstunDuration": 0.25
                             }
                         ],
                         "hitboxType": "square",
@@ -143,7 +153,9 @@
                                 "damage": 9,
                                 "knockback": 4,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.1
+                                "knockbackScaling": 1.1,
+                                "hitstun": true,
+                                "hitstunDuration": 0.2
                             }
                         ],
                         "hitboxType": "square",
@@ -167,7 +179,9 @@
                                 "damage": 11,
                                 "knockback": 5,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.2
+                                "knockbackScaling": 1.2,
+                                "hitstun": true,
+                                "hitstunDuration": 0.25
                             }
                         ],
                         "hitboxType": "square",
@@ -191,7 +205,9 @@
                                 "damage": 11,
                                 "knockback": 5,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.2
+                                "knockbackScaling": 1.2,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3
                             }
                         ],
                         "hitboxType": "square",
@@ -215,7 +231,9 @@
                                 "damage": 12,
                                 "knockback": 6,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.3
+                                "knockbackScaling": 1.3,
+                                "hitstun": true,
+                                "hitstunDuration": 0.25
                             }
                         ],
                         "hitboxType": "square",
@@ -239,7 +257,9 @@
                                 "damage": 14,
                                 "knockback": 7,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.4
+                                "knockbackScaling": 1.4,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3
                             }
                         ],
                         "hitboxType": "square",
@@ -265,7 +285,9 @@
                                 "damage": 20,
                                 "knockback": 10,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.5
+                                "knockbackScaling": 1.5,
+                                "hitstun": true,
+                                "hitstunDuration": 0.4
                             }
                         ],
                         "hitboxType": "square",
@@ -289,7 +311,9 @@
                                 "damage": 22,
                                 "knockback": 11,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.6
+                                "knockbackScaling": 1.6,
+                                "hitstun": true,
+                                "hitstunDuration": 0.4
                             }
                         ],
                         "hitboxType": "square",
@@ -313,7 +337,9 @@
                                 "damage": 22,
                                 "knockback": 11,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.6
+                                "knockbackScaling": 1.6,
+                                "hitstun": true,
+                                "hitstunDuration": 0.45
                             }
                         ],
                         "hitboxType": "square",
@@ -337,7 +363,9 @@
                                 "damage": 25,
                                 "knockback": 12,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.7
+                                "knockbackScaling": 1.7,
+                                "hitstun": true,
+                                "hitstunDuration": 0.5
                             }
                         ],
                         "hitboxType": "square",
@@ -361,7 +389,9 @@
                                 "damage": 23,
                                 "knockback": 12,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.7
+                                "knockbackScaling": 1.7,
+                                "hitstun": true,
+                                "hitstunDuration": 0.45
                             }
                         ],
                         "hitboxType": "square",
@@ -385,7 +415,9 @@
                                 "damage": 19,
                                 "knockback": 9,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.5
+                                "knockbackScaling": 1.5,
+                                "hitstun": true,
+                                "hitstunDuration": 0.35
                             }
                         ],
                         "hitboxType": "square",
@@ -409,7 +441,9 @@
                                 "damage": 21,
                                 "knockback": 10,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.6
+                                "knockbackScaling": 1.6,
+                                "hitstun": true,
+                                "hitstunDuration": 0.4
                             }
                         ],
                         "hitboxType": "square",
@@ -433,7 +467,9 @@
                                 "damage": 21,
                                 "knockback": 10,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.6
+                                "knockbackScaling": 1.6,
+                                "hitstun": true,
+                                "hitstunDuration": 0.45
                             }
                         ],
                         "hitboxType": "square",
@@ -457,7 +493,9 @@
                                 "damage": 22,
                                 "knockback": 11,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.7
+                                "knockbackScaling": 1.7,
+                                "hitstun": true,
+                                "hitstunDuration": 0.4
                             }
                         ],
                         "hitboxType": "square",
@@ -481,7 +519,9 @@
                                 "damage": 24,
                                 "knockback": 12,
                                 "isSetKnockback": true,
-                                "knockbackScaling": 1.8
+                                "knockbackScaling": 1.8,
+                                "hitstun": true,
+                                "hitstunDuration": 0.45
                             }
                         ],
                         "hitboxType": "square",
@@ -499,19 +539,22 @@
                                 "priority": 1,
                                 "size": {"x": 0.5, "y": 0.5, "z": 1},
                                 "scale": 1,
-                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "rotation": {"x": 0, "y": 0, "z": 90},
                                 "position": {"x": 2, "y": 0, "z": 0},
                                 "startup": 0.1,
-                                "active": 5.0,
-                                "endlag": 0.1,
+                                "active": 0.01,
+                                "endlag": 0.05,
                                 "damage": 30,
                                 "knockback": 15,
                                 "isSetKnockback": false,
                                 "knockbackScaling": 2.0,
-                                "speed": 15.0,
-                                "duration": 5.0,
+                                "speed": 25.0,
+                                "duration": 0.75,
                                 "dropOffRate": 0,
-                                "maxChargeTime": 2.0
+                                "maxChargeTime": 2.0,
+                                "hitstun": true,
+                                "hitstunDuration": 0.5,
+                                "attackFunction": "default_trademark_forward_attack"
                             }
                         ],
                         "hitboxType": "capsule",
@@ -542,7 +585,10 @@
                                 "speed": 15.0,
                                 "duration": 5.0,
                                 "dropOffRate": 0,
-                                "maxChargeTime": 2.0
+                                "maxChargeTime": 2.0,
+                                "hitstun": true,
+                                "hitstunDuration": 0.5,
+                                "attackFunction": "default_trademark_downward_attack"
                             }
                         ],
                         "hitboxType": "capsule",
@@ -573,7 +619,10 @@
                                 "speed": 12.0,
                                 "duration": 4.0,
                                 "dropOffRate": 0,
-                                "maxChargeTime": 2.0
+                                "maxChargeTime": 2.0,
+                                "hitstun": true,
+                                "hitstunDuration": 0.5,
+                                "attackFunction": "default_trademark_upward_attack"
                             }
                         ],
                         "hitboxType": "capsule",
@@ -604,7 +653,10 @@
                                 "speed": 12.0,
                                 "duration": 4.0,
                                 "dropOffRate": 0,
-                                "maxChargeTime": 2.0
+                                "maxChargeTime": 2.0,
+                                "hitstun": true,
+                                "hitstunDuration": 0.5,
+                                "attackFunction": "default_trademark_downward_attack"
                             }
                         ],
                         "hitboxType": "capsule",
@@ -621,17 +673,20 @@
                         "hits": [
                             {
                                 "priority": 1,
-                                "size": {"x": 2.5, "y": 2.5, "z": 2.5},
+                                "size": {"x": 7, "y": 3.5, "z": 2.5},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
                                 "position": {"x": 0, "y": 0, "z": 0},
-                                "startup": 0.01,
-                                "active": 0.01,
-                                "endlag": 0.05,
+                                "startup": 1,
+                                "active": 0.1,
+                                "endlag": 0.9,
                                 "damage": 28,
                                 "knockback": 14,
                                 "isSetKnockback": false,
                                 "knockbackScaling": 1.8,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3,
+                                "attackFunction": "default_trademark_neutral_hit"
                             }
                         ],
                         "hitboxType": "capsule",
