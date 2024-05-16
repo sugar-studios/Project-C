@@ -90,7 +90,20 @@ public class PlayerAttacker : MonoBehaviour
     private void StartAttack(string moveLabel, List<Attack> attacks)
     {
         Attack selectedAttack = FindAttackInMoveset(attacks, moveLabel);
-        bool groundOrAirAttack = moveLabel.Contains("ground") ? true : false;
+        byte groundOrAirAttack = 3;
+        if (moveLabel.Contains("ground"))
+        {
+            groundOrAirAttack = 1;
+        }
+        else if (moveLabel.Contains("aerial"))
+        {
+            groundOrAirAttack = 2;
+        }
+        else
+        {
+            groundOrAirAttack = 3;
+        }
+            Debug.Log(selectedAttack.attackType);
         if (selectedAttack != null && PlayerState.State == PlayerStateManager.PossibleStates.FreeAction)
         {
             PlayerState.State = PlayerStateManager.PossibleStates.PreparingAttack;
@@ -107,7 +120,8 @@ public class PlayerAttacker : MonoBehaviour
             }
             else
             {
-                StartCoroutine(PerformMultiHitAttack(selectedAttack.hits, selectedAttack.hitboxType, groundOrAirAttack));
+                Debug.Log("Attack");
+                StartCoroutine(PerformMultiHitAttack(selectedAttack.hits, selectedAttack.hitboxType, selectedAttack.name, groundOrAirAttack));
             }
         }
     }
@@ -116,7 +130,7 @@ public class PlayerAttacker : MonoBehaviour
     {
         return attacks.Find(attack => attack.moveLabel.Equals(moveLabel, System.StringComparison.OrdinalIgnoreCase));
     }
-    IEnumerator PerformMultiHitAttack(List<Hit> hits, string hitboxType, bool gOAA = true)
+    IEnumerator PerformMultiHitAttack(List<Hit> hits, string hitboxType, string attack, byte gOAA = 3)
     {
         GameObject activeHitbox = null;  // Declare outside to ensure scope covers the entire method.
 
@@ -125,7 +139,7 @@ public class PlayerAttacker : MonoBehaviour
             yield return new WaitForSeconds(hit.startup);
 
             // Check if the player becomes grounded during startup or active phase and gOAA is false.
-            if (!gOAA && Player.IsGrounded())
+            if (gOAA != 1 && Player.IsGrounded())
             {
                 // Cancel current attack and proceed to apply endlag.
                 if (activeHitbox != null)
@@ -141,8 +155,9 @@ public class PlayerAttacker : MonoBehaviour
                 hitboxType == "square" ? SquareHitbox : CapsuleHitbox,
                 hit.position,
                 hit.rotation,
-                hit.size * hit.scale
-            );
+                hit.size * hit.scale,
+                attack
+            ) ;
 
             yield return new WaitForSeconds(hit.active);
 
@@ -154,7 +169,7 @@ public class PlayerAttacker : MonoBehaviour
             }
 
             // Check again if the player has become grounded during endlag when gOAA is false.
-            if (!gOAA && Player.IsGrounded())
+            if (gOAA != 1 && Player.IsGrounded())
             {
                 break; // Exit the loop to end the attack sequence immediately, skipping further endlag.
             }
@@ -222,11 +237,12 @@ public class PlayerAttacker : MonoBehaviour
         PlayerState.State = PlayerStateManager.PossibleStates.FreeAction;
     }
 
-    GameObject CreateHitbox(GameObject prefab, Vector3 position, Vector3 eulerAngles, Vector3 size)
+    GameObject CreateHitbox(GameObject prefab, Vector3 position, Vector3 eulerAngles, Vector3 size, string attack)
     {
         int playerDir = Player.IsFacingRight ? 1 : -1;
         position = new Vector3(gameObject.transform.position.x + position.x * playerDir, gameObject.transform.position.y + position.y, gameObject.transform.position.z + position.z);
         GameObject instance = Instantiate(prefab, position, Quaternion.Euler(eulerAngles));
+        instance.name = $"{attack} hitbox";
         instance.transform.localScale = size;
         instance.tag = gameObject.tag;
         instance.transform.parent = this.transform;

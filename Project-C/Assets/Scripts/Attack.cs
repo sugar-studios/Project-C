@@ -8,7 +8,6 @@ public class Attack
     public string id;
     public string description;
     public string moveLabel;
-    public int priority;
     public List<Hit> hits;
     public string hitboxType;
     public string attackType;
@@ -20,6 +19,7 @@ public class Attack
 [System.Serializable]
 public class Hit
 {
+    public int priority;
     public Vector3 size;
     public float scale;
     public Vector3 rotation;

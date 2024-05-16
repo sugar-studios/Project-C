@@ -10,9 +10,9 @@
                         "id": "default_light_neutral",
                         "description": "A quick, basic punch.",
                         "moveLabel": "neutral ground light attack",
-                        "priority": 1,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 1, "y": 1, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
@@ -34,10 +34,10 @@
                         "id": "default_light_forward",
                         "description": "A forward lunging punch.",
                         "moveLabel": "forward ground light attack",
-                        "priority": 1,
                         "hits": [
                             {
-                                "size": {"x": 1.5, "y": 1, "z": 1},
+                                "priority": 1,
+                                "size": {"x": 1.5, "y": 5, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
                                 "position": {"x": 1.5, "y": 0, "z": 0},
@@ -58,9 +58,9 @@
                         "id": "default_light_backward",
                         "description": "A quick backhand strike.",
                         "moveLabel": "backward ground light attack",
-                        "priority": 1,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 1.5, "y": 1, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 180},
@@ -82,9 +82,9 @@
                         "id": "default_light_downward",
                         "description": "A powerful ground stomp.",
                         "moveLabel": "downward ground light attack",
-                        "priority": 1,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 1, "y": 1.5, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 270},
@@ -106,9 +106,9 @@
                         "id": "default_light_upward",
                         "description": "An uppercut with upward force.",
                         "moveLabel": "upward ground light attack",
-                        "priority": 1,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 1, "y": 1.5, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 90},
@@ -130,9 +130,9 @@
                         "id": "default_air_light_neutral",
                         "description": "A mid-air jab.",
                         "moveLabel": "neutral aerial light attack",
-                        "priority": 1,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 1, "y": 1, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
@@ -154,9 +154,9 @@
                         "id": "default_air_light_forward",
                         "description": "A forward kick in the air.",
                         "moveLabel": "forward aerial light attack",
-                        "priority": 1,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 1.5, "y": 1, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
@@ -178,9 +178,9 @@
                         "id": "default_air_light_backward",
                         "description": "A backward elbow strike in mid-air.",
                         "moveLabel": "backward aerial light attack",
-                        "priority": 1,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 1.5, "y": 1, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 180},
@@ -202,9 +202,9 @@
                         "id": "default_air_light_upward",
                         "description": "An upward swing in the air.",
                         "moveLabel": "upward aerial light attack",
-                        "priority": 1,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 1, "y": 1.5, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 90},
@@ -226,9 +226,9 @@
                         "id": "default_air_light_downward",
                         "description": "A downward kick in the air.",
                         "moveLabel": "downward aerial light attack",
-                        "priority": 1,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 1, "y": 1.5, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 270},
@@ -252,9 +252,9 @@
                         "id": "default_heavy_neutral",
                         "description": "A powerful slam with both hands.",
                         "moveLabel": "neutral ground heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 2, "y": 2, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
@@ -276,9 +276,9 @@
                         "id": "default_heavy_forward",
                         "description": "A strong forward thrust with both arms.",
                         "moveLabel": "forward ground heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 2.5, "y": 2, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
@@ -300,9 +300,9 @@
                         "id": "default_heavy_backward",
                         "description": "A forceful back kick.",
                         "moveLabel": "backward ground heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 2.5, "y": 2, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 180},
@@ -324,9 +324,9 @@
                         "id": "default_heavy_downward",
                         "description": "A downward hammer punch.",
                         "moveLabel": "downward ground heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 2, "y": 3, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 270},
@@ -348,9 +348,9 @@
                         "id": "default_heavy_upward",
                         "description": "An upward leap attack.",
                         "moveLabel": "upward ground heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 2, "y": 3, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 90},
@@ -372,9 +372,9 @@
                         "id": "default_air_heavy_neutral",
                         "description": "A mid-air double punch.",
                         "moveLabel": "neutral aerial heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 2.5, "y": 2.5, "z": 2.5},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
@@ -396,9 +396,9 @@
                         "id": "default_air_heavy_forward",
                         "description": "A forward somersault kick in the air.",
                         "moveLabel": "forward aerial heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 3, "y": 2, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
@@ -420,9 +420,9 @@
                         "id": "default_air_heavy_backward",
                         "description": "A backward spinning kick in the air.",
                         "moveLabel": "backward aerial heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 3, "y": 2, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 180},
@@ -444,9 +444,9 @@
                         "id": "default_air_heavy_upward",
                         "description": "An uppercut with a spin in the air.",
                         "moveLabel": "upward aerial heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 2, "y": 3, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 90},
@@ -468,9 +468,9 @@
                         "id": "default_air_heavy_downward",
                         "description": "A double knee drop from mid-air.",
                         "moveLabel": "downward aerial heavy attack",
-                        "priority": 2,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 2, "y": 3, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 270},
@@ -494,9 +494,9 @@
                         "id": "default_trademark_forward_backward",
                         "description": "A powerful energy blast shot forward or backward.",
                         "moveLabel": "forward  trademark attack",
-                        "priority": 3,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 0.5, "y": 0.5, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
@@ -525,9 +525,9 @@
                         "id": "default_trademark_forward_backward",
                         "description": "A powerful energy blast shot forward or backward.",
                         "moveLabel": "backward  trademark attack",
-                        "priority": 3,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 0.5, "y": 0.5, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
@@ -556,9 +556,9 @@
                         "id": "default_trademark_upward",
                         "description": "A vertical energy burst shot upwards.",
                         "moveLabel": "upward  trademark attack",
-                        "priority": 3,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 0.5, "y": 0.5, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 90},
@@ -587,9 +587,9 @@
                         "id": "default_trademark_downward",
                         "description": "A downward energy spike shot to the ground.",
                         "moveLabel": "downward  trademark attack",
-                        "priority": 3,
                         "hits": [
                             {
+                                "priority": 1,
                                 "size": {"x": 0.5, "y": 0.5, "z": 1},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 270},
@@ -614,35 +614,28 @@
                         "maintainMomentum": true
                     },
                     {
-                        "name": "Neutral Trademark Projectile",
+                        "name": "Neutral Trademark",
                         "id": "default_trademark_neutral",
-                        "description": "A neutral energy orb that hovers before shooting.",
+                        "description": "Shine",
                         "moveLabel": "neutral  trademark attack",
-                        "priority": 3,
                         "hits": [
                             {
-                                "size": {"x": 0.75, "y": 0.75, "z": 1},
+                                "priority": 1,
+                                "size": {"x": 2, "y": 1.5, "z": 2},
                                 "scale": 1,
                                 "rotation": {"x": 0, "y": 0, "z": 0},
                                 "position": {"x": 0, "y": 0, "z": 0},
-                                "startup": 0.15,
-                                "active": 6.0,
-                                "endlag": 0.1,
-                                "damage": 32,
-                                "knockback": 16,
-                                "isSetKnockback": false,
-                                "knockbackScaling": 2.1,
-                                "speed": 10.0,
-                                "duration": 6.0,
-                                "dropOffRate": 0,
-                                "maxChargeTime": 2.0
+                                "startup": 0.01,
+                                "active": 0.01,
+                                "endlag": 0.05,
+                                "damage": 24,
+                                "knockback": 12,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.8
                             }
                         ],
                         "hitboxType": "capsule",
-                        "attackType": "projectile",
-                        "chargeable": true,
-                        "projectileDir": 0,
-                        "maintainMomentum": true
+                        "attackType": "melee"
                     }
                 ]
             }
