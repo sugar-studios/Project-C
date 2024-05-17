@@ -39,4 +39,5 @@ public class Hit
     public bool hitstun; // New mandatory field
     public float hitstunDuration; // New mandatory field
     public string hitFunction; // New optional parameter
+    public float knockbackAngle; // New field for specifying the knockback angle
 }

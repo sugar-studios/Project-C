@@ -10,7 +10,7 @@ public class PlayerStateManager : MonoBehaviour
     public float health = 100f;
     [Range(0.1f, 1f)]
     public float KOScale = 0.1f;
-    [Range(0f, 1f)]
+    [Range(0f, 2f)]
     public float ultimate = 0f;
     [Range(0f, 3f)]
     public float lives = 3f;

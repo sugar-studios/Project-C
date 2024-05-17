@@ -250,7 +250,7 @@ public class PlayerController : MonoBehaviour
         #region Arial move
         else
         {
-            if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction || PlayerState.State == PlayerStateManager.PossibleStates.Attacking || PlayerState.State == PlayerStateManager.PossibleStates.PreparingAttack || PlayerState.State == PlayerStateManager.PossibleStates.Recovering || PlayerState.State == PlayerStateManager.PossibleStates.PsedeuFree)
+            if (PlayerState.State == PlayerStateManager.PossibleStates.FreeAction || PlayerState.State == PlayerStateManager.PossibleStates.Attacking || PlayerState.State == PlayerStateManager.PossibleStates.PreparingAttack || PlayerState.State == PlayerStateManager.PossibleStates.Recovering)
             {
                 Move(PlayerMovementVector.x, _NAirSpeed, _NAirSpeedCap);
 
@@ -260,10 +260,12 @@ public class PlayerController : MonoBehaviour
                     _RB.velocity = new Vector2(_RB.velocity.x, _RB.velocity.y - _FastFallSpeed);
                 }
             }
-            else
+            else if (PlayerState.State == PlayerStateManager.PossibleStates.PsedeuFree)
             {
                 Move(PlayerMovementVector.x, _NAirSpeed / 2, _NAirSpeedCap / 3, false);
             }
+            else
+            { Move(PlayerMovementVector.x, _NAirSpeed /4, _NAirSpeedCap / 6, false); }
             if (_AirTimeCounter > TimeBeforeFastFall)
             {
                 _AirTimeCounter = TimeBeforeFastFall;

@@ -13,6 +13,7 @@ public class Hitbox : MonoBehaviour
     public float endlag;
     public int damage;
     public float knockback;
+    public float knockbackAngle;
     public bool isSetKnockback;
     public float knockbackScaling;
     public float speed;
@@ -37,6 +38,7 @@ public class Hitbox : MonoBehaviour
         endlag = hit.endlag;
         damage = hit.damage;
         knockback = hit.knockback;
+        knockbackAngle = hit.knockbackAngle;
         isSetKnockback = hit.isSetKnockback;
         knockbackScaling = hit.knockbackScaling;
         speed = hit.speed;
@@ -99,16 +101,23 @@ public class Hitbox : MonoBehaviour
     private void ApplyKnockback(PlayerStateManager opponentState, Rigidbody2D opponentRb)
     {
         Debug.Log("step 3");
-        float totalKnockback = isSetKnockback ? knockback : knockback * (opponentState.KOScale / 100f)*10000;
-        Vector2 knockbackDirection = new Vector2(attacker.transform.localScale.x * Mathf.Cos(rotation.z * Mathf.Deg2Rad), Mathf.Sin(rotation.z * Mathf.Deg2Rad));
+        float totalKnockback = isSetKnockback? knockback /** 100f*/: knockback * (opponentState.KOScale) /* *100f*/;
+        Vector2 knockbackDirection = new Vector2(Mathf.Sign(attacker.transform.localScale.x) * Mathf.Cos(knockbackAngle * Mathf.Deg2Rad), Mathf.Sin(knockbackAngle * Mathf.Deg2Rad));
+        Debug.Log(knockbackDirection);
         opponentRb.AddForce(knockbackDirection * totalKnockback, ForceMode2D.Impulse);
 
         // Apply KO scaling
-        opponentState.KOScale += knockbackScaling;
+        opponentState.KOScale += knockbackScaling/100;
 
         // Transition to pseudo-free state
+        Debug.Log("step 4");
         opponentState.State = PlayerStateManager.PossibleStates.PsedeuFree;
-        StartCoroutine(PseudoFreeCoroutine(opponentState));
+        float i = 0f;
+        while (i < 1) 
+        {
+            i += Time.deltaTime;
+;       }
+        opponentState.State = PlayerStateManager.PossibleStates.FreeAction;
     }
 
     private IEnumerator PseudoFreeCoroutine(PlayerStateManager opponentState)

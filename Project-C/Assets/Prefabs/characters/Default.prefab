@@ -649,7 +649,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   SquareHitbox: {fileID: 1445656633853503757, guid: 87c5b9d1dafc31a4ea772d773bfbccd8, type: 3}
   CapsuleHitbox: {fileID: 1930949101233664753, guid: 15b088db3c8a5204fb819fd3d77e2cab, type: 3}
-  characterName: Default
+  characterName: Default2
 --- !u!114 &6907211935116382668
 MonoBehaviour:
   m_ObjectHideFlags: 0

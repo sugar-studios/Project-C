@@ -25,7 +25,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.2,
                                 "hitstun": true,
-                                "hitstunDuration": 0.2
+                                "hitstunDuration": 0.2,
+                                "knockbackAngle": 45
                             }
                         ],
                         "hitboxType": "square",
@@ -51,7 +52,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.3,
                                 "hitstun": true,
-                                "hitstunDuration": 0.25
+                                "hitstunDuration": 0.25,
+                                "knockbackAngle": 30
                             }
                         ],
                         "hitboxType": "square",
@@ -77,7 +79,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.3,
                                 "hitstun": true,
-                                "hitstunDuration": 0.3
+                                "hitstunDuration": 0.3,
+                                "knockbackAngle": 150
                             }
                         ],
                         "hitboxType": "square",
@@ -103,7 +106,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.4,
                                 "hitstun": true,
-                                "hitstunDuration": 0.3
+                                "hitstunDuration": 0.3,
+                                "knockbackAngle": 270
                             }
                         ],
                         "hitboxType": "square",
@@ -129,7 +133,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.3,
                                 "hitstun": true,
-                                "hitstunDuration": 0.25
+                                "hitstunDuration": 0.25,
+                                "knockbackAngle": 90
                             }
                         ],
                         "hitboxType": "square",
@@ -155,7 +160,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.1,
                                 "hitstun": true,
-                                "hitstunDuration": 0.2
+                                "hitstunDuration": 0.2,
+                                "knockbackAngle": 45
                             }
                         ],
                         "hitboxType": "square",
@@ -181,7 +187,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.2,
                                 "hitstun": true,
-                                "hitstunDuration": 0.25
+                                "hitstunDuration": 0.25,
+                                "knockbackAngle": 30
                             }
                         ],
                         "hitboxType": "square",
@@ -207,7 +214,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.2,
                                 "hitstun": true,
-                                "hitstunDuration": 0.3
+                                "hitstunDuration": 0.3,
+                                "knockbackAngle": 150
                             }
                         ],
                         "hitboxType": "square",
@@ -233,7 +241,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.3,
                                 "hitstun": true,
-                                "hitstunDuration": 0.25
+                                "hitstunDuration": 0.25,
+                                "knockbackAngle": 90
                             }
                         ],
                         "hitboxType": "square",
@@ -259,7 +268,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.4,
                                 "hitstun": true,
-                                "hitstunDuration": 0.3
+                                "hitstunDuration": 0.3,
+                                "knockbackAngle": 270
                             }
                         ],
                         "hitboxType": "square",
@@ -287,7 +297,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.5,
                                 "hitstun": true,
-                                "hitstunDuration": 0.4
+                                "hitstunDuration": 0.4,
+                                "knockbackAngle": 45
                             }
                         ],
                         "hitboxType": "square",
@@ -313,7 +324,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.6,
                                 "hitstun": true,
-                                "hitstunDuration": 0.4
+                                "hitstunDuration": 0.4,
+                                "knockbackAngle": 30
                             }
                         ],
                         "hitboxType": "square",
@@ -339,7 +351,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.6,
                                 "hitstun": true,
-                                "hitstunDuration": 0.45
+                                "hitstunDuration": 0.45,
+                                "knockbackAngle": 150
                             }
                         ],
                         "hitboxType": "square",
@@ -365,7 +378,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.7,
                                 "hitstun": true,
-                                "hitstunDuration": 0.5
+                                "hitstunDuration": 0.5,
+                                "knockbackAngle": 270
                             }
                         ],
                         "hitboxType": "square",
@@ -391,7 +405,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.7,
                                 "hitstun": true,
-                                "hitstunDuration": 0.45
+                                "hitstunDuration": 0.45,
+                                "knockbackAngle": 90
                             }
                         ],
                         "hitboxType": "square",
@@ -417,7 +432,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.5,
                                 "hitstun": true,
-                                "hitstunDuration": 0.35
+                                "hitstunDuration": 0.35,
+                                "knockbackAngle": 45
                             }
                         ],
                         "hitboxType": "square",
@@ -443,7 +459,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.6,
                                 "hitstun": true,
-                                "hitstunDuration": 0.4
+                                "hitstunDuration": 0.4,
+                                "knockbackAngle": 30
                             }
                         ],
                         "hitboxType": "square",
@@ -469,7 +486,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.6,
                                 "hitstun": true,
-                                "hitstunDuration": 0.45
+                                "hitstunDuration": 0.45,
+                                "knockbackAngle": 150
                             }
                         ],
                         "hitboxType": "square",
@@ -495,7 +513,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.7,
                                 "hitstun": true,
-                                "hitstunDuration": 0.4
+                                "hitstunDuration": 0.4,
+                                "knockbackAngle": 90
                             }
                         ],
                         "hitboxType": "square",
@@ -521,7 +540,8 @@
                                 "isSetKnockback": true,
                                 "knockbackScaling": 1.8,
                                 "hitstun": true,
-                                "hitstunDuration": 0.45
+                                "hitstunDuration": 0.45,
+                                "knockbackAngle": 270
                             }
                         ],
                         "hitboxType": "square",
@@ -554,7 +574,8 @@
                                 "maxChargeTime": 2.0,
                                 "hitstun": true,
                                 "hitstunDuration": 0.5,
-                                "attackFunction": "default_trademark_forward_attack"
+                                "attackFunction": "default_trademark_forward_attack",
+                                "knockbackAngle": 0
                             }
                         ],
                         "hitboxType": "capsule",
@@ -588,7 +609,8 @@
                                 "maxChargeTime": 2.0,
                                 "hitstun": true,
                                 "hitstunDuration": 0.5,
-                                "attackFunction": "default_trademark_downward_attack"
+                                "attackFunction": "default_trademark_downward_attack",
+                                "knockbackAngle": 180
                             }
                         ],
                         "hitboxType": "capsule",
@@ -622,7 +644,8 @@
                                 "maxChargeTime": 2.0,
                                 "hitstun": true,
                                 "hitstunDuration": 0.5,
-                                "attackFunction": "default_trademark_upward_attack"
+                                "attackFunction": "default_trademark_upward_attack",
+                                "knockbackAngle": 90
                             }
                         ],
                         "hitboxType": "capsule",
@@ -656,7 +679,8 @@
                                 "maxChargeTime": 2.0,
                                 "hitstun": true,
                                 "hitstunDuration": 0.5,
-                                "attackFunction": "default_trademark_downward_attack"
+                                "attackFunction": "default_trademark_downward_attack",
+                                "knockbackAngle": 270
                             }
                         ],
                         "hitboxType": "capsule",
@@ -686,7 +710,728 @@
                                 "knockbackScaling": 1.8,
                                 "hitstun": true,
                                 "hitstunDuration": 0.3,
-                                "attackFunction": "default_trademark_neutral_hit"
+                                "attackFunction": "default_trademark_neutral_hit",
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "capsule",
+                        "attackType": "melee"
+                    }
+                ]
+            }
+        },
+           {
+            "name": "Default2",
+            "description": "The standard character with balanced attributes.",
+            "moveset": {
+                "lightAttack": [
+                    {
+                        "name": "Grounded Neutral Light Attack",
+                        "id": "default_light_neutral",
+                        "description": "A quick, basic punch.",
+                        "moveLabel": "neutral ground light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1, "y": 1, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 1, "y": 0, "z": 0},
+                                "startup": 0.1,
+                                "active": 0.3,
+                                "endlag": 0.2,
+                                "damage": 10,
+                                "knockback": 5,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.2,
+                                "hitstun": true,
+                                "hitstunDuration": 0.2,
+                                "knockbackAngle": 45
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Grounded Forward Light Attack",
+                        "id": "default_light_forward",
+                        "description": "A forward lunging punch.",
+                        "moveLabel": "forward ground light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1.5, "y": 5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 1.5, "y": 0, "z": 0},
+                                "startup": 0.15,
+                                "active": 0.3,
+                                "endlag": 0.25,
+                                "damage": 12,
+                                "knockback": 6,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.3,
+                                "hitstun": true,
+                                "hitstunDuration": 0.25,
+                                "knockbackAngle": 30
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Grounded Backward Light Attack",
+                        "id": "default_light_backward",
+                        "description": "A quick backhand strike.",
+                        "moveLabel": "backward ground light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1.5, "y": 1, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 180},
+                                "position": {"x": -1.5, "y": 0, "z": 0},
+                                "startup": 0.18,
+                                "active": 0.3,
+                                "endlag": 0.3,
+                                "damage": 12,
+                                "knockback": 6,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.3,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3,
+                                "knockbackAngle": 150
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Grounded Downward Light Attack",
+                        "id": "default_light_downward",
+                        "description": "A powerful ground stomp.",
+                        "moveLabel": "downward ground light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1, "y": 1.5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 270},
+                                "position": {"x": 0, "y": -1.5, "z": 0},
+                                "startup": 0.2,
+                                "active": 0.2,
+                                "endlag": 0.25,
+                                "damage": 15,
+                                "knockback": 7,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.4,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3,
+                                "knockbackAngle": 270
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Grounded Upward Light Attack",
+                        "id": "default_light_upward",
+                        "description": "An uppercut with upward force.",
+                        "moveLabel": "upward ground light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1, "y": 1.5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 90},
+                                "position": {"x": 0, "y": 1.5, "z": 0},
+                                "startup": 0.12,
+                                "active": 0.2,
+                                "endlag": 0.2,
+                                "damage": 13,
+                                "knockback": 7,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.3,
+                                "hitstun": true,
+                                "hitstunDuration": 0.25,
+                                "knockbackAngle": 90
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Neutral Light Attack",
+                        "id": "default_air_light_neutral",
+                        "description": "A mid-air jab.",
+                        "moveLabel": "neutral aerial light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1, "y": 1, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 1, "y": 0, "z": 0},
+                                "startup": 0.1,
+                                "active": 0.3,
+                                "endlag": 0.2,
+                                "damage": 9,
+                                "knockback": 4,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.1,
+                                "hitstun": true,
+                                "hitstunDuration": 0.2,
+                                "knockbackAngle": 45
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Forward Light Attack",
+                        "id": "default_air_light_forward",
+                        "description": "A forward kick in the air.",
+                        "moveLabel": "forward aerial light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1.5, "y": 1, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 1.5, "y": 0, "z": 0},
+                                "startup": 0.15,
+                                "active": 0.3,
+                                "endlag": 0.25,
+                                "damage": 11,
+                                "knockback": 5,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.2,
+                                "hitstun": true,
+                                "hitstunDuration": 0.25,
+                                "knockbackAngle": 30
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Backward Light Attack",
+                        "id": "default_air_light_backward",
+                        "description": "A backward elbow strike in mid-air.",
+                        "moveLabel": "backward aerial light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1.5, "y": 1, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 180},
+                                "position": {"x": -1.5, "y": 0, "z": 0},
+                                "startup": 0.18,
+                                "active": 0.3,
+                                "endlag": 0.3,
+                                "damage": 11,
+                                "knockback": 5,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.2,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3,
+                                "knockbackAngle": 150
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Upward Light Attack",
+                        "id": "default_air_light_upward",
+                        "description": "An upward swing in the air.",
+                        "moveLabel": "upward aerial light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1, "y": 1.5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 90},
+                                "position": {"x": 0, "y": 1.5, "z": 0},
+                                "startup": 0.12,
+                                "active": 0.2,
+                                "endlag": 0.2,
+                                "damage": 12,
+                                "knockback": 6,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.3,
+                                "hitstun": true,
+                                "hitstunDuration": 0.25,
+                                "knockbackAngle": 90
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Downward Light Attack",
+                        "id": "default_air_light_downward",
+                        "description": "A downward kick in the air.",
+                        "moveLabel": "downward aerial light attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 1, "y": 1.5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 270},
+                                "position": {"x": 0, "y": -1.5, "z": 0},
+                                "startup": 0.2,
+                                "active": 0.2,
+                                "endlag": 0.25,
+                                "damage": 14,
+                                "knockback": 7,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.4,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3,
+                                "knockbackAngle": 270
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    }
+                ],
+                "heavyAttack": [
+                    {
+                        "name": "Grounded Neutral Heavy Attack",
+                        "id": "default_heavy_neutral",
+                        "description": "A powerful slam with both hands.",
+                        "moveLabel": "neutral ground heavy attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 2, "y": 2, "z": 2},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 1, "y": 0, "z": 0},
+                                "startup": 0.2,
+                                "active": 0.1,
+                                "endlag": 0.3,
+                                "damage": 20,
+                                "knockback": 10,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.5,
+                                "hitstun": true,
+                                "hitstunDuration": 0.4,
+                                "knockbackAngle": 45
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Grounded Forward Heavy Attack",
+                        "id": "default_heavy_forward",
+                        "description": "A strong forward thrust with both arms.",
+                        "moveLabel": "forward ground heavy attack",
+                        "hits": [
+                            {
+                                "priority": 0,
+                                "size": {"x": 0, "y": 0, "z": 0},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0,
+                                "active": 0,
+                                "endlag": 0,
+                                "damage": 0,
+                                "knockback": 0,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 0,
+                                "hitstun": true,
+                                "hitstunDuration": 0,
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Grounded Backward Heavy Attack",
+                        "id": "default_heavy_backward",
+                        "description": "A forceful back kick.",
+                        "moveLabel": "backward ground heavy attack",
+                        "hits": [
+                            {
+                                "priority": 0,
+                                "size": {"x": 0, "y": 0, "z": 0},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0,
+                                "active": 0,
+                                "endlag": 0,
+                                "damage": 0,
+                                "knockback": 0,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 0,
+                                "hitstun": true,
+                                "hitstunDuration": 0,
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Grounded Downward Heavy Attack",
+                        "id": "default_heavy_downward",
+                        "description": "A downward hammer punch.",
+                        "moveLabel": "downward ground heavy attack",
+                        "hits": [
+                            {
+                                "priority": 0,
+                                "size": {"x": 0, "y": 0, "z": 0},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0,
+                                "active": 0,
+                                "endlag": 0,
+                                "damage": 0,
+                                "knockback": 0,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 0,
+                                "hitstun": true,
+                                "hitstunDuration": 0,
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Grounded Upward Heavy Attack",
+                        "id": "default_heavy_upward",
+                        "description": "An upward leap attack.",
+                        "moveLabel": "upward ground heavy attack",
+                        "hits": [
+                            {
+                                "priority": 0,
+                                "size": {"x": 0, "y": 0, "z": 0},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0,
+                                "active": 0,
+                                "endlag": 0,
+                                "damage": 0,
+                                "knockback": 0,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 0,
+                                "hitstun": true,
+                                "hitstunDuration": 0,
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Neutral Heavy Attack",
+                        "id": "default_air_heavy_neutral",
+                        "description": "A mid-air double punch.",
+                        "moveLabel": "neutral aerial heavy attack",
+                        "hits": [
+                            {
+                                "priority": 0,
+                                "size": {"x": 0, "y": 0, "z": 0},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0,
+                                "active": 0,
+                                "endlag": 0,
+                                "damage": 0,
+                                "knockback": 0,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 0,
+                                "hitstun": true,
+                                "hitstunDuration": 0,
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Forward Heavy Attack",
+                        "id": "default_air_heavy_forward",
+                        "description": "A forward somersault kick in the air.",
+                        "moveLabel": "forward aerial heavy attack",
+                        "hits": [
+                            {
+                                "priority": 0,
+                                "size": {"x": 0, "y": 0, "z": 0},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0,
+                                "active": 0,
+                                "endlag": 0,
+                                "damage": 0,
+                                "knockback": 0,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 0,
+                                "hitstun": true,
+                                "hitstunDuration": 0,
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Backward Heavy Attack",
+                        "id": "default_air_heavy_backward",
+                        "description": "A backward spinning kick in the air.",
+                        "moveLabel": "backward aerial heavy attack",
+                        "hits": [
+                            {
+                                "priority": 0,
+                                "size": {"x": 0, "y": 0, "z": 0},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0,
+                                "active": 0,
+                                "endlag": 0,
+                                "damage": 0,
+                                "knockback": 0,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 0,
+                                "hitstun": true,
+                                "hitstunDuration": 0,
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Upward Heavy Attack",
+                        "id": "default_air_heavy_upward",
+                        "description": "An uppercut with a spin in the air.",
+                        "moveLabel": "upward aerial heavy attack",
+                        "hits": [
+                            {
+                                "priority": 0,
+                                "size": {"x": 0, "y": 0, "z": 0},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0,
+                                "active": 0,
+                                "endlag": 0,
+                                "damage": 0,
+                                "knockback": 0,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 0,
+                                "hitstun": true,
+                                "hitstunDuration": 0,
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    },
+                    {
+                        "name": "Aerial Downward Heavy Attack",
+                        "id": "default_air_heavy_downward",
+                        "description": "A double knee drop from mid-air.",
+                        "moveLabel": "downward aerial heavy attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 2, "y": 3, "z": 2},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 270},
+                                "position": {"x": 0, "y": -2.5, "z": 0},
+                                "startup": 0.3,
+                                "active": 0.15,
+                                "endlag": 0.45,
+                                "damage": 24,
+                                "knockback": 12,
+                                "isSetKnockback": true,
+                                "knockbackScaling": 1.8,
+                                "hitstun": true,
+                                "hitstunDuration": 0.45,
+                                "knockbackAngle": 270
+                            }
+                        ],
+                        "hitboxType": "square",
+                        "attackType": "melee"
+                    }
+                ],
+                "trademarkAttack": [
+                    {
+                        "name": "Forward/Backward Trademark Projectile",
+                        "id": "default_trademark_forward_backward",
+                        "description": "A powerful energy blast shot forward or backward.",
+                        "moveLabel": "forward  trademark attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 0.5, "y": 0.5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 90},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0.1,
+                                "active": 0.01,
+                                "endlag": 0.05,
+                                "damage": 30,
+                                "knockback": 15,
+                                "isSetKnockback": false,
+                                "knockbackScaling": 2.0,
+                                "speed": 25.0,
+                                "duration": 0.75,
+                                "dropOffRate": 0,
+                                "maxChargeTime": 2.0,
+                                "hitstun": true,
+                                "hitstunDuration": 0.5,
+                                "attackFunction": "default_trademark_forward_attack",
+                                "knockbackAngle": 0
+                            }
+                        ],
+                        "hitboxType": "capsule",
+                        "attackType": "projectile",
+                        "chargeable": true,
+                        "projectileDir": 0,
+                        "maintainMomentum": true
+                    },
+                    {
+                        "name": "Forward/Backward Trademark Projectile",
+                        "id": "default_trademark_forward_backward",
+                        "description": "A powerful energy blast shot forward or backward.",
+                        "moveLabel": "backward  trademark attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 0.5, "y": 0.5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 2, "y": 0, "z": 0},
+                                "startup": 0.1,
+                                "active": 5.0,
+                                "endlag": 0.1,
+                                "damage": 30,
+                                "knockback": 15,
+                                "isSetKnockback": false,
+                                "knockbackScaling": 2.0,
+                                "speed": 15.0,
+                                "duration": 5.0,
+                                "dropOffRate": 0,
+                                "maxChargeTime": 2.0,
+                                "hitstun": true,
+                                "hitstunDuration": 0.5,
+                                "attackFunction": "default_trademark_downward_attack",
+                                "knockbackAngle": 180
+                            }
+                        ],
+                        "hitboxType": "capsule",
+                        "attackType": "projectile",
+                        "chargeable": true,
+                        "projectileDir": 0,
+                        "maintainMomentum": true
+                    },
+                    {
+                        "name": "Upward Trademark Projectile",
+                        "id": "default_trademark_upward",
+                        "description": "A vertical energy burst shot upwards.",
+                        "moveLabel": "upward  trademark attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 0.5, "y": 0.5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 90},
+                                "position": {"x": 0, "y": 2, "z": 0},
+                                "startup": 0.1,
+                                "active": 4.0,
+                                "endlag": 0.1,
+                                "damage": 28,
+                                "knockback": 14,
+                                "isSetKnockback": false,
+                                "knockbackScaling": 1.8,
+                                "speed": 12.0,
+                                "duration": 4.0,
+                                "dropOffRate": 0,
+                                "maxChargeTime": 2.0,
+                                "hitstun": true,
+                                "hitstunDuration": 0.5,
+                                "attackFunction": "default_trademark_upward_attack",
+                                "knockbackAngle": 90
+                            }
+                        ],
+                        "hitboxType": "capsule",
+                        "attackType": "projectile",
+                        "chargeable": true,
+                        "projectileDir": 90,
+                        "maintainMomentum": true
+                    },
+                    {
+                        "name": "Downward Trademark Projectile",
+                        "id": "default_trademark_downward",
+                        "description": "A downward energy spike shot to the ground.",
+                        "moveLabel": "downward  trademark attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 0.5, "y": 0.5, "z": 1},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 270},
+                                "position": {"x": 0, "y": -2, "z": 0},
+                                "startup": 0.1,
+                                "active": 4.0,
+                                "endlag": 0.1,
+                                "damage": 28,
+                                "knockback": 14,
+                                "isSetKnockback": false,
+                                "knockbackScaling": 1.8,
+                                "speed": 12.0,
+                                "duration": 4.0,
+                                "dropOffRate": 0,
+                                "maxChargeTime": 2.0,
+                                "hitstun": true,
+                                "hitstunDuration": 0.5,
+                                "attackFunction": "default_trademark_downward_attack",
+                                "knockbackAngle": 270
+                            }
+                        ],
+                        "hitboxType": "capsule",
+                        "attackType": "projectile",
+                        "chargeable": true,
+                        "projectileDir": 270,
+                        "maintainMomentum": true
+                    },
+                    {
+                        "name": "Neutral Trademark",
+                        "id": "default_trademark_neutral",
+                        "description": "Shine",
+                        "moveLabel": "neutral  trademark attack",
+                        "hits": [
+                            {
+                                "priority": 1,
+                                "size": {"x": 7, "y": 3.5, "z": 2.5},
+                                "scale": 1,
+                                "rotation": {"x": 0, "y": 0, "z": 0},
+                                "position": {"x": 0, "y": 0, "z": 0},
+                                "startup": 1,
+                                "active": 0.1,
+                                "endlag": 0.9,
+                                "damage": 28,
+                                "knockback": 14,
+                                "isSetKnockback": false,
+                                "knockbackScaling": 1.8,
+                                "hitstun": true,
+                                "hitstunDuration": 0.3,
+                                "attackFunction": "default_trademark_neutral_hit",
+                                "knockbackAngle": 0
                             }
                         ],
                         "hitboxType": "capsule",
