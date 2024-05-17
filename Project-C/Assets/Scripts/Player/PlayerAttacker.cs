@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerStateManager))]
-[RequireComponent(typeof(PlayerInputReceiver))]
 public class PlayerAttacker : MonoBehaviour
 {
     public PlayerStateManager PlayerState;
@@ -22,7 +21,7 @@ public class PlayerAttacker : MonoBehaviour
     {
         PlayerState = GetComponent<PlayerStateManager>();
         Player = GetComponent<PlayerController>();
-        inputReceiver = GetComponent<PlayerInputReceiver>();
+        inputReceiver = transform.GetComponentInParent<PlayerInputReceiver>();
         jsonReader = GetComponent<JSONReader>();
         trademarkFunctions = GetComponent<TrademarkFunctions>();
 

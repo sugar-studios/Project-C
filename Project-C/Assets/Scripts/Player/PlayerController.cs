@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerStateManager))]
-[RequireComponent(typeof(PlayerInputReceiver))]
 public class PlayerController : MonoBehaviour
 {
 
@@ -80,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _inputReceiver = GetComponent<PlayerInputReceiver>();
+        _inputReceiver =transform.GetComponentInParent<PlayerInputReceiver>();
         _inputReceiver.OnMoveEvent += HandleMove;
         _inputReceiver.OnJumpEvent += HandleJump;
         _inputReceiver.OnDashEvent += HandleDash;

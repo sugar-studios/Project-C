@@ -260,14 +260,12 @@ GameObject:
   - component: {fileID: 6858918206480875587}
   - component: {fileID: 1596984595648580480}
   - component: {fileID: 7946432551139750238}
-  - component: {fileID: 5384763539340201148}
   - component: {fileID: 8769526111340798644}
   - component: {fileID: 6907211935116382668}
-  - component: {fileID: 198293643324170570}
   - component: {fileID: 9001498259222549541}
   - component: {fileID: 7272556801756632132}
   m_Layer: 6
-  m_Name: Default
+  m_Name: Default 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -486,7 +484,7 @@ MonoBehaviour:
     m_ActionName: Gameplay/Start[/Keyboard/enter,/DualShock4GamepadHID/start]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5384763539340201148}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInputReceiver, Assembly-CSharp
         m_MethodName: OnTrademarkAttack
         m_Mode: 0
@@ -502,7 +500,7 @@ MonoBehaviour:
     m_ActionName: Gameplay/SpecialAttack[/DualShock4GamepadHID/buttonSouth,/Keyboard/o]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5384763539340201148}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInputReceiver, Assembly-CSharp
         m_MethodName: OnLightAttack
         m_Mode: 0
@@ -518,7 +516,7 @@ MonoBehaviour:
     m_ActionName: Gameplay/NormalAttack[/Keyboard/i,/DualShock4GamepadHID/buttonEast]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5384763539340201148}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInputReceiver, Assembly-CSharp
         m_MethodName: OnHeavyAttack
         m_Mode: 0
@@ -613,26 +611,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
---- !u!114 &5384763539340201148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7125083341854606708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f84259fcf354b5c4e84b87bdc4ab8c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerDirectionalInput: {x: 0, y: 0}
-  Jumped: 0
-  Dash: 0
-  FastFall: 0
-  L_Attack: 0
-  H_Attack: 0
-  T_Attack: 0
-  P_Attack: 0
 --- !u!114 &8769526111340798644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,19 +646,6 @@ MonoBehaviour:
   ultimate: 0
   lives: 3
   playerWeight: 10
---- !u!114 &198293643324170570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7125083341854606708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8542cbe54c0da846885a8f4e3fbb600, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerList: {fileID: 0}
 --- !u!114 &9001498259222549541
 MonoBehaviour:
   m_ObjectHideFlags: 0
