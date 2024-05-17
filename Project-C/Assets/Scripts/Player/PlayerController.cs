@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public PlayerStateManager PlayerState;
     public bool StanderizeMovement = false;
     public bool IsFacingRight = true;
+    public PlayerInputReceiver InputReceiver;
 
     private float _AirTimeCounter = 0f; // Timer to track time spent airborne
 
@@ -31,7 +32,6 @@ public class PlayerController : MonoBehaviour
     private bool wasGroundedLastFrame = false;
 
     public float TimeBeforeFastFall = 0.2f;
-    private PlayerInputReceiver _inputReceiver;
 
     private Vector2 _MovementInput = Vector2.zero;
     private bool _Jumped = false;
@@ -79,11 +79,11 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _inputReceiver =transform.GetComponentInParent<PlayerInputReceiver>();
-        _inputReceiver.OnMoveEvent += HandleMove;
-        _inputReceiver.OnJumpEvent += HandleJump;
-        _inputReceiver.OnDashEvent += HandleDash;
-        _inputReceiver.OnFastFallEvent += HandleFastFall;
+        InputReceiver =transform.GetComponentInParent<PlayerInputReceiver>();
+        InputReceiver.OnMoveEvent += HandleMove;
+        InputReceiver.OnJumpEvent += HandleJump;
+        InputReceiver.OnDashEvent += HandleDash;
+        InputReceiver.OnFastFallEvent += HandleFastFall;
     }
 
     private void HandleMove(Vector2 movementInput)
@@ -113,10 +113,10 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         // Unsubscribe to prevent memory leaks
-        _inputReceiver.OnMoveEvent -= HandleMove;
-        _inputReceiver.OnJumpEvent -= HandleJump;
-        _inputReceiver.OnDashEvent -= HandleDash;
-        _inputReceiver.OnFastFallEvent -= HandleFastFall;
+        InputReceiver.OnMoveEvent -= HandleMove;
+        InputReceiver.OnJumpEvent -= HandleJump;
+        InputReceiver.OnDashEvent -= HandleDash;
+        InputReceiver.OnFastFallEvent -= HandleFastFall;
     }
 
     private void Start()

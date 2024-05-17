@@ -30,18 +30,21 @@ public class PlayerInputReceiver : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        Debug.Log("move");
         PlayerDirectionalInput = context.ReadValue<Vector2>();
         OnMoveEvent?.Invoke(PlayerDirectionalInput);
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        Debug.Log("jump");
         Jumped = context.action.triggered;
         OnJumpEvent?.Invoke(Jumped);
     }
 
     public void OnDash(InputAction.CallbackContext context)
     {
+        Debug.Log("dash");
         Dash = context.action.triggered;
         OnDashEvent?.Invoke(Dash);
     }

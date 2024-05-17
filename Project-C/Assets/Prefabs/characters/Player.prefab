@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4408187793515794949}
   - component: {fileID: 6858918206480875587}
   - component: {fileID: 5384763539340201148}
-  - component: {fileID: 198293643324170570}
+  - component: {fileID: 6624332396296341737}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -20,21 +20,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2997085602134487401
-Transform:
+--- !u!224 &2997085602134487401
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7125083341854606708}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.013562, y: 0.61, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -10.013562, y: 0.61}
+  m_SizeDelta: {x: 1, y: 2}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &4408187793515794949
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -42,7 +46,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7125083341854606708}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -114,8 +118,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 5384763539340201148}
+        m_TargetAssemblyTypeName: PlayerInputReceiver, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -130,8 +134,8 @@ MonoBehaviour:
     m_ActionName: Gameplay/Jump[/Keyboard/space,/DualShock4GamepadHID/buttonNorth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 5384763539340201148}
+        m_TargetAssemblyTypeName: PlayerInputReceiver, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -146,9 +150,9 @@ MonoBehaviour:
     m_ActionName: Gameplay/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/DualShock4GamepadHID/leftStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnFastFall
+      - m_Target: {fileID: 5384763539340201148}
+        m_TargetAssemblyTypeName: PlayerInputReceiver, Assembly-CSharp
+        m_MethodName: OnHeavyAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -162,8 +166,8 @@ MonoBehaviour:
     m_ActionName: Gameplay/FastFall[/Keyboard/s,/DualShock4GamepadHID/leftStick/down]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 5384763539340201148}
+        m_TargetAssemblyTypeName: PlayerInputReceiver, Assembly-CSharp
         m_MethodName: OnDash
         m_Mode: 0
         m_Arguments:
@@ -257,7 +261,7 @@ MonoBehaviour:
   H_Attack: 0
   T_Attack: 0
   P_Attack: 0
---- !u!114 &198293643324170570
+--- !u!114 &6624332396296341737
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,7 +270,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7125083341854606708}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8542cbe54c0da846885a8f4e3fbb600, type: 3}
+  m_Script: {fileID: 11500000, guid: ea6843e1c10c00442b61bc3891fede89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerList: {fileID: 0}
+  inputReceiver: {fileID: 5384763539340201148}
+  cursorTransform: {fileID: 2997085602134487401}
+  canvas: {fileID: 0}
+  inMenu: 1
