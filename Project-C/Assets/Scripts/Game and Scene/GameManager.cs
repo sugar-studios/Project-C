@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public moveCamera camData;
     public float TimerCount;
     public TMP_Text TimerText;
     public GameObject Timer;
