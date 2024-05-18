@@ -8,6 +8,6 @@ public class Chracter : ScriptableObject
 {
     TextAsset moveset;
     public GameObject player;
-    public Image icon;
+    public Texture icon;
     public string characterName;
 }

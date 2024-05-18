@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2704ab6a2a4c604d876f3d27ae5cd95, type: 3}
-  m_Name: Default
+  m_Name: Default 1
   m_EditorClassIdentifier: 
   player: {fileID: 7125083341854606708, guid: 2921621065e573e4695d1d815b164a1b, type: 3}
-  icon: {fileID: 2800000, guid: 08f8630ddb204854dac1e9ab0947a5c6, type: 3}
-  characterName: Capsule!
+  icon: {fileID: 2800000, guid: a45ace6964338c8408ce0060700b8aa9, type: 3}
+  characterName: TRI-angel

@@ -6,11 +6,13 @@ public class PlayerSpawn : MonoBehaviour
 {
     public moveCamera playerList;
     private static int playerCount = 0;  // Static counter to keep track of the number of players
+    public GameObject Spawn1;
+    public GameObject Spawn2;
 
     private void OnEnable()
     {
         // Find the moveCamera script attached to any active object in the scene
-        moveCamera playerList = FindObjectOfType<moveCamera>();
+        playerList = FindObjectOfType<moveCamera>();
 
         if (playerList != null)
         {
@@ -22,6 +24,16 @@ public class PlayerSpawn : MonoBehaviour
             if (playerCount <= 4)
             {
                 AssignTagRecursively(this.gameObject, "Player" + playerCount);
+                if (this.gameObject.tag == "Player1")
+                {
+                    Spawn1 = GameObject.FindWithTag("Player3");
+                    transform.position = Spawn1.transform.position;
+                }
+                else
+                {
+                    Spawn2 = GameObject.FindWithTag("Player4");
+                    transform.position = Spawn2.transform.position;
+                }
             }
             else
             {
@@ -33,6 +45,7 @@ public class PlayerSpawn : MonoBehaviour
             Debug.LogError("moveCamera script not found in the scene.");
         }
     }
+
 
     private void OnDisable()
     {

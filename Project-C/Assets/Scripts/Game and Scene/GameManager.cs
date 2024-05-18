@@ -1,52 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public moveCamera camData;
-    public float TimerCount;
-    public TMP_Text TimerText;
-    public GameObject Timer;
+    public moveCamera camData; // Assumed to be a script containing player data
     public GameObject TempGameOver;
     public GameObject GameplayUI;
     public GameObject BackgroundUI;
+    public Slider p1Health;
+    public Slider p1KO;
+    public Slider p2Health;
+    public Slider p2KO;
 
     void Start()
     {
+        // Initialization can be done here if needed
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        if (TimerCount > 0)
+        // Check if camData or camData.players is null or if the list is empty
+        if (camData?.players == null || camData.players.Count == 0)
         {
-            TimerCount -= Time.deltaTime;
-            UpdateTimer(TimerCount);
+            return; // Exit if no players are available
         }
-        else
+
+        // Update player health and KO scales safely
+        UpdatePlayerStatus();
+
+        // Check each player's health for game over condition
+        foreach (var player in camData.players)
         {
-            Debug.Log("Time is UP!");
-            TimerCount = 0;
-            UpdateTimer(TimerCount);
-            Timer.SetActive(false);
+            var stateManager = player.GetComponent<PlayerStateManager>();
+            if (stateManager != null && stateManager.health < 0)
+            {
+                GameOver();
+                break; // Exit the loop after game over to avoid redundant checks
+            }
         }
     }
 
-    public void UpdateTimer(float currentTime)
+    void UpdatePlayerStatus()
     {
-        currentTime += 1;
+        if (camData.players.Count > 0 && camData.players[0] != null)
+        {
+            var p1StateManager = camData.players[0].GetComponent<PlayerStateManager>();
+            if (p1StateManager != null)
+            {
+                p1Health.value = p1StateManager.health;
+                p1KO.value = p1StateManager.KOScale;
+            }
+        }
 
-        float minutes = Mathf.FloorToInt(currentTime / 60);
-        float seconds = Mathf.FloorToInt(currentTime % 60);
-        float milliseconds = Mathf.FloorToInt((currentTime - Mathf.Floor(currentTime)) * 100); // Extract milliseconds
-
-        TimerText.text = string.Format("{0:00}:{1:00}.{2:00}", minutes, seconds, milliseconds);
+        if (camData.players.Count > 1 && camData.players[1] != null)
+        {
+            var p2StateManager = camData.players[1].GetComponent<PlayerStateManager>();
+            if (p2StateManager != null)
+            {
+                p2Health.value = p2StateManager.health;
+                p2KO.value = p2StateManager.KOScale;
+            }
+        }
     }
-
 
     public void GameOver()
     {
